@@ -17,7 +17,13 @@ public:
 
 private slots:
 
-    void on_actionOpen_triggered();
+    void on_actionExit_triggered();
+
+    void on_openFile1_clicked();
+
+    void on_openFile2_clicked();
+
+    void on_psnrButton_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -13,8 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    PsnrClass.cpp \
+    VideoUtility.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    PsnrClass.h \
+    VideoUtility.h
 
 FORMS    += mainwindow.ui
