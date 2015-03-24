@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QUrl>
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +28,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QUrl file1;
+    QUrl file2;
+
 };
 
 #endif // MAINWINDOW_H
