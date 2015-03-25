@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QUrl>
 
 namespace Ui {
 class MainWindow;
@@ -28,8 +27,10 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QUrl file1;
-    QUrl file2;
+    const char *file1;
+    const char *file2;
+    std::string fileStdStr1;
+    std::string fileStdStr2;
 
 };
 
