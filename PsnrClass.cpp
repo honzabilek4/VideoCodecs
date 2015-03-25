@@ -118,6 +118,9 @@ double** PsnrClass::computePSNR(const char* filename1, const char* filename2, in
 		numberOfFrame++;	//move to next frame
 	}
 
+        fclose(file1);
+        fclose(file2);
+
 		return psnrArray;
 
 }

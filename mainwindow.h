@@ -27,10 +27,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    const char *file1;
-    const char *file2;
-    std::string fileStdStr1;
-    std::string fileStdStr2;
+    std::string file1;
+    std::string file2;
+    double** array;
 
 };
 

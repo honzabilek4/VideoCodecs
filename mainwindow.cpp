@@ -2,7 +2,9 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QLabel>
+#include <QFileInfo>
 #include <QApplication>
+#include <QList>
 #include "PsnrClass.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -28,28 +30,37 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_openFile1_clicked()
 {
     QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"));
-   // ui->label->setText(fileUrl.fileName());
+    QFileInfo file(fileStr);
+    ui->label->setText(file.fileName());
     ui->statusBar->showMessage(fileStr);
-    fileStdStr1=fileStr.toStdString();
-    file1=fileStdStr1.c_str();
+    file1=fileStr.toStdString();
+
 }
 
 void MainWindow::on_openFile2_clicked()
 {
    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"));
-   //ui->label_2->setText(fileUrl.fileName());
+   QFileInfo file(fileStr);
+   ui->label_2->setText(file.fileName());
    ui->statusBar->showMessage(fileStr);
-   fileStdStr2= fileStr.toStdString();
-   file2=fileStdStr2.c_str();
+   file2= fileStr.toStdString();
 }
 
 void MainWindow::on_psnrButton_clicked()
 {
     PsnrClass* psnr = new PsnrClass();
    try{
-        double** array=psnr->computePSNR(file1,file2,352,288,260);
+        array=psnr->computePSNR(file1.c_str(),file2.c_str(),352,288,260);
     }
     catch(const char* message) {
         ui->statusBar->showMessage((QString(message)));
     }
+    QString numbers;
+    for(int i=0;i<260;i++){
+
+         numbers.append(QString::number(array[i][0])+ "; ");
+
+    }
+    ui->textBrowser->setText(numbers);
 }
+
