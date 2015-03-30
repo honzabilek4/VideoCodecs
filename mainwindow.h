@@ -25,11 +25,17 @@ private slots:
 
     void on_psnrButton_clicked();
 
+    void on_ssimButton_clicked();
+
+    void on_msvdButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::string file1;
     std::string file2;
-    double** array;
+    double** psnrArray;
+    double* ssimResults;
+    double* msvdResults;
 
 };
 

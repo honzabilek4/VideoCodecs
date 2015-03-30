@@ -132,12 +132,12 @@
      <rect>
       <x>150</x>
       <y>140</y>
-      <width>71</width>
+      <width>81</width>
       <height>192</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="msvdButton">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -167,7 +167,7 @@
    <zorder>textBrowser</zorder>
    <zorder>ssimButton</zorder>
    <zorder>textBrowser_2</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>msvdButton</zorder>
    <zorder>textBrowser_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
