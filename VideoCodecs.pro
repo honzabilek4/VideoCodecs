@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     PsnrClass.cpp \
     VideoUtility.cpp \
     SsimClass.cpp \
-    MsvdClass.cpp
+    MsvdClass.cpp \
+    encode.cpp
 
 HEADERS  += mainwindow.h \
     PsnrClass.h \
@@ -38,6 +39,22 @@ HEADERS  += mainwindow.h \
     include/internal.hpp \
     include/opengl_interop.hpp \
     include/opengl_interop_deprecated.hpp \
-    include/wimage.hpp
+    include/wimage.hpp \
+    encode.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    encode.ui
+
+RESOURCES += \
+    resources.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lopencv_core2410
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lopencv_core2410d
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/lib/libopencv_core2410.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/lib/libopencv_core2410d.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/lib/opencv_core2410.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/lib/opencv_core2410d.lib

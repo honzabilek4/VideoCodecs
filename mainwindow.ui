@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>687</width>
-    <height>411</height>
+    <width>730</width>
+    <height>408</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -160,6 +160,29 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="encodeButton">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>100</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Encode</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textOutput">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>140</y>
+      <width>301</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>line</zorder>
@@ -169,13 +192,15 @@
    <zorder>textBrowser_2</zorder>
    <zorder>msvdButton</zorder>
    <zorder>textBrowser_3</zorder>
+   <zorder>encodeButton</zorder>
+   <zorder>textOutput</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>687</width>
+     <width>730</width>
      <height>21</height>
     </rect>
    </property>
@@ -194,9 +219,14 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionExit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/close</normaloff>:/icons/close</iconset>
+   </property>
    <property name="text">
     <string>Exit</string>
    </property>
@@ -207,6 +237,8 @@
   <tabstop>openFile1</tabstop>
   <tabstop>openFile2</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

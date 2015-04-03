@@ -29,6 +29,11 @@ private slots:
 
     void on_msvdButton_clicked();
 
+    void on_encodeButton_clicked();
+
+    void setOutputText(const QString text);
+
+
 private:
     Ui::MainWindow *ui;
     std::string file1;

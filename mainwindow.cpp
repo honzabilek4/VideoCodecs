@@ -1,10 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "encode.h"
 #include <QFileDialog>
 #include <QLabel>
 #include <QFileInfo>
 #include <QApplication>
 #include <QList>
+#include <QScrollBar>
 #include "PsnrClass.h"
 #include "SsimClass.h"
 #include "MsvdClass.h"
@@ -106,4 +108,22 @@ void MainWindow::on_msvdButton_clicked()
         ui->statusBar->showMessage(QString(message));
     }
 
+}
+
+
+
+void MainWindow::on_encodeButton_clicked()
+{
+    Encode* e= new Encode();
+    e->show();
+
+    connect(e,SIGNAL(updateTextOutput(const QString)),this,SLOT(setOutputText(const QString)));
+
+}
+
+void MainWindow::setOutputText(const QString text)
+{
+    ui->textOutput->setText(text);
+    ui->textOutput->verticalScrollBar()->setSliderPosition(
+                ui->textOutput->verticalScrollBar()->maximum());
 }

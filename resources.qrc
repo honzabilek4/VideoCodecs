@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="close">1428076561_cross-24-128.png</file>
+    </qresource>
+</RCC>
