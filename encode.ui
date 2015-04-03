@@ -6,58 +6,224 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>397</width>
-    <height>309</height>
+    <width>448</width>
+    <height>211</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="runButton">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>260</y>
-     <width>75</width>
-     <height>23</height>
+     <x>10</x>
+     <y>30</y>
+     <width>428</width>
+     <height>126</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Run</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Width:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit"/>
+    </item>
+    <item row="0" column="3" colspan="2">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Height:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="5" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_2"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Codec:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QComboBox" name="comboBox_2">
+      <item>
+       <property name="text">
+        <string>H.264</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>H.265</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>VP8</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>VP9</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="4">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>Profile:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="5" colspan="3">
+     <widget class="QComboBox" name="comboBox_3">
+      <item>
+       <property name="text">
+        <string>Default</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Preset:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <widget class="QComboBox" name="comboBox">
+      <item>
+       <property name="text">
+        <string>veryslow</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>slower</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>slow</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>medium</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>fast</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>faster</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>veryfast</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>superfast</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ultrafast</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Bit Rate:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QCheckBox" name="checkBox">
+      <property name="text">
+       <string>CBR</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2" colspan="4">
+     <widget class="QLineEdit" name="lineEdit_3"/>
+    </item>
+    <item row="3" column="6">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>kB/s</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="7">
+     <widget class="QCheckBox" name="checkBox_3">
+      <property name="text">
+       <string>2 pass</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QCheckBox" name="checkBox_2">
+      <property name="text">
+       <string>CRF:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2" colspan="2">
+     <widget class="QSpinBox" name="spinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="maximum">
+       <number>52</number>
+      </property>
+      <property name="value">
+       <number>23</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <widget class="QPushButton" name="cancelButton">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>260</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Cancel</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>30</y>
-     <width>61</width>
-     <height>20</height>
+     <y>150</y>
+     <width>261</width>
+     <height>71</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>30</y>
-     <width>61</width>
-     <height>20</height>
-    </rect>
-   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="runButton">
+      <property name="text">
+       <string>Run</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="cancelButton">
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
