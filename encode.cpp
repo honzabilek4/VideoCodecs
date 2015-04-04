@@ -73,7 +73,28 @@ void Encode::on_browseButton_clicked()
 
 QStringList Encode::getArguments(){
     QStringList arguments;
-    arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<"352x288"<<"-r"<<"25"<<"-i"<<fileStr<<"-c:v"<<"libx264"<<"-f"<<"rawvideo"<<"output.264";
+
+    QString dimensions = ui->widthEdit->text()+ "x" + ui->heightEdit->text();
+    QString codec;
+    int value=ui->comboBox_Codec->currentIndex();
+    switch (value) {
+    case 0:
+        codec="libx264";
+        break;
+    case 1:
+        codec="libx265";
+    case 2:
+        codec="libvpx";
+        break;
+    case 3:
+        codec="libvpx-vp9";
+        break;
+    default:
+        codec="libx264";
+        break;
+    }
+
+    arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<"25"<<"-i"<<fileStr<<"-c:v"<<codec<<"-f"<<"rawvideo"<<"output.264";
     return arguments;
 }
 /*
