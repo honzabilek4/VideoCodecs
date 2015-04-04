@@ -6,23 +6,75 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>448</width>
-    <height>211</height>
+    <width>410</width>
+    <height>326</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Encode</string>
   </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>240</y>
+     <width>261</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="runButton">
+      <property name="text">
+       <string>Run</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="cancelButton">
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="fileLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>241</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Open File for encoding</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="browseButton">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>20</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Browse</string>
+   </property>
+  </widget>
   <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>30</y>
-     <width>428</width>
-     <height>126</height>
+     <x>20</x>
+     <y>50</y>
+     <width>176</width>
+     <height>93</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QFormLayout" name="formLayout">
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
@@ -30,18 +82,8 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QLineEdit" name="lineEdit"/>
-    </item>
-    <item row="0" column="3" colspan="2">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Height:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="5" colspan="2">
-     <widget class="QLineEdit" name="lineEdit_2"/>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="widthEdit"/>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label_4">
@@ -50,7 +92,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1" colspan="2">
+    <item row="1" column="1">
      <widget class="QComboBox" name="comboBox_2">
       <item>
        <property name="text">
@@ -74,22 +116,6 @@
       </item>
      </widget>
     </item>
-    <item row="1" column="4">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Profile:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="5" colspan="3">
-     <widget class="QComboBox" name="comboBox_3">
-      <item>
-       <property name="text">
-        <string>Default</string>
-       </property>
-      </item>
-     </widget>
-    </item>
     <item row="2" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
@@ -97,7 +123,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1" colspan="2">
+    <item row="2" column="1">
      <widget class="QComboBox" name="comboBox">
       <item>
        <property name="text">
@@ -146,55 +172,42 @@
       </item>
      </widget>
     </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_5">
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>50</y>
+     <width>176</width>
+     <height>48</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout_2">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Bit Rate:</string>
+       <string>Height:</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QCheckBox" name="checkBox">
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="heightEdit"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_7">
       <property name="text">
-       <string>CBR</string>
+       <string>Profile:</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="2" colspan="4">
-     <widget class="QLineEdit" name="lineEdit_3"/>
-    </item>
-    <item row="3" column="6">
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>kB/s</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="7">
-     <widget class="QCheckBox" name="checkBox_3">
-      <property name="text">
-       <string>2 pass</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QCheckBox" name="checkBox_2">
-      <property name="text">
-       <string>CRF:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2" colspan="2">
-     <widget class="QSpinBox" name="spinBox">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="maximum">
-       <number>52</number>
-      </property>
-      <property name="value">
-       <number>23</number>
-      </property>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="comboBox_3">
+      <item>
+       <property name="text">
+        <string>Default</string>
+       </property>
+      </item>
      </widget>
     </item>
    </layout>
@@ -202,30 +215,132 @@
   <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>150</y>
-     <width>261</width>
+     <x>20</x>
+     <y>160</y>
+     <width>221</width>
      <height>71</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QPushButton" name="runButton">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
+     <widget class="QRadioButton" name="radioButton_CBR">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="text">
-       <string>Run</string>
+       <string>CBR</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QPushButton" name="cancelButton">
+    <item row="1" column="1">
+     <widget class="QRadioButton" name="radioButton_CRF">
       <property name="text">
-       <string>Cancel</string>
+       <string>CRF</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="lineEdit_3"/>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Bit Rate:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>kB/s</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QCheckBox" name="checkBox_3">
+      <property name="text">
+       <string>2 passes</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QSpinBox" name="spinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="maximum">
+       <number>51</number>
+      </property>
+      <property name="value">
+       <number>23</number>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Method:</string>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>label_6</zorder>
+  <zorder>fileLabel</zorder>
+  <zorder>browseButton</zorder>
  </widget>
+ <tabstops>
+  <tabstop>widthEdit</tabstop>
+  <tabstop>heightEdit</tabstop>
+  <tabstop>comboBox_2</tabstop>
+  <tabstop>comboBox_3</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>radioButton_CBR</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>radioButton_CRF</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>checkBox_3</tabstop>
+  <tabstop>runButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>radioButton_CRF</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_3</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>174</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>146</x>
+     <y>153</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_CBR</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>spinBox</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>84</x>
+     <y>148</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>161</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

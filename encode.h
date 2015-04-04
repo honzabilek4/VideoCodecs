@@ -27,9 +27,15 @@ private slots:
 
     void readyReadStandardOutput();
 
+    void readyReadStandardError();
+
     void encodingFinished();
 
- signals:
+    void on_browseButton_clicked();
+
+    QStringList getArguments();
+
+signals:
 
     void updateTextOutput(const QString text);
 
@@ -37,7 +43,7 @@ private:
     Ui::Encode *ui;
     QProcess* ffmpeg;
     QString ffmpegOutput;
-
+    QString fileStr;
 
 
 };
