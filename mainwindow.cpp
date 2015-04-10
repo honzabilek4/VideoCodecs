@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "encode.h"
+#include "decode.h"
 #include <QFileDialog>
 #include <QLabel>
 #include <QFileInfo>
@@ -10,6 +11,7 @@
 #include "PsnrClass.h"
 #include "SsimClass.h"
 #include "MsvdClass.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -121,9 +123,17 @@ void MainWindow::on_encodeButton_clicked()
 
 }
 
+
+
 void MainWindow::setOutputText(const QString text)
 {
     ui->textOutput->setText(text);
     ui->textOutput->verticalScrollBar()->setSliderPosition(
                 ui->textOutput->verticalScrollBar()->maximum());
+}
+
+void MainWindow::on_decodeButton_clicked()
+{
+    Decode* d =new Decode();
+    d->show();
 }

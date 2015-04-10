@@ -4,6 +4,7 @@
 #include <algorithm>
 #pragma once
 
+
 using namespace cv;
 class MsvdClass : public VideoUtility
 {

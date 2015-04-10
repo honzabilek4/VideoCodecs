@@ -183,6 +183,19 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="decodeButton">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>100</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Decode</string>
+    </property>
+   </widget>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>line</zorder>
@@ -194,6 +207,7 @@
    <zorder>textBrowser_3</zorder>
    <zorder>encodeButton</zorder>
    <zorder>textOutput</zorder>
+   <zorder>decodeButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

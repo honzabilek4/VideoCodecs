@@ -34,6 +34,8 @@ private slots:
     void setOutputText(const QString text);
 
 
+    void on_decodeButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::string file1;

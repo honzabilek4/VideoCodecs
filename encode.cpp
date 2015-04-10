@@ -46,7 +46,7 @@ void Encode::readyReadStandardOutput(){
 
     ffmpegOutput.append(ffmpeg->readAllStandardOutput());
 
-    emit updateTextOutput(ffmpegOutput);
+   emit updateTextOutput(ffmpegOutput);
 
 }
 void Encode::readyReadStandardError(){
