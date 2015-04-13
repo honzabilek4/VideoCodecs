@@ -29,12 +29,13 @@ private slots:
 
     void on_msvdButton_clicked();
 
-    void on_encodeButton_clicked();
-
     void setOutputText(const QString text);
 
+    void on_actionEncode_triggered();
 
-    void on_decodeButton_clicked();
+    void on_actionDecode_triggered();
+
+    void on_actionTest_triggered();
 
 private:
     Ui::MainWindow *ui;

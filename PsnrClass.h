@@ -7,7 +7,7 @@ public:
 	PsnrClass();
 	~PsnrClass();
 
-	double** computePSNR(const char* filename1, const char* filename2, int width, int height, int maxFrames);
+    double** computePSNR(const char* filename1, const char* filename2, int width, int height, int maxFrames);
 	double PsnrClass::getAveragePsnr(double** psnrArray);
 	
 	

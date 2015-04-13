@@ -160,19 +160,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="encodeButton">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Encode</string>
-    </property>
-   </widget>
    <widget class="QTextBrowser" name="textOutput">
     <property name="geometry">
      <rect>
@@ -181,19 +168,6 @@
       <width>301</width>
       <height>192</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="decodeButton">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Decode</string>
     </property>
    </widget>
    <zorder>layoutWidget</zorder>
@@ -205,9 +179,7 @@
    <zorder>textBrowser_2</zorder>
    <zorder>msvdButton</zorder>
    <zorder>textBrowser_3</zorder>
-   <zorder>encodeButton</zorder>
    <zorder>textOutput</zorder>
-   <zorder>decodeButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -222,6 +194,8 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionDecode"/>
+    <addaction name="actionEncode"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -233,11 +207,32 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionEncode"/>
+   <addaction name="actionDecode"/>
+   <addaction name="actionTest"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionDecode">
+   <property name="text">
+    <string>Decode File</string>
+   </property>
+  </action>
+  <action name="actionEncode">
+   <property name="text">
+    <string>Encode File</string>
+   </property>
+  </action>
+  <action name="actionTest">
+   <property name="text">
+    <string>Test</string>
+   </property>
+   <property name="toolTip">
+    <string>Test</string>
    </property>
   </action>
  </widget>

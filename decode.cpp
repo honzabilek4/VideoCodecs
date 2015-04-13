@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QMessageBox>
 
 Decode::Decode(QWidget *parent) :
     QDialog(parent),
@@ -55,9 +56,13 @@ void Decode::readyReadStandardError(){
 }
 
 void Decode::decodingFinished(){
-    this->close();
-    qDebug()<<"ffmpeg process finished()";
 
+    qDebug()<<"ffmpeg process finished()";
+    QMessageBox msgBox;
+    msgBox.setText("Decoding has finished.");
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.exec();
+    this->close();
 }
 
 
@@ -72,7 +77,8 @@ void Decode::on_browseButton_clicked()
 
 QStringList Decode::getArguments(){
     QStringList arguments;
-
-    arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"output.yuv";
+    QFileInfo file(fileStr);
+    QString fileName = file.absoluteFilePath() + "_decoded.yuv";
+    arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<fileName;
     return arguments;
 }

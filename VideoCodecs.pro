@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     SsimClass.cpp \
     MsvdClass.cpp \
     encode.cpp \
-    decode.cpp
+    decode.cpp \
+    test.cpp
 
 HEADERS  += mainwindow.h \
     PsnrClass.h \
@@ -42,11 +43,13 @@ HEADERS  += mainwindow.h \
     include/opengl_interop_deprecated.hpp \
     include/wimage.hpp \
     encode.h \
-    decode.h
+    decode.h \
+    test.h
 
 FORMS    += mainwindow.ui \
     encode.ui \
-    decode.ui
+    decode.ui \
+    test.ui
 
 RESOURCES += \
     resources.qrc

@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QMessageBox>
 
 Encode::Encode(QWidget *parent) :
     QDialog(parent),
@@ -55,9 +56,12 @@ void Encode::readyReadStandardError(){
     emit updateTextOutput(ffmpegOutput);
 }
 void Encode::encodingFinished(){
-    this->close();
     qDebug()<<"ffmpeg process finished()";
-
+    QMessageBox msgBox;
+    msgBox.setText("Encoding has finished.");
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.exec();
+    this->close();
 }
 
 
@@ -76,31 +80,33 @@ QStringList Encode::getArguments(){
 
     QString dimensions = ui->widthEdit->text()+ "x" + ui->heightEdit->text();
     QString codec;
+    QString fileName;
+    QFileInfo file(fileStr);
     int value=ui->comboBox_Codec->currentIndex();
     switch (value) {
     case 0:
         codec="libx264";
+        fileName=file.absoluteFilePath() + "_ecoded.h264";
         break;
     case 1:
         codec="libx265";
+        fileName=file.absoluteFilePath() + "_ecoded.h265";
     case 2:
         codec="libvpx";
+        fileName=file.absoluteFilePath() + "_ecoded.vp8";
         break;
     case 3:
         codec="libvpx-vp9";
+        fileName=file.absoluteFilePath() + "_ecoded.vp9";
         break;
     default:
         codec="libx264";
+        fileName=file.absoluteFilePath() + "_ecoded.h264";
         break;
     }
 
-    arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<"25"<<"-i"<<fileStr<<"-c:v"<<codec<<"-f"<<"rawvideo"<<"output.264";
+
+    arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<"25"<<"-i"<<fileStr<<"-c:v"<<codec<<"-f"<<"rawvideo"<<fileName;
     return arguments;
 }
-/*
-    QStringList arguments;
-    QFileInfo file(fileStr);
-    QString fileName = file.absoluteFilePath() + "_decoded.yuv";
-    arguments<<"-i"<<fileStr<<"-c:v"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<fileName;
-    return arguments;
-*/
+
