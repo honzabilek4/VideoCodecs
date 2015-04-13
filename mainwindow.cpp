@@ -116,14 +116,12 @@ void MainWindow::on_msvdButton_clicked()
 
 void MainWindow::on_encodeButton_clicked()
 {
-    Encode* e= new Encode();
+    Encode* e= new Encode(this);
     e->show();
 
     connect(e,SIGNAL(updateTextOutput(const QString)),this,SLOT(setOutputText(const QString)));
 
 }
-
-
 
 void MainWindow::setOutputText(const QString text)
 {
@@ -134,6 +132,7 @@ void MainWindow::setOutputText(const QString text)
 
 void MainWindow::on_decodeButton_clicked()
 {
-    Decode* d =new Decode();
+    Decode* d = new Decode(this);
     d->show();
+     connect(d,SIGNAL(updateTextOutput(const QString)),this,SLOT(setOutputText(const QString)));
 }

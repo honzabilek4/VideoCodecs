@@ -26,7 +26,7 @@ void Encode::on_cancelButton_clicked()
 void Encode::on_runButton_clicked()
 {
     ffmpeg=new QProcess(this);
-    QString program ="ffmpeg.exe";      //program must be placed into same directory as VC
+    QString program ="ffmpeg.exe";      //program must be placed into same directory as VideoCodecs.exe
     connect(ffmpeg, SIGNAL(started()), this, SLOT(processStarted()));
     connect(ffmpeg,SIGNAL(readyReadStandardOutput()),this,SLOT(readyReadStandardOutput()));
     connect(ffmpeg,SIGNAL(readyReadStandardError()),this,SLOT(readyReadStandardError()));

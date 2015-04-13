@@ -233,14 +233,9 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionExit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icons/close</normaloff>:/icons/close</iconset>
-   </property>
    <property name="text">
     <string>Exit</string>
    </property>
@@ -251,8 +246,6 @@
   <tabstop>openFile1</tabstop>
   <tabstop>openFile2</tabstop>
  </tabstops>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

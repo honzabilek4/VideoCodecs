@@ -39,7 +39,7 @@
     <string>Open file for decoding</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="runButton">
    <property name="geometry">
     <rect>
      <x>60</x>
@@ -52,7 +52,7 @@
     <string>Run</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -65,6 +65,10 @@
     <string>Cancel</string>
    </property>
   </widget>
+  <zorder>browseButton</zorder>
+  <zorder>label</zorder>
+  <zorder>cancelButton</zorder>
+  <zorder>runButton</zorder>
  </widget>
  <resources/>
  <connections/>
