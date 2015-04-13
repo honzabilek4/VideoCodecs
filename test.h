@@ -2,7 +2,8 @@
 #define TEST_H
 
 #include <QDialog>
-
+#include "PsnrClass.h"
+#include <QFutureWatcher>
 namespace Ui {
 class Test;
 }
@@ -26,10 +27,14 @@ private slots:
 
     void on_cancelButton_clicked();
 
+    void resultReady();
+
 private:
     Ui::Test *ui;
     std::string file1;
     std::string file2;
+    PsnrClass* psnr;
+    QFutureWatcher<double**>watcher;
 };
 
 #endif // TEST_H

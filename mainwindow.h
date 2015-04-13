@@ -17,18 +17,6 @@ public:
 
 private slots:
 
-    void on_actionExit_triggered();
-
-    void on_openFile1_clicked();
-
-    void on_openFile2_clicked();
-
-    void on_psnrButton_clicked();
-
-    void on_ssimButton_clicked();
-
-    void on_msvdButton_clicked();
-
     void setOutputText(const QString text);
 
     void on_actionEncode_triggered();
@@ -37,13 +25,10 @@ private slots:
 
     void on_actionTest_triggered();
 
+    void on_actionExit_triggered();
+
 private:
     Ui::MainWindow *ui;
-    std::string file1;
-    std::string file2;
-    double** psnrArray;
-    double* ssimResults;
-    double* msvdResults;
 
 };
 

@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
-#include "PsnrClass.h"
+#include <QMessageBox>
 #include "SsimClass.h"
 #include "MsvdClass.h"
 
@@ -49,19 +49,31 @@ void Test::on_openButton_2_clicked()
 
 void Test::on_runButton_clicked()
 {
-    int numberOfFrames=ui->spinBox->value();
+    int maxFrame=ui->spinBox->value();
+
     if(ui->psnrBox->isChecked())
     {
-        PsnrClass* psnr=new PsnrClass();
-        QFuture<double**> future=QtConcurrent::run(psnr,&PsnrClass::computePSNR,file1.c_str(),file2.c_str(),ui->lineEdit->text().toInt(),ui->lineEdit_2->text().toInt(),numberOfFrames);
-        qDebug() << "Psnr has finished";
+
+        psnr=new PsnrClass();
+        connect(&watcher,SIGNAL(finished()),SLOT(resultReady()));
+        QFuture<double**> future=QtConcurrent::run(psnr,&PsnrClass::computePSNR,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
+        watcher.setFuture(future);
+
     }
     if(ui->ssimBox->isChecked())
     {
 
+        SsimClass* ssim=new SsimClass(ui->windowSizeBox->value(),ui->stepSizeBox->value());
+        QFuture<double*> future = QtConcurrent::run(ssim,&SsimClass::computeSsim,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
+        qDebug()<<"Ssim has finished";
+
     }
     if(ui->msvdBox->isChecked())
     {
+
+        MsvdClass* msvd =new MsvdClass();
+        QFuture<double*> future = QtConcurrent::run(msvd,&MsvdClass::computeMsvd,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
+        qDebug()<<"Msvd has finished";
 
     }
 
@@ -69,5 +81,18 @@ void Test::on_runButton_clicked()
 
 void Test::on_cancelButton_clicked()
 {
-  this->close();
+    this->close();
+}
+
+void Test::resultReady()
+{
+    if(!psnr->error.empty())
+    {   QMessageBox msgBox;
+        msgBox.setText(QString::fromStdString(psnr->error));
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+        this->close();
+    }
+
+
 }

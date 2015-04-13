@@ -16,18 +16,24 @@ int L;   //dynamic range of pixel values
 double c1;
 double c2;
 using namespace std;
+
 SsimClass::SsimClass()
 {
 	L = 255;
 	c1 = pow(L*k1, 2.0);
 	c2 = pow(L*k2, 2.0);
+    windowSize=16;
+    stepSize=8;
 }
 
-SsimClass::SsimClass(int L)
+SsimClass::SsimClass(int window,int step)
 {
-	SsimClass::L = L;
+    L= 255;
 	c1 = pow(L*k1, 2.0);
 	c2 = pow(L*k2, 2.0);
+
+    windowSize=window;
+    stepSize=step;
 }
 
 
@@ -104,7 +110,7 @@ double SsimClass::ssim(unsigned char* p1, unsigned char* p2, int windowSize)
 	
 	return ssim;
 }
-double* SsimClass::computeSsim(const char* filename1, const char* filename2, int width, int height, int maxFrame, int windowSize, int stepSize)
+double* SsimClass::computeSsim(const char* filename1, const char* filename2, int width, int height, int maxFrame)
 {
 	frameSize = computeFrameSize(width, height);			//Yuv files are binary files and have no header, you have to set width, height and compute frame size.
 	SsimClass::width = width;
