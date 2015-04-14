@@ -112,6 +112,8 @@ double SsimClass::ssim(unsigned char* p1, unsigned char* p2, int windowSize)
 }
 double* SsimClass::computeSsim(const char* filename1, const char* filename2, int width, int height, int maxFrame)
 {
+    error.clear();
+
 	frameSize = computeFrameSize(width, height);			//Yuv files are binary files and have no header, you have to set width, height and compute frame size.
 	SsimClass::width = width;
 	SsimClass::height = height;
@@ -120,31 +122,57 @@ double* SsimClass::computeSsim(const char* filename1, const char* filename2, int
 	int size2 = getFileSize(filename2);
 
 	if ((size1 != size2) || (size1 % frameSize))
-		throw  "File must have same size and must cotain only whole frames.";
+    {
+        error=  "File must have same size and must cotain only whole frames.";
+        return ssimArray;
+    }
 
 	fopen_s(&file1, filename1, "rb");
 	fopen_s(&file2, filename2, "rb");
 
 	if (file1 == NULL)
-		throw "Cannot open file1.";
+    {
+        error= "Cannot open file1.";
+        return ssimArray;
+    }
 	if (file2 == NULL)
-		throw "Cannot open file2.";
+        error= "Cannot open file2.";
+        return ssimArray;
 
 	if ((frame1 = (unsigned char*)calloc(frameSize, sizeof(unsigned char))) == NULL)
-		throw "Cannot allocate memory.";
+    {
+        error= "Cannot allocate memory.";
+        return ssimArray;
+    }
 	if ((frame2 = (unsigned char*)calloc(frameSize, sizeof(unsigned char))) == NULL)
-		throw "Cannot allocate memory";
+    {
+        error= "Cannot allocate memory";
+        return ssimArray;
+    }
 	if ((ssimArray = (double*)calloc(maxFrame, sizeof(double))) == NULL)
-		throw "Cannot allocate memory";
+    {
+        error= "Cannot allocate memory";
+        return ssimArray;
+    }
 
 	if (maxFrame > size1 / frameSize)
-		throw "Video has not so much frames.";
+    {
+        error= "Video has not so much frames.";
+        return ssimArray;
+    }
+
 	
 	if (windowSize > width / 2 || windowSize > height / 2)
-		throw "Window size is too large.";
+    {
+        error= "Window size is too large.";
+        return ssimArray;
+    }
 
 	if (stepSize >= windowSize)
-		throw "Step must be lower than window size.";
+    {
+        error= "Step must be lower than window size.";
+        return ssimArray;
+    }
 
 	int countX = ((width - windowSize) / stepSize) + 1;   //number of steps on axis
 	int countY = ((height - windowSize) / stepSize) + 1;

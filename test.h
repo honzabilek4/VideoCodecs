@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include "PsnrClass.h"
+#include "SsimClass.h"
+#include "MsvdClass.h"
 #include <QFutureWatcher>
 namespace Ui {
 class Test;
@@ -27,14 +29,22 @@ private slots:
 
     void on_cancelButton_clicked();
 
-    void resultReady();
+    void psnrResultReady();
+
+    void ssimResultReady();
+
+    void msvdResultReady();
 
 private:
     Ui::Test *ui;
     std::string file1;
     std::string file2;
     PsnrClass* psnr;
+    SsimClass* ssim;
+    MsvdClass* msvd;
     QFutureWatcher<double**>watcher;
+    QFutureWatcher<double*>watcher_2;
+    QFutureWatcher<double*>watcher_3;
 };
 
 #endif // TEST_H

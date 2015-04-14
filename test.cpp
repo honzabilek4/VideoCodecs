@@ -6,8 +6,6 @@
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
 #include <QMessageBox>
-#include "SsimClass.h"
-#include "MsvdClass.h"
 
 Test::Test(QWidget *parent) :
     QDialog(parent),
@@ -55,7 +53,7 @@ void Test::on_runButton_clicked()
     {
 
         psnr=new PsnrClass();
-        connect(&watcher,SIGNAL(finished()),SLOT(resultReady()));
+        connect(&watcher,SIGNAL(finished()),SLOT(psnrResultReady()));
         QFuture<double**> future=QtConcurrent::run(psnr,&PsnrClass::computePSNR,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
         watcher.setFuture(future);
 
@@ -64,8 +62,9 @@ void Test::on_runButton_clicked()
     {
 
         SsimClass* ssim=new SsimClass(ui->windowSizeBox->value(),ui->stepSizeBox->value());
+        connect (&watcher_2,SIGNAL(finished()),SLOT(ssimResultReady()));
         QFuture<double*> future = QtConcurrent::run(ssim,&SsimClass::computeSsim,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
-        qDebug()<<"Ssim has finished";
+        watcher_2.setFuture(future);
 
     }
     if(ui->msvdBox->isChecked())
@@ -73,8 +72,8 @@ void Test::on_runButton_clicked()
 
         MsvdClass* msvd =new MsvdClass();
         QFuture<double*> future = QtConcurrent::run(msvd,&MsvdClass::computeMsvd,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
-        qDebug()<<"Msvd has finished";
-
+        connect (&watcher_3,SIGNAL(finished()),SLOT(msvdResultReady()));
+        watcher_3.setFuture(future);
     }
 
 }
@@ -84,15 +83,34 @@ void Test::on_cancelButton_clicked()
     this->close();
 }
 
-void Test::resultReady()
+void Test::psnrResultReady()
 {
     if(!psnr->error.empty())
+    {
+        QMessageBox msgBox;
+        msgBox.setText(QString::fromStdString(psnr->error));
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+
+    }
+}
+void Test::ssimResultReady()
+{
+    if(!ssim->error.empty())
     {   QMessageBox msgBox;
         msgBox.setText(QString::fromStdString(psnr->error));
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
         this->close();
     }
-
-
+}
+void Test::msvdResultReady()
+{
+    if(!msvd->error.empty())
+    {   QMessageBox msgBox;
+        msgBox.setText(QString::fromStdString(psnr->error));
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+        this->close();
+    }
 }

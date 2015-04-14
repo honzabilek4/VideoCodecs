@@ -9,6 +9,7 @@ public:
 
     double* computeSsim(const char* filename1, const char* filename2, int width, int height, int maxFrame);
     double* ssimArray;
+    std::string error;
 
 private:
 

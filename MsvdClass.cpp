@@ -56,25 +56,46 @@ double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int
 	int size2 = getFileSize(filename2);
 
 	if ((size1 != size2) || (size1 % frameSize))
-		throw  "File must have same size and must cotain only whole frames.";
+    {
+        error=  "File must have same size and must cotain only whole frames.";
+        return msvdArray;
+    }
 
 	fopen_s(&file1, filename1, "rb");
 	fopen_s(&file2, filename2, "rb");
 
 	if (file1 == NULL)
-		throw "Cannot open file1.";
+    {
+        error= "Cannot open file1.";
+        return msvdArray;
+    }
 	if (file2 == NULL)
-		throw "Cannot open file2.";
+    {
+        error= "Cannot open file2.";
+        return msvdArray;
+    }
 
 	if ((frame1 = (unsigned char*)calloc(frameSize, sizeof(unsigned char))) == NULL)
-		throw "Cannot allocate memory.";
+    {
+        error= "Cannot allocate memory.";
+        return msvdArray;
+    }
 	if ((frame2 = (unsigned char*)calloc(frameSize, sizeof(unsigned char))) == NULL)
-		throw "Cannot allocate memory";
+    {
+        error= "Cannot allocate memory";
+        return msvdArray;
+    }
 	if ((msvdArray = (double*)calloc(maxFrame, sizeof(float))) == NULL)
-		throw "Cannot allocate memory";
+    {
+        error= "Cannot allocate memory";
+        return msvdArray;
+    }
 
 	if (maxFrame > size1 / frameSize)
-		throw "Video has not so much frames.";
+    {
+        error= "Video has not so much frames.";
+        return msvdArray;
+    }
 
 
 

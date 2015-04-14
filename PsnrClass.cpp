@@ -65,18 +65,32 @@ double** PsnrClass::computePSNR(const char* filename1, const char* filename2, in
     fopen_s(&file2, filename2, "rb");
 
     if (file1 == NULL)
-        throw "Cannot open file1.";
+    {
+        error= "Cannot open file1.";
+        return psnrArray;
+    }
     if (file2 == NULL)
-        throw "Cannot open file2.";
+    {
+        error= "Cannot open file2.";
+        return psnrArray;
+    }
 
     if ((frame1 = (unsigned char*)calloc(frameSize, sizeof(unsigned char))) == NULL)
-        throw "Cannot allocate memory.";
+    {
+        error= "Cannot allocate memory.";
+        return psnrArray;
+    }
     if ((frame2 = (unsigned char*)calloc(frameSize, sizeof(unsigned char))) == NULL)
-        throw "Cannot allocate memory";
+    {
+        error= "Cannot allocate memory";
+        return psnrArray;
+    }
 
     if (maxFrame > size1 / frameSize)
-        throw "Video has not so much frames.";
-
+    {
+        error= "Video has not so much frames.";
+        return psnrArray;
+    }
     psnrArray = new double*[maxFrame];	//data storage, three results for each frame(YUV)
     for (int u = 0; u < maxFrame; ++u)
         psnrArray[u] = new double[3];
