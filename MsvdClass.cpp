@@ -46,6 +46,8 @@ void MsvdClass::getMatrix(unsigned char* p, float* a, int window)  //returns win
 
 double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int width, int height, int maxFrame)
 {
+     _abort=false;
+    error.clear();
 
 	frameSize = computeFrameSize(width, height);			//Yuv files are binary files and have no header, you have to set width, height and compute frame size.
 	MsvdClass::width = width;
@@ -112,7 +114,14 @@ double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int
 	int frameNumber = 0;	
 
 	while ((frameNumber < maxFrame) && (fread_s(frame1, frameSize, 1, frameSize, file1) == frameSize) && (fread_s(frame2, frameSize, 1, frameSize, file2)) == frameSize) // per frame cycle
-	{
+    {
+        if(_abort)
+        {
+            fclose(file1);
+            fclose(file2);
+            return msvdArray;
+        }
+
 		unsigned char *p1;				//pointer to a specific frame
 		unsigned char *p2;				//pointer to a specific frame
 		msvd = 0;

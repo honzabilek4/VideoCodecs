@@ -26,5 +26,8 @@ public:
 	int getFileSize(const char* filename);
 	int computeFrameSize(int width, int height);
 
+    std::string error;
+    bool _abort;
+
 };
 

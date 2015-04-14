@@ -47,6 +47,7 @@ double PsnrClass::getPsnr(double peak, double msqe) {
 double** PsnrClass::computePSNR(const char* filename1, const char* filename2, int width, int height, int maxFrame)
 {
     error.clear();
+    _abort=false;
 
     frameSize = computeFrameSize(width, height);			//Yuv files are binary files and have no header, you have to set width, height and compute frame size.
 
@@ -95,6 +96,12 @@ double** PsnrClass::computePSNR(const char* filename1, const char* filename2, in
     //Read frame after frame and compute their mean square error.(file pointer is increased of amount of bytes read each time automatically!)
     while ((numberOfFrame < maxFrame) && (fread_s(frame1, frameSize, 1, frameSize, file1) == frameSize) && (fread_s(frame2, frameSize, 1, frameSize, file2)) == frameSize)
     {
+        if(_abort)
+        {
+            fclose(file1);
+            fclose(file2);
+            return psnrArray;
+        }
         unsigned char *p1 = frame1;				//pointer to a specific frame
         unsigned char *p2 = frame2;
 

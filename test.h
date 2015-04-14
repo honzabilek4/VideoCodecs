@@ -42,6 +42,7 @@ private:
     PsnrClass* psnr;
     SsimClass* ssim;
     MsvdClass* msvd;
+    QThread* psnrThread;
     QFutureWatcher<double**>watcher;
     QFutureWatcher<double*>watcher_2;
     QFutureWatcher<double*>watcher_3;

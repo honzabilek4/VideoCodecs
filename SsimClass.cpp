@@ -112,6 +112,7 @@ double SsimClass::ssim(unsigned char* p1, unsigned char* p2, int windowSize)
 }
 double* SsimClass::computeSsim(const char* filename1, const char* filename2, int width, int height, int maxFrame)
 {
+     _abort=false;
     error.clear();
 
 	frameSize = computeFrameSize(width, height);			//Yuv files are binary files and have no header, you have to set width, height and compute frame size.
@@ -183,6 +184,13 @@ double* SsimClass::computeSsim(const char* filename1, const char* filename2, int
 
 	while ((frameNumber < maxFrame) && (fread_s(frame1, frameSize, 1, frameSize, file1) == frameSize) && (fread_s(frame2, frameSize, 1, frameSize, file2)) == frameSize)
 	{
+        if(_abort)
+        {
+            fclose(file1);
+            fclose(file2);
+            return ssimArray;
+        }
+
 		unsigned char *p1;				//pointer to a specific frame
 		unsigned char *p2;
 		ssimWindow = 0;

@@ -6,12 +6,16 @@
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
 #include <QMessageBox>
+#include <QThread>
 
 Test::Test(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test)
 {
     ui->setupUi(this);
+    psnr=NULL;
+    msvd=NULL;
+    ssim=NULL;
 }
 
 Test::~Test()
@@ -47,7 +51,8 @@ void Test::on_openButton_2_clicked()
 
 void Test::on_runButton_clicked()
 {
-    ui->runButton->setEnabled(false);
+    this->hide();
+    //ui->runButton->setEnabled(false);
     int maxFrame=ui->spinBox->value();
 
     if(ui->psnrBox->isChecked())
@@ -82,6 +87,21 @@ void Test::on_runButton_clicked()
 
 void Test::on_cancelButton_clicked()
 {
+    if(watcher.isRunning()||watcher_2.isRunning()||watcher_3.isRunning())
+    {
+        if(psnr!=NULL)
+            psnr->_abort=true;
+        if(ssim!=NULL)
+            ssim->_abort=true;
+        if(msvd!=NULL)
+            msvd->_abort=true;
+        ui->runButton->setEnabled(true);
+    }
+    else
+    {
+        this->close();
+    }
+
 
 }
 
