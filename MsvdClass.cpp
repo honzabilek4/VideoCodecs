@@ -11,7 +11,6 @@ double Dk;
 double* msvdArray;
 double* DkArray;
 
-using namespace std;
 MsvdClass::MsvdClass()
 {
 	window = 8;
@@ -169,7 +168,7 @@ double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int
 		}
 
 		msvdArray[frameNumber] = msvd / size;			//store msvd for frame
-		std::cout << msvd/size << endl;
+        std::cout << msvd/size << std::endl;
 		frameNumber++;
 	}
 	return msvdArray;

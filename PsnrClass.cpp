@@ -13,8 +13,6 @@ const int MAX_PSNR = 100;
 
 double **psnrArray = NULL;
 
-using namespace std;
-
 PsnrClass::PsnrClass()
 {
 
@@ -109,6 +107,7 @@ double** PsnrClass::computePSNR(const char* filename1, const char* filename2, in
             ++p2;
         }
         psnrArray[numberOfFrame][0] = getPsnr(255.0, squareYError);
+        std::cout<<psnrArray[numberOfFrame][0]<<std::endl;
         squareYError = 0;
 
         //cacluclation for U
