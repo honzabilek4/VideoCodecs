@@ -6,6 +6,8 @@
 #include "SsimClass.h"
 #include "MsvdClass.h"
 #include <QFutureWatcher>
+#include <QMessageBox>
+
 namespace Ui {
 class Test;
 }
@@ -46,6 +48,7 @@ private:
     QFutureWatcher<double**>watcher;
     QFutureWatcher<double*>watcher_2;
     QFutureWatcher<double*>watcher_3;
+    bool msgBoxErr;
 };
 
 #endif // TEST_H

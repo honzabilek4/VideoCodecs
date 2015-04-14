@@ -5,7 +5,6 @@
 #include <QDebug>
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
-#include <QMessageBox>
 #include <QThread>
 
 Test::Test(QWidget *parent) :
@@ -16,6 +15,7 @@ Test::Test(QWidget *parent) :
     psnr=NULL;
     msvd=NULL;
     ssim=NULL;
+    msgBoxErr=false;
 }
 
 Test::~Test()
@@ -51,13 +51,15 @@ void Test::on_openButton_2_clicked()
 
 void Test::on_runButton_clicked()
 {
-    this->hide();
+
     //ui->runButton->setEnabled(false);
+
+    msgBoxErr=false;
+
     int maxFrame=ui->spinBox->value();
 
     if(ui->psnrBox->isChecked())
     {
-
         psnr=new PsnrClass();
         connect(&watcher,SIGNAL(finished()),SLOT(psnrResultReady()));
         QFuture<double**> future=QtConcurrent::run(psnr,&PsnrClass::computePSNR,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
@@ -82,12 +84,19 @@ void Test::on_runButton_clicked()
         QFuture<double*> future = QtConcurrent::run(msvd,&MsvdClass::computeMsvd,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
         watcher_3.setFuture(future);
     }
+    if(!(watcher.isRunning()|| watcher_2.isRunning()|| watcher_3.isRunning()))
+    {
+        QMessageBox message;
+        message.setText(QString::fromStdString("Please select method."));
+        message.setIcon(QMessageBox::Critical);
+        message.exec();
+    }
 
 }
 
 void Test::on_cancelButton_clicked()
 {
-    if(watcher.isRunning()||watcher_2.isRunning()||watcher_3.isRunning())
+    if(watcher.isRunning()|| watcher_2.isRunning()|| watcher_3.isRunning())
     {
         if(psnr!=NULL)
             psnr->_abort=true;
@@ -107,30 +116,48 @@ void Test::on_cancelButton_clicked()
 
 void Test::psnrResultReady()
 {
-    if(!psnr->error.empty())
-    {   this->close();
+    if(!psnr->error.empty()&& msgBoxErr==false)
+    {
+        msgBoxErr=true;
+        if(ssim!=NULL)
+            ssim->_abort=true;
+        if(msvd!=NULL)
+            msvd->_abort=true;
+
         QMessageBox msgBox;
         msgBox.setText(QString::fromStdString(psnr->error));
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
-
     }
 }
 void Test::ssimResultReady()
 {
-    if(!ssim->error.empty())
-    {   this->close();
+    if(!ssim->error.empty()&& msgBoxErr==false)
+    {
+        msgBoxErr=true;
+        if(psnr!=NULL)
+            psnr->_abort=true;
+        if(msvd!=NULL)
+            msvd->_abort=true;
+
         QMessageBox msgBox;
         msgBox.setText(QString::fromStdString(ssim->error));
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
 
+
     }
 }
 void Test::msvdResultReady()
 {
-    if(!msvd->error.empty())
-    {   this->close();
+    if(!msvd->error.empty()&& msgBoxErr==false)
+    {
+        msgBoxErr=true;
+        if(psnr!=NULL)
+            psnr->_abort=true;
+        if(ssim!=NULL)
+            ssim->_abort=true;
+
         QMessageBox msgBox;
         msgBox.setText(QString::fromStdString(msvd->error));
         msgBox.setIcon(QMessageBox::Critical);
