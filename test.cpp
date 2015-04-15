@@ -6,6 +6,8 @@
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
 #include <QThread>
+#include <QMessageBox>
+
 
 Test::Test(QWidget *parent) :
     QDialog(parent),
@@ -52,9 +54,30 @@ void Test::on_openButton_2_clicked()
 void Test::on_runButton_clicked()
 {
 
-    //ui->runButton->setEnabled(false);
+
+    ui->runButton->setEnabled(false);
 
     msgBoxErr=false;
+
+
+    if(file1.empty()||file2.empty())
+    {
+        QMessageBox message;
+        message.setText(QString::fromStdString("Please select files."));
+        message.setIcon(QMessageBox::Critical);
+        message.exec();
+        ui->runButton->setEnabled(true);
+        return;
+    }
+    if(ui->widthBox->value()==1||ui->heightBox->value()==1)
+    {
+        QMessageBox message;
+        message.setText(QString::fromStdString("Please set dimensions."));
+        message.setIcon(QMessageBox::Critical);
+        message.exec();
+        ui->runButton->setEnabled(true);
+        return;
+    }
 
     int maxFrame=ui->spinBox->value();
 
@@ -90,7 +113,9 @@ void Test::on_runButton_clicked()
         message.setText(QString::fromStdString("Please select method."));
         message.setIcon(QMessageBox::Critical);
         message.exec();
+        ui->runButton->setEnabled(true);
     }
+
 
 }
 
@@ -119,6 +144,7 @@ void Test::psnrResultReady()
     if(!psnr->error.empty()&& msgBoxErr==false)
     {
         msgBoxErr=true;
+
         if(ssim!=NULL)
             ssim->_abort=true;
         if(msvd!=NULL)
@@ -128,13 +154,35 @@ void Test::psnrResultReady()
         msgBox.setText(QString::fromStdString(psnr->error));
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
+        ui->runButton->setEnabled(true);
+        return;
     }
+
+
+        double** array=watcher.future().result();
+        if((!psnr->error.empty())||psnr->_abort)
+        {
+            return;
+        }
+        else
+        {
+            QList<double> psnrList;
+            for(int i=0;i<(ui->spinBox->value());i++)
+            {
+                psnrList.append(array[i][0]);
+            }
+
+            if(!psnrList.isEmpty())
+                emit psnrReady(psnrList);
+        }
+
 }
 void Test::ssimResultReady()
 {
     if(!ssim->error.empty()&& msgBoxErr==false)
     {
         msgBoxErr=true;
+
         if(psnr!=NULL)
             psnr->_abort=true;
         if(msvd!=NULL)
@@ -144,15 +192,34 @@ void Test::ssimResultReady()
         msgBox.setText(QString::fromStdString(ssim->error));
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
-
-
+        ui->runButton->setEnabled(true);
+        return;
     }
+
+    double* array=watcher_2.future().result();
+    if((!ssim->error.empty())||ssim->_abort)
+    {
+        return;
+    }
+    else
+    {
+        QList<double> ssimList;
+    for(int i=0;i<(ui->spinBox->value());i++)
+    {
+        ssimList.append(array[i]);
+    }
+
+    if(!ssimList.isEmpty())
+        emit ssimReady(ssimList);
+    }
+
 }
 void Test::msvdResultReady()
 {
     if(!msvd->error.empty()&& msgBoxErr==false)
     {
         msgBoxErr=true;
+
         if(psnr!=NULL)
             psnr->_abort=true;
         if(ssim!=NULL)
@@ -162,6 +229,27 @@ void Test::msvdResultReady()
         msgBox.setText(QString::fromStdString(msvd->error));
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
-
+        ui->runButton->setEnabled(true);
+        return;
     }
+
+
+    double* array=watcher_3.future().result();
+    if((!msvd->error.empty())||msvd->_abort)
+    {
+        return;
+    }
+    else
+    {
+        QList<double> msvdList;
+        for(int i=0;i<(ui->spinBox->value());i++)
+        {
+            msvdList.append(array[i]);
+        }
+
+        if(!msvdList.isEmpty())
+            emit msvdReady(msvdList);
+    }
+
 }
+

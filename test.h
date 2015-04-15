@@ -6,7 +6,7 @@
 #include "SsimClass.h"
 #include "MsvdClass.h"
 #include <QFutureWatcher>
-#include <QMessageBox>
+#include <QList>
 
 namespace Ui {
 class Test;
@@ -37,6 +37,11 @@ private slots:
 
     void msvdResultReady();
 
+signals:
+    void psnrReady(QList<double>);
+    void ssimReady(QList<double>);
+    void msvdReady(QList<double>);
+
 private:
     Ui::Test *ui;
     std::string file1;
@@ -49,6 +54,7 @@ private:
     QFutureWatcher<double*>watcher_2;
     QFutureWatcher<double*>watcher_3;
     bool msgBoxErr;
+
 };
 
 #endif // TEST_H

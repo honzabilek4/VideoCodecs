@@ -27,6 +27,14 @@ void Decode::on_cancelButton_clicked()
 
 void Decode::on_runButton_clicked()
 {
+    if(fileStr.isEmpty())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Please select file.");
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+        return;
+    }
     ffmpeg = new QProcess(this);
     QString program ="ffmpeg.exe";
     connect(ffmpeg,SIGNAL(started()),this,SLOT(processStarted()));
@@ -46,7 +54,7 @@ void Decode::readyReadStandardOutput(){
 
     ffmpegOutput.append(ffmpeg->readAllStandardOutput());
 
-   emit updateTextOutput(ffmpegOutput);
+    emit updateTextOutput(ffmpegOutput);
 
 }
 void Decode::readyReadStandardError(){
@@ -78,7 +86,25 @@ void Decode::on_browseButton_clicked()
 QStringList Decode::getArguments(){
     QStringList arguments;
     QFileInfo file(fileStr);
-    QString fileName = file.absoluteFilePath() + "_decoded.yuv";
+    QString fileName;
+    if(!saveAsStr.isEmpty())
+    {
+        fileName=saveAsStr;
+    }
+    else
+    {
+        fileName=file.absoluteFilePath() + "_decoded.yuv";
+    }
     arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<fileName;
     return arguments;
+}
+
+void Decode::on_saveButton_clicked()
+{
+    saveAsStr = QFileDialog::getSaveFileName(this,tr("Save As"),"C:/",tr("rawvideo(*.yuv)"));
+    QFileInfo file(saveAsStr);
+    if(!saveAsStr.isEmpty())
+    {
+        ui->label_2->setText(file.fileName());
+    }
 }

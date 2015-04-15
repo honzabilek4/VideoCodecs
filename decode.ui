@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>390</width>
-    <height>129</height>
+    <height>139</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,11 +39,11 @@
     <string>Open file for decoding</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>80</y>
+     <y>100</y>
      <width>201</width>
      <height>25</height>
     </rect>
@@ -65,10 +65,37 @@
     </item>
    </layout>
   </widget>
+  <widget class="QPushButton" name="saveButton">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>50</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save As</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>50</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>*_decoded.yuv</string>
+   </property>
+  </widget>
+  <zorder>layoutWidget</zorder>
   <zorder>browseButton</zorder>
   <zorder>label</zorder>
-  <zorder>cancelButton</zorder>
-  <zorder>runButton</zorder>
+  <zorder>saveButton</zorder>
+  <zorder>label_2</zorder>
  </widget>
  <resources/>
  <connections/>

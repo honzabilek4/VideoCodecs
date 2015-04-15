@@ -8,7 +8,7 @@ Mat svdA, svdB;
 float* a;
 float* b;
 double Dk;
-double* msvdArray;
+double* msvdArray=NULL;
 double* DkArray;
 
 MsvdClass::MsvdClass()

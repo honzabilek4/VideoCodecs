@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QList>
 #include <QMainWindow>
+
 
 namespace Ui {
 class MainWindow;
@@ -17,7 +19,11 @@ public:
 
 private slots:
 
-    void setOutputText(const QString text);
+    void setOutputText(const QString);
+
+    void setPsnr(QList<double>);
+    void setSsim(QList<double>);
+    void setMsvd(QList<double>);
 
     void on_actionEncode_triggered();
 
@@ -27,8 +33,13 @@ private slots:
 
     void on_actionExit_triggered();
 
+
 private:
     Ui::MainWindow *ui;
+
+    double getAverage(QList<double>);
+    double getMax(QList<double>);
+    double getMin(QList<double>);
 
 };
 
