@@ -76,7 +76,7 @@ void Decode::decodingFinished(){
 
 void Decode::on_browseButton_clicked()
 {
-    fileStr = QFileDialog::getOpenFileName(this,tr("Open file"));
+    fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder);
     QFileInfo file(fileStr);
     if(!fileStr.isEmpty()){
         ui->label->setText(file.fileName());
@@ -101,10 +101,15 @@ QStringList Decode::getArguments(){
 
 void Decode::on_saveButton_clicked()
 {
-    saveAsStr = QFileDialog::getSaveFileName(this,tr("Save As"),"C:/",tr("rawvideo(*.yuv)"));
+    saveAsStr = QFileDialog::getSaveFileName(this,tr("Save As"),homeFolder,tr("rawvideo(*.yuv)"));
     QFileInfo file(saveAsStr);
     if(!saveAsStr.isEmpty())
     {
         ui->label_2->setText(file.fileName());
     }
+}
+
+void Decode::setHomeFolder(QString folder)
+{
+    homeFolder=folder;
 }

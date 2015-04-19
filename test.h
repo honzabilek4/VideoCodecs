@@ -19,6 +19,7 @@ class Test : public QDialog
 public:
     explicit Test(QWidget *parent = 0);
     ~Test();
+    void setHomeFolder(QString);
 
 private slots:
 
@@ -55,6 +56,7 @@ private:
     QFutureWatcher<double*>watcher_2;
     QFutureWatcher<double*>watcher_3;
     bool msgBoxErr;
+    QString homeFolder;
 
 };
 

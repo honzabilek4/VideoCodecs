@@ -227,6 +227,7 @@
     <addaction name="actionDecode"/>
     <addaction name="actionEncode"/>
     <addaction name="actionTest"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
@@ -293,7 +294,7 @@
   </action>
   <action name="actionGeneral_settings">
    <property name="text">
-    <string>General settings</string>
+    <string>General...</string>
    </property>
   </action>
  </widget>

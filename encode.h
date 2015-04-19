@@ -15,6 +15,7 @@ class Encode : public QDialog
 public:
     explicit Encode(QWidget *parent = 0);
     ~Encode();
+    void setHomeFolder(QString);
 
 private slots:
 
@@ -37,6 +38,8 @@ private slots:
 
     void on_saveButton_clicked();
 
+    void on_comboBox_Codec_currentIndexChanged(int index);
+
 signals:
 
     void updateTextOutput(const QString text);
@@ -48,7 +51,7 @@ private:
     QString fileStr;
     QString saveDir;
     QString fileName;
-
+    QString homeFolder;
 
 
 };

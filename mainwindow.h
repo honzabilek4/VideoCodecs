@@ -24,7 +24,9 @@ private slots:
     void setStandardOutputText(const QString);
 
     void setPsnr(QList<double>);
+
     void setSsim(QList<double>);
+
     void setMsvd(QList<double>);
 
     void on_actionEncode_triggered();
@@ -35,8 +37,11 @@ private slots:
 
     void on_actionExit_triggered();
 
-
     void on_actionExport_CSV_triggered();
+
+    void on_actionGeneral_settings_triggered();
+
+    void updateHomeFolders(const QString, const QString);
 
 private:
     Ui::MainWindow *ui;
@@ -52,6 +57,9 @@ private:
     double avgPsnr;
     double avgSsim;
     double avgMsvd;
+
+    QString folderName;
+    QString testFolderName;
 
 };
 

@@ -15,6 +15,7 @@ class Decode : public QDialog
 public:
     explicit Decode(QWidget *parent = 0);
     ~Decode();
+    void setHomeFolder(QString);
 
 private slots:
     void on_cancelButton_clicked();
@@ -45,6 +46,7 @@ private:
     QString ffmpegOutput;
     QString fileStr;
     QString saveAsStr;
+    QString homeFolder;
 };
 
 #endif // DECODE_H

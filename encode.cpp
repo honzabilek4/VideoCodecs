@@ -80,7 +80,7 @@ void Encode::encodingFinished(){
 
 void Encode::on_browseButton_clicked()
 {
-    fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),"C:/",tr("rawvideo(*.yuv)"));
+    fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv)"));
     QFileInfo file(fileStr);
     if(!fileStr.isEmpty()){
         ui->fileLabel->setText(file.fileName());
@@ -156,10 +156,35 @@ QStringList Encode::getArguments(){
 
 void Encode::on_saveButton_clicked()
 {
-    fileName= QFileDialog::getExistingDirectory(this,tr("Save To"));
+    fileName= QFileDialog::getExistingDirectory(this,tr("Save To"),homeFolder);
     if(!fileName.isEmpty())
     {
         fileName.append("/");
     }
 
+}
+
+void Encode::setHomeFolder(QString folder)
+{
+    homeFolder=folder;
+}
+
+void Encode::on_comboBox_Codec_currentIndexChanged(int index)
+{
+    switch (index){
+
+    case 0:
+        ui->saveFileLabel->setText("*_encoded.h264");
+        break;
+    case 1:
+        ui->saveFileLabel->setText("*_encoded.h265");
+        break;
+    case 2:
+        ui->saveFileLabel->setText("*_encoded_vp8.webm");
+        break;
+    case 3:
+        ui->saveFileLabel->setText("*_encoded_vp9.webm");
+        break;
+
+    }
 }

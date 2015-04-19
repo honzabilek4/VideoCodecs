@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     MsvdClass.cpp \
     encode.cpp \
     decode.cpp \
-    test.cpp
+    test.cpp \
+    settings.cpp
 
 HEADERS  += mainwindow.h \
     PsnrClass.h \
@@ -44,12 +45,14 @@ HEADERS  += mainwindow.h \
     include/wimage.hpp \
     encode.h \
     decode.h \
-    test.h
+    test.h \
+    settings.h
 
 FORMS    += mainwindow.ui \
     encode.ui \
     decode.ui \
-    test.ui
+    test.ui \
+    settings.ui
 
 RESOURCES += \
     resources.qrc

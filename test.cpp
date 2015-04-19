@@ -29,7 +29,7 @@ Test::~Test()
 
 void Test::on_openButton_clicked()
 {
-    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),"C:/",tr("rawvideo(*.yuv)"));
+    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv)"));
     QFileInfo file(fileStr);
     if(!fileStr.isEmpty())
     {
@@ -41,7 +41,7 @@ void Test::on_openButton_clicked()
 
 void Test::on_openButton_2_clicked()
 {
-    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),"C:/",tr("rawvideo(*.yuv)"));
+    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv)"));
     QFileInfo file(fileStr);
     if(!fileStr.isEmpty())
     {
@@ -274,5 +274,10 @@ void Test::msvdResultReady()
         this->close();
     }
 
+}
+
+void Test::setHomeFolder(QString folder)
+{
+    homeFolder=folder;
 }
 
