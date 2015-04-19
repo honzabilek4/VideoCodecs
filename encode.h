@@ -35,6 +35,8 @@ private slots:
 
     QStringList getArguments();
 
+    void on_saveButton_clicked();
+
 signals:
 
     void updateTextOutput(const QString text);
@@ -44,6 +46,9 @@ private:
     QProcess* ffmpeg;
     QString ffmpegOutput;
     QString fileStr;
+    QString saveDir;
+    QString fileName;
+
 
 
 };

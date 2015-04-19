@@ -29,7 +29,7 @@ Test::~Test()
 
 void Test::on_openButton_clicked()
 {
-    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"));
+    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),"C:/",tr("rawvideo(*.yuv)"));
     QFileInfo file(fileStr);
     if(!fileStr.isEmpty())
     {
@@ -41,7 +41,7 @@ void Test::on_openButton_clicked()
 
 void Test::on_openButton_2_clicked()
 {
-    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"));
+    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),"C:/",tr("rawvideo(*.yuv)"));
     QFileInfo file(fileStr);
     if(!fileStr.isEmpty())
     {
@@ -88,15 +88,20 @@ void Test::on_runButton_clicked()
         QFuture<double**> future=QtConcurrent::run(psnr,&PsnrClass::computePSNR,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
         watcher.setFuture(future);
 
+        emit updateOutput("PSNR started");
+
     }
     if(ui->ssimBox->isChecked())
     {
 
         ssim=new SsimClass(ui->windowSizeBox->value(),ui->stepSizeBox->value());
+
         connect (&watcher_2,SIGNAL(finished()),SLOT(ssimResultReady()));
         QFuture<double*> future = QtConcurrent::run(ssim,&SsimClass::computeSsim,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
 
         watcher_2.setFuture(future);
+
+        emit updateOutput("SSIM started");
 
     }
     if(ui->msvdBox->isChecked())
@@ -106,6 +111,8 @@ void Test::on_runButton_clicked()
         connect (&watcher_3,SIGNAL(finished()),SLOT(msvdResultReady()));
         QFuture<double*> future = QtConcurrent::run(msvd,&MsvdClass::computeMsvd,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
         watcher_3.setFuture(future);
+
+        emit updateOutput("MSVD started");
     }
     if(!(watcher.isRunning()|| watcher_2.isRunning()|| watcher_3.isRunning()))
     {
@@ -125,11 +132,14 @@ void Test::on_cancelButton_clicked()
     {
         if(psnr!=NULL)
             psnr->_abort=true;
+        emit updateOutput("PSNR canceled");
         if(ssim!=NULL)
             ssim->_abort=true;
+        emit updateOutput("SSIM canceled");
         if(msvd!=NULL)
             msvd->_abort=true;
         ui->runButton->setEnabled(true);
+        emit updateOutput("MSVD canceled");
     }
     else
     {
@@ -176,6 +186,11 @@ void Test::psnrResultReady()
                 emit psnrReady(psnrList);
         }
 
+        if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
+        {
+            this->close();
+        }
+
 }
 void Test::ssimResultReady()
 {
@@ -211,6 +226,10 @@ void Test::ssimResultReady()
 
     if(!ssimList.isEmpty())
         emit ssimReady(ssimList);
+    }
+    if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
+    {
+        this->close();
     }
 
 }
@@ -249,6 +268,10 @@ void Test::msvdResultReady()
 
         if(!msvdList.isEmpty())
             emit msvdReady(msvdList);
+    }
+    if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
+    {
+        this->close();
     }
 
 }

@@ -177,7 +177,7 @@ double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int
 		}
 
 		msvdArray[frameNumber] = msvd / size;			//store msvd for frame
-        std::cout << msvd/size << std::endl;
+        std::cout <<frameNumber<<": " <<msvd/size << std::endl;
 		frameNumber++;
 	}
 	return msvdArray;

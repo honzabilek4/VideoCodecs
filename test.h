@@ -41,6 +41,7 @@ signals:
     void psnrReady(QList<double>);
     void ssimReady(QList<double>);
     void msvdReady(QList<double>);
+    void updateOutput(QString);
 
 private:
     Ui::Test *ui;

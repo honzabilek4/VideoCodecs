@@ -21,6 +21,8 @@ private slots:
 
     void setOutputText(const QString);
 
+    void setStandardOutputText(const QString);
+
     void setPsnr(QList<double>);
     void setSsim(QList<double>);
     void setMsvd(QList<double>);
@@ -34,12 +36,22 @@ private slots:
     void on_actionExit_triggered();
 
 
+    void on_actionExport_CSV_triggered();
+
 private:
     Ui::MainWindow *ui;
 
     double getAverage(QList<double>);
     double getMax(QList<double>);
     double getMin(QList<double>);
+
+    QList<double> psnrRes;
+    QList<double> ssimRes;
+    QList<double> msvdRes;
+
+    double avgPsnr;
+    double avgSsim;
+    double avgMsvd;
 
 };
 

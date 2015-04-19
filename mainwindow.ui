@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>430</width>
-    <height>391</height>
+    <height>409</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,13 +24,13 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>230</y>
+      <y>240</y>
       <width>391</width>
       <height>91</height>
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -234,14 +234,22 @@
      <string>About</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menuHelp">
+   <widget class="QMenu" name="menuResults">
     <property name="title">
-     <string>Help</string>
+     <string>Results</string>
     </property>
+    <addaction name="actionExport_CSV"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionGeneral_settings"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuResults"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuAbout"/>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -276,6 +284,16 @@
    </property>
    <property name="toolTip">
     <string>Test</string>
+   </property>
+  </action>
+  <action name="actionExport_CSV">
+   <property name="text">
+    <string>Export CSV</string>
+   </property>
+  </action>
+  <action name="actionGeneral_settings">
+   <property name="text">
+    <string>General settings</string>
    </property>
   </action>
  </widget>

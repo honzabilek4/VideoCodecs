@@ -21,11 +21,24 @@ Encode::~Encode()
 
 void Encode::on_cancelButton_clicked()
 {
-   this->close();
+    this->close();
 }
 
 void Encode::on_runButton_clicked()
 {
+    if(fileStr.isEmpty())
+    {
+        QMessageBox msgBox;
+        msgBox.setText(QString::fromStdString("Please select file."));
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+        return;
+    }
+    if(fileName.isEmpty())
+    {
+        QFileInfo file(fileStr);
+        fileName=file.absolutePath()+"/";
+    }
     ffmpeg=new QProcess(this);
     QString program ="ffmpeg.exe";      //program must be placed into same directory as VideoCodecs.exe
     connect(ffmpeg, SIGNAL(started()), this, SLOT(processStarted()));
@@ -47,7 +60,7 @@ void Encode::readyReadStandardOutput(){
 
     ffmpegOutput.append(ffmpeg->readAllStandardOutput());
 
-   emit updateTextOutput(ffmpegOutput);
+    emit updateTextOutput(ffmpegOutput);
 
 }
 void Encode::readyReadStandardError(){
@@ -67,7 +80,7 @@ void Encode::encodingFinished(){
 
 void Encode::on_browseButton_clicked()
 {
-    fileStr = QFileDialog::getOpenFileName(this,tr("Open file"));
+    fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),"C:/",tr("rawvideo(*.yuv)"));
     QFileInfo file(fileStr);
     if(!fileStr.isEmpty()){
         ui->fileLabel->setText(file.fileName());
@@ -77,36 +90,76 @@ void Encode::on_browseButton_clicked()
 
 QStringList Encode::getArguments(){
     QStringList arguments;
-
-    QString dimensions = ui->widthEdit->text()+ "x" + ui->heightEdit->text();
     QString codec;
-    QString fileName;
+    QString dimensions;
+    QStringList quality;
+    QString framerate;
+
+    dimensions= ui->widthEdit->text()+ "x" + ui->heightEdit->text();
     QFileInfo file(fileStr);
+    fileName.append(file.fileName());
     int value=ui->comboBox_Codec->currentIndex();
     switch (value) {
     case 0:
         codec="libx264";
-        fileName=file.absoluteFilePath() + "_ecoded.h264";
+        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k" + "_encoded.h264");
         break;
     case 1:
         codec="libx265";
-        fileName=file.absoluteFilePath() + "_ecoded.h265";
+        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded.h265");
+        break;
     case 2:
         codec="libvpx";
-        fileName=file.absoluteFilePath() + "_ecoded.vp8";
+        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded_vp8.webm");
         break;
     case 3:
         codec="libvpx-vp9";
-        fileName=file.absoluteFilePath() + "_ecoded.vp9";
+        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded_vp9.webm");
         break;
     default:
         codec="libx264";
-        fileName=file.absoluteFilePath() + "_ecoded.h264";
+        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded.h264");
         break;
     }
+    if(ui->radioButton_CBR->isChecked())
+    {
+        QString value=QString::number(ui->cbrEdit->value())+"k";
+        QString value2=QString::number(ui->cbrEdit->value()/2)+"k";
+        quality.append("-b:v");
+        quality.append(value);
+        quality.append("-minrate");
+        quality.append(value);
+        quality.append("-maxrate");
+        quality.append(value);
+        quality.append("-bufsize");
+        quality.append(value2);
+    }
+    else{
+        quality.append("-crf");
+        quality.append(QString::number(ui->crfEdit->value()));
+    }
 
+    framerate=QString::number(ui->fpsBox->value());
 
-    arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<"25"<<"-i"<<fileStr<<"-c:v"<<codec<<"-f"<<"rawvideo"<<fileName;
+    if(codec=="libx264"||codec=="libx265")
+    {
+    arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-f"<<"rawvideo"<<fileName;
+    }
+    else
+    {
+       arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-c:a"<<"libavorbis"<<fileName;
+    }
+
     return arguments;
 }
 
+
+void Encode::on_saveButton_clicked()
+{
+    fileName= QFileDialog::getExistingDirectory(this,tr("Save To"));
+    if(!fileName.isEmpty())
+    {
+        fileName.append("/");
+    }
+
+}
