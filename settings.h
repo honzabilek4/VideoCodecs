@@ -27,6 +27,8 @@ private slots:
 
     void on_buttonBox_accepted();
 
+    void loadSettings();
+
 signals:
     void setFolders(const QString, const QString);
 

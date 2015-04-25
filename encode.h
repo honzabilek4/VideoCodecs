@@ -32,17 +32,22 @@ private slots:
 
     void encodingFinished();
 
+    void firstPassFinished();
+
     void on_browseButton_clicked();
 
-    QStringList getArguments();
+    void loadSettings();
 
     void on_saveButton_clicked();
 
     void on_comboBox_Codec_currentIndexChanged(int index);
 
+    QStringList getArguments(int pass);
+
 signals:
 
     void updateTextOutput(const QString text);
+    void toggleUi();
 
 private:
     Ui::Encode *ui;
@@ -50,8 +55,15 @@ private:
     QString ffmpegOutput;
     QString fileStr;
     QString saveDir;
-    QString fileName;
+    QString saveFileName;
     QString homeFolder;
+    QString program;
+    QStringList arguments;
+    QString codec;
+    QString dimensions;
+    QStringList quality;
+    QString framerate;
+    QString preset;
 
 
 };

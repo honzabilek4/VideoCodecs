@@ -19,9 +19,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    folderName="C:/";
-    testFolderName="C:/";
 }
 
 MainWindow::~MainWindow()
@@ -39,16 +36,17 @@ void MainWindow::on_actionEncode_triggered()
 {
     Encode* e= new Encode(this);
     connect(e,SIGNAL(updateTextOutput(const QString)),this,SLOT(setStandardOutputText(const QString)));
-    e->setHomeFolder(folderName);
-    e->show();
+    connect(e,SIGNAL(toggleUi()),this,SLOT(toggleUi()));
+    e->exec();
 }
 
 void MainWindow::on_actionDecode_triggered()
 {
     Decode* d = new Decode(this);
     connect(d,SIGNAL(updateTextOutput(const QString)),this,SLOT(setStandardOutputText(const QString)));
-    d->setHomeFolder(folderName);
-    d->show();
+    connect(d,SIGNAL(toggleUi()),this,SLOT(toggleUi()));
+
+    d->exec();
 }
 
 void MainWindow::on_actionTest_triggered()
@@ -59,8 +57,6 @@ void MainWindow::on_actionTest_triggered()
     connect(t,SIGNAL(ssimReady(QList<double>)),this,SLOT(setSsim(QList<double>)));
     connect(t,SIGNAL(msvdReady(QList<double>)),this,SLOT(setMsvd(QList<double>)));
     connect(t,SIGNAL(updateOutput(const QString)),this,SLOT(setOutputText(const QString)));
-
-    t->setHomeFolder(testFolderName);
 
     psnrRes.clear();
     ssimRes.clear();
@@ -92,7 +88,7 @@ void MainWindow::setStandardOutputText(const QString text)
 {
     ui->textOutput->setText(text);
     ui->textOutput->verticalScrollBar()->setSliderPosition(
-                ui->textOutput->verticalScrollBar()->maximum());
+               ui->textOutput->verticalScrollBar()->maximum());
 }
 
 void MainWindow::setPsnr(QList<double> psnrList)
@@ -210,21 +206,18 @@ void MainWindow::on_actionExport_CSV_triggered()
 
         }
         file.close();
-        ui->textOutput->append("File "+exportFileName +" was created");
+        ui->textOutput->append("File "+ exportFileName +" was created");
     }
 }
 
 void MainWindow::on_actionGeneral_settings_triggered()
 {
     Settings* s = new Settings(this);
-    connect(s,SIGNAL(setFolders(const QString,const QString)),this,SLOT(updateHomeFolders(QString,QString)));
-    s->setFolderName(folderName);
-    s->setTestFolderName(testFolderName);
-    s->show();
+    s->exec();
 }
 
-void MainWindow::updateHomeFolders(const QString folder,const QString testFolder)
+void MainWindow::toggleUi()
 {
-    folderName=folder;
-    testFolderName=testFolder;
+   ui->menuBar->setEnabled(!ui->menuBar->isEnabled());
+   ui->mainToolBar->setEnabled(!ui->mainToolBar->isEnabled());
 }

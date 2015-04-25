@@ -15,7 +15,6 @@ class Decode : public QDialog
 public:
     explicit Decode(QWidget *parent = 0);
     ~Decode();
-    void setHomeFolder(QString);
 
 private slots:
     void on_cancelButton_clicked();
@@ -36,9 +35,14 @@ private slots:
 
     void on_saveButton_clicked();
 
+    void loadSettings();
+
+
 signals:
 
     void updateTextOutput(const QString text);
+
+    void toggleUi();
 
 private:
     Ui::Decode *ui;

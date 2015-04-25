@@ -4,12 +4,14 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSettings>
 
 Encode::Encode(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Encode)
 {
     ui->setupUi(this);
+    loadSettings();
 }
 
 Encode::~Encode()
@@ -18,6 +20,11 @@ Encode::~Encode()
 }
 
 
+void Encode::loadSettings()
+{
+    QSettings settings;
+    homeFolder=settings.value("workFolder","C:/").toString();
+}
 
 void Encode::on_cancelButton_clicked()
 {
@@ -34,20 +41,31 @@ void Encode::on_runButton_clicked()
         msgBox.exec();
         return;
     }
-    if(fileName.isEmpty())
+    this->hide();
+    emit toggleUi();
+    if(saveFileName.isEmpty())
     {
         QFileInfo file(fileStr);
-        fileName=file.absolutePath()+"/";
+        saveFileName=file.absolutePath()+"/";
     }
     ffmpeg=new QProcess(this);
-    QString program ="ffmpeg.exe";      //program must be placed into same directory as VideoCodecs.exe
-    connect(ffmpeg, SIGNAL(started()), this, SLOT(processStarted()));
+    program ="ffmpeg.exe";      //program must be placed into same directory as VideoCodecs.exe
+    connect(ffmpeg, SIGNAL(started()),this, SLOT(processStarted()));
     connect(ffmpeg,SIGNAL(readyReadStandardOutput()),this,SLOT(readyReadStandardOutput()));
     connect(ffmpeg,SIGNAL(readyReadStandardError()),this,SLOT(readyReadStandardError()));
-    connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(encodingFinished()));
-    ffmpeg->start(program,getArguments());
-    this->hide();
-    //ffmpeg->waitForFinished();
+
+
+    if(!ui->methodBox->isChecked())
+    {
+        connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(encodingFinished()));
+        ffmpeg->start(program,getArguments(0));
+    }
+    else
+    {
+        connect(ffmpeg,SIGNAL(finished(int)),this,SLOT(firstPassFinished()));
+        ffmpeg->start(program,getArguments(1));
+    }
+
 
 }
 
@@ -74,9 +92,16 @@ void Encode::encodingFinished(){
     msgBox.setText("Encoding has finished.");
     msgBox.setIcon(QMessageBox::Information);
     msgBox.exec();
+    emit toggleUi();
     this->close();
 }
 
+void Encode::firstPassFinished(){
+    disconnect(ffmpeg, SIGNAL(finished(int)), this, SLOT(firstPassFinished()));
+    connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(encodingFinished()));
+
+    ffmpeg->start(program,getArguments(2));
+}
 
 void Encode::on_browseButton_clicked()
 {
@@ -88,85 +113,141 @@ void Encode::on_browseButton_clicked()
 
 }
 
-QStringList Encode::getArguments(){
-    QStringList arguments;
-    QString codec;
-    QString dimensions;
-    QStringList quality;
-    QString framerate;
+QStringList Encode::getArguments(int pass){
 
-    dimensions= ui->widthEdit->text()+ "x" + ui->heightEdit->text();
-    QFileInfo file(fileStr);
-    fileName.append(file.fileName());
-    int value=ui->comboBox_Codec->currentIndex();
-    switch (value) {
+    if(pass<2)
+
+    {
+        dimensions= ui->widthEdit->text()+ "x" + ui->heightEdit->text();
+
+        QFileInfo file(fileStr);
+        saveFileName.append(file.fileName());
+        int value=ui->comboBox_Codec->currentIndex();
+        switch (value) {
+        case 0:
+            codec="libx264";
+            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k" + "_encoded.h264");
+            break;
+        case 1:
+            codec="libx265";
+            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded.h265");
+            break;
+        case 2:
+            codec="libvpx";
+            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded_vp8.webm");
+            break;
+        case 3:
+            codec="libvpx-vp9";
+            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded_vp9.webm");
+            break;
+        default:
+            codec="libx264";
+            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded.h264");
+            break;
+        }
+
+        if(ui->radioButton_CBR->isChecked())
+        {
+            QString value=QString::number(ui->cbrEdit->value())+"k";
+            QString value2=QString::number(ui->cbrEdit->value()*2)+"k";
+            quality.append("-b:v");
+            quality.append(value);
+            quality.append("-minrate");
+            quality.append(value);
+            quality.append("-maxrate");
+            quality.append(value);
+            quality.append("-bufsize");
+            quality.append(value2);
+        }
+        else if(ui->radioButton_AVG->isChecked())
+        {
+            quality.append("-b:v");
+            QString value=QString::number(ui->avgBox->value())+"k";
+            quality.append(value);
+            quality.append("-minrate");
+            value=QString::number(ui->minBox->value())+"k";
+            quality.append(value);
+            quality.append("-maxrate");
+            value=QString::number(ui->maxBox->value())+"k";
+            quality.append(value);
+            quality.append("-bufsize");
+            value=QString::number(ui->avgBox->value()*2)+"k";
+            quality.append(value);
+        }
+        else{
+            quality.append("-crf");
+            quality.append(QString::number(ui->crfEdit->value()));
+        }
+
+        framerate=QString::number(ui->fpsBox->value());
+
+        if(ui->presetBox->isEnabled())
+        {
+            ui->presetBox->currentIndex()==3 ? preset="medium" : preset=ui->presetBox->currentText();
+
+        }
+    }
+
+    switch(pass) {
+
     case 0:
-        codec="libx264";
-        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k" + "_encoded.h264");
+        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<"-preset"<<preset<<quality<<"-f"<<"rawvideo"<<saveFileName\
+                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<saveFileName;
         break;
     case 1:
-        codec="libx265";
-        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded.h265");
+        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<"-preset"<<preset<<quality<<"-pass"<<"1"<<"-f"<<"rawvideo"<<"NUL"\
+                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"1"<<saveFileName;
         break;
     case 2:
-        codec="libvpx";
-        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded_vp8.webm");
+        arguments.clear();
+        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<"-preset"<<preset<<quality<<"-pass"<<"2"<<"-f"<<"rawvideo"<<saveFileName\
+                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"2"<<saveFileName;
         break;
-    case 3:
-        codec="libvpx-vp9";
-        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded_vp9.webm");
-        break;
-    default:
-        codec="libx264";
-        fileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded.h264");
-        break;
-    }
-    if(ui->radioButton_CBR->isChecked())
-    {
-        QString value=QString::number(ui->cbrEdit->value())+"k";
-        QString value2=QString::number(ui->cbrEdit->value()/2)+"k";
-        quality.append("-b:v");
-        quality.append(value);
-        quality.append("-minrate");
-        quality.append(value);
-        quality.append("-maxrate");
-        quality.append(value);
-        quality.append("-bufsize");
-        quality.append(value2);
-    }
-    else{
-        quality.append("-crf");
-        quality.append(QString::number(ui->crfEdit->value()));
-    }
 
-    framerate=QString::number(ui->fpsBox->value());
 
-    if(codec=="libx264"||codec=="libx265")
-    {
-    arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-f"<<"rawvideo"<<fileName;
     }
-    else
-    {
-       arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-c:a"<<"libavorbis"<<fileName;
-    }
-
     return arguments;
 }
 
 
 void Encode::on_saveButton_clicked()
 {
-    fileName= QFileDialog::getExistingDirectory(this,tr("Save To"),homeFolder);
-    if(!fileName.isEmpty())
+    QString folder;
+    if(saveFileName.isEmpty())
     {
-        fileName.append("/");
+        if(!fileStr.isEmpty())
+        {
+            switch (ui->comboBox_Codec->currentIndex())
+            {
+            case 0:
+                folder=fileStr + "_encoded.h264";
+                break;
+            case 1:
+                folder=fileStr + "_encoded.h265";
+                break;
+            case 2:
+                folder=fileStr + "_encoded_vp8.webm";
+                break;
+            case 3:
+                folder=fileStr + "_encoded_vp9.webm";
+                break;
+            }
+        }
+        else
+        {
+            folder=homeFolder;
+        }
+    }
+    else
+    {
+        folder=saveFileName;
+    }
+    saveFileName= QFileDialog::getSaveFileName(this,tr("Save To"),folder);
+    if(!saveFileName.isEmpty())
+    {
+        saveFileName.append("/");
     }
 
-}
-
-void Encode::setHomeFolder(QString folder)
-{
-    homeFolder=folder;
 }
 
 void Encode::on_comboBox_Codec_currentIndexChanged(int index)
@@ -175,16 +256,21 @@ void Encode::on_comboBox_Codec_currentIndexChanged(int index)
 
     case 0:
         ui->saveFileLabel->setText("*_encoded.h264");
+        ui->presetBox->setEnabled(true);
         break;
     case 1:
         ui->saveFileLabel->setText("*_encoded.h265");
+        ui->presetBox->setEnabled(true);
         break;
     case 2:
         ui->saveFileLabel->setText("*_encoded_vp8.webm");
+        ui->presetBox->setEnabled(false);
         break;
     case 3:
         ui->saveFileLabel->setText("*_encoded_vp9.webm");
+        ui->presetBox->setEnabled(false);
         break;
 
     }
 }
+

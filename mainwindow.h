@@ -41,7 +41,7 @@ private slots:
 
     void on_actionGeneral_settings_triggered();
 
-    void updateHomeFolders(const QString, const QString);
+    void toggleUi();
 
 private:
     Ui::MainWindow *ui;
@@ -57,9 +57,6 @@ private:
     double avgPsnr;
     double avgSsim;
     double avgMsvd;
-
-    QString folderName;
-    QString testFolderName;
 
 };
 

@@ -130,7 +130,10 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="presetBox">
+      <property name="currentIndex">
+       <number>3</number>
+      </property>
       <item>
        <property name="text">
         <string>veryslow</string>
@@ -148,7 +151,7 @@
       </item>
       <item>
        <property name="text">
-        <string>medium</string>
+        <string>medium (default)</string>
        </property>
       </item>
       <item>
@@ -279,7 +282,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>22</x>
@@ -348,16 +351,25 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QRadioButton" name="radioButton">
+     <widget class="QRadioButton" name="radioButton_AVG">
       <property name="text">
        <string>Avg:</string>
       </property>
      </widget>
     </item>
     <item row="1" column="2">
-     <widget class="QSpinBox" name="spinBox">
+     <widget class="QSpinBox" name="avgBox">
       <property name="enabled">
        <bool>false</bool>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>99999</number>
+      </property>
+      <property name="value">
+       <number>1000</number>
       </property>
      </widget>
     </item>
@@ -382,7 +394,7 @@
      </widget>
     </item>
     <item row="2" column="2">
-     <widget class="QSpinBox" name="spinBox_2">
+     <widget class="QSpinBox" name="minBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -391,6 +403,15 @@
         <width>50</width>
         <height>0</height>
        </size>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>99999</number>
+      </property>
+      <property name="value">
+       <number>500</number>
       </property>
      </widget>
     </item>
@@ -415,7 +436,7 @@
      </widget>
     </item>
     <item row="3" column="2">
-     <widget class="QSpinBox" name="spinBox_3">
+     <widget class="QSpinBox" name="maxBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -424,6 +445,15 @@
         <width>50</width>
         <height>0</height>
        </size>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>99999</number>
+      </property>
+      <property name="value">
+       <number>1500</number>
       </property>
      </widget>
     </item>
@@ -481,7 +511,7 @@
      </widget>
     </item>
     <item row="5" column="1">
-     <widget class="QCheckBox" name="checkBox_3">
+     <widget class="QCheckBox" name="methodBox">
       <property name="text">
        <string>2 passes</string>
       </property>
@@ -497,17 +527,13 @@
   <zorder>browseButton</zorder>
   <zorder>saveButton</zorder>
   <zorder>saveFileLabel</zorder>
-  <zorder>label_11</zorder>
-  <zorder>label_8</zorder>
-  <zorder>checkBox_3</zorder>
-  <zorder>label_6</zorder>
  </widget>
  <tabstops>
   <tabstop>widthEdit</tabstop>
   <tabstop>heightEdit</tabstop>
   <tabstop>comboBox_Codec</tabstop>
   <tabstop>comboBox_3</tabstop>
-  <tabstop>comboBox</tabstop>
+  <tabstop>presetBox</tabstop>
   <tabstop>radioButton_CRF</tabstop>
   <tabstop>crfEdit</tabstop>
   <tabstop>runButton</tabstop>
@@ -550,7 +576,7 @@
   <connection>
    <sender>radioButton_CBR</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinBox</receiver>
+   <receiver>avgBox</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -566,7 +592,7 @@
   <connection>
    <sender>radioButton_CRF</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinBox</receiver>
+   <receiver>avgBox</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -582,7 +608,7 @@
   <connection>
    <sender>radioButton_CBR</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinBox_2</receiver>
+   <receiver>minBox</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -598,7 +624,7 @@
   <connection>
    <sender>radioButton_CBR</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinBox_3</receiver>
+   <receiver>maxBox</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -614,7 +640,7 @@
   <connection>
    <sender>radioButton_CRF</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinBox_2</receiver>
+   <receiver>minBox</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -630,7 +656,7 @@
   <connection>
    <sender>radioButton_CRF</sender>
    <signal>toggled(bool)</signal>
-   <receiver>spinBox_3</receiver>
+   <receiver>maxBox</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -644,7 +670,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>radioButton</sender>
+   <sender>radioButton_AVG</sender>
    <signal>toggled(bool)</signal>
    <receiver>crfEdit</receiver>
    <slot>setDisabled(bool)</slot>
@@ -660,7 +686,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>radioButton</sender>
+   <sender>radioButton_AVG</sender>
    <signal>toggled(bool)</signal>
    <receiver>cbrEdit</receiver>
    <slot>setDisabled(bool)</slot>

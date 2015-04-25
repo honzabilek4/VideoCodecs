@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>Test</class>
  <widget class="QDialog" name="Test">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>404</width>
-    <height>363</height>
+    <height>383</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -36,7 +39,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>260</y>
+     <y>300</y>
      <width>47</width>
      <height>13</height>
     </rect>
@@ -49,7 +52,7 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>280</y>
+     <y>300</y>
      <width>281</width>
      <height>21</height>
     </rect>
@@ -217,7 +220,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>320</y>
+     <y>340</y>
      <width>221</width>
      <height>31</height>
     </rect>
@@ -237,64 +240,6 @@
      <widget class="QPushButton" name="cancelButton">
       <property name="text">
        <string>Cancel</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>220</y>
-     <width>331</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_8">
-    <item>
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Window size:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QSpinBox" name="windowSizeBox">
-      <property name="minimumSize">
-       <size>
-        <width>70</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximum">
-       <number>999</number>
-      </property>
-      <property name="value">
-       <number>16</number>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Step size:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QSpinBox" name="stepSizeBox">
-      <property name="minimumSize">
-       <size>
-        <width>70</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximum">
-       <number>999</number>
-      </property>
-      <property name="value">
-       <number>8</number>
       </property>
      </widget>
     </item>
@@ -358,6 +303,80 @@
     </item>
    </layout>
   </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>351</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>SSIM:</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>331</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Window size:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="windowSizeBox">
+       <property name="minimumSize">
+        <size>
+         <width>70</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <number>999</number>
+       </property>
+       <property name="value">
+        <number>16</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string> Step size:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="stepSizeBox">
+       <property name="minimumSize">
+        <size>
+         <width>70</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximum">
+        <number>999</number>
+       </property>
+       <property name="value">
+        <number>8</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>openButton</tabstop>
@@ -367,5 +386,22 @@
   <tabstop>cancelButton</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>ssimBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>groupBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>182</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>196</x>
+     <y>241</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

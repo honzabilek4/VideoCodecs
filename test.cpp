@@ -7,6 +7,7 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QThread>
 #include <QMessageBox>
+#include <QSettings>
 
 
 Test::Test(QWidget *parent) :
@@ -14,6 +15,7 @@ Test::Test(QWidget *parent) :
     ui(new Ui::Test)
 {
     ui->setupUi(this);
+    loadSettings();
     psnr=NULL;
     msvd=NULL;
     ssim=NULL;
@@ -26,6 +28,11 @@ Test::~Test()
 }
 
 
+void Test::loadSettings()
+{
+    QSettings settings;
+    homeFolder=settings.value("testFolder","C:/").toString();
+}
 
 void Test::on_openButton_clicked()
 {
@@ -276,8 +283,4 @@ void Test::msvdResultReady()
 
 }
 
-void Test::setHomeFolder(QString folder)
-{
-    homeFolder=folder;
-}
 

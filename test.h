@@ -19,7 +19,6 @@ class Test : public QDialog
 public:
     explicit Test(QWidget *parent = 0);
     ~Test();
-    void setHomeFolder(QString);
 
 private slots:
 
@@ -37,6 +36,9 @@ private slots:
     void ssimResultReady();
 
     void msvdResultReady();
+
+    void loadSettings();
+
 
 signals:
     void psnrReady(QList<double>);
@@ -57,6 +59,7 @@ private:
     QFutureWatcher<double*>watcher_3;
     bool msgBoxErr;
     QString homeFolder;
+
 
 };
 

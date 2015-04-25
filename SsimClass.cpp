@@ -212,10 +212,9 @@ double* SsimClass::computeSsim(const char* filename1, const char* filename2, int
 
 		}
 
-		ssimArray[frameNumber] = ssimWindow / (countX * countY);		//store average ssim for frame into array;
-        std::cout << frameNumber+1<<": " << (ssimWindow / (countX * countY)) << std::endl;
+		ssimArray[frameNumber] = ssimWindow / (countX * countY);		//store average ssim for frame into array;        
 		frameNumber++;
-
+        std::cout << frameNumber<<": " << (ssimWindow / (countX * countY)) << std::endl;
 	}
 	return ssimArray;
 

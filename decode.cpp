@@ -4,12 +4,14 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSettings>
 
 Decode::Decode(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Decode)
 {
     ui->setupUi(this);
+    loadSettings();
 }
 
 Decode::~Decode()
@@ -17,6 +19,11 @@ Decode::~Decode()
     delete ui;
 }
 
+void Decode::loadSettings()
+{
+    QSettings settings;
+    homeFolder=settings.value("workFolder","C:/").toString();
+}
 
 
 void Decode::on_cancelButton_clicked()
@@ -43,7 +50,7 @@ void Decode::on_runButton_clicked()
     connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(decodingFinished()));
     ffmpeg->start(program,getArguments());
     this->hide();
-
+    emit toggleUi();
 }
 void Decode::processStarted(){
 
@@ -71,14 +78,18 @@ void Decode::decodingFinished(){
     msgBox.setIcon(QMessageBox::Information);
     msgBox.exec();
     this->close();
+
+    emit toggleUi();
 }
 
 
 void Decode::on_browseButton_clicked()
 {
     fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder);
-    QFileInfo file(fileStr);
+
     if(!fileStr.isEmpty()){
+
+        QFileInfo file(fileStr);
         ui->label->setText(file.fileName());
     }
 }
@@ -100,16 +111,20 @@ QStringList Decode::getArguments(){
 }
 
 void Decode::on_saveButton_clicked()
-{
-    saveAsStr = QFileDialog::getSaveFileName(this,tr("Save As"),homeFolder,tr("rawvideo(*.yuv)"));
-    QFileInfo file(saveAsStr);
+{   QString folder;
+    if(saveAsStr.isEmpty())
+    {
+        fileStr.isEmpty() ? folder=homeFolder :folder=homeFolder+"/"+fileStr+"_decoded.yuv";
+    }
+    else
+    {
+        folder=saveAsStr;
+    }
+    saveAsStr = QFileDialog::getSaveFileName(this,tr("Save As"),folder,tr("rawvideo(*.yuv)"));
+
     if(!saveAsStr.isEmpty())
     {
+        QFileInfo file(saveAsStr);
         ui->label_2->setText(file.fileName());
     }
-}
-
-void Decode::setHomeFolder(QString folder)
-{
-    homeFolder=folder;
 }

@@ -176,9 +176,10 @@ double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int
 			msvd += (DkArray[i] - median) > 0 ? (DkArray[i] - median) : (median - DkArray[i]);			//absolute difference
 		}
 
-		msvdArray[frameNumber] = msvd / size;			//store msvd for frame
+        msvdArray[frameNumber] = msvd / size;//store msvd for frame
+        frameNumber++;
         std::cout <<frameNumber<<": " <<msvd/size << std::endl;
-		frameNumber++;
+
 	}
 	return msvdArray;
 }
