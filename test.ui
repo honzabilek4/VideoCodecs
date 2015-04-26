@@ -381,7 +381,14 @@
  <tabstops>
   <tabstop>openButton</tabstop>
   <tabstop>openButton_2</tabstop>
+  <tabstop>widthBox</tabstop>
+  <tabstop>heightBox</tabstop>
   <tabstop>spinBox</tabstop>
+  <tabstop>windowSizeBox</tabstop>
+  <tabstop>stepSizeBox</tabstop>
+  <tabstop>psnrBox</tabstop>
+  <tabstop>ssimBox</tabstop>
+  <tabstop>msvdBox</tabstop>
   <tabstop>runButton</tabstop>
   <tabstop>cancelButton</tabstop>
  </tabstops>

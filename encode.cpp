@@ -43,11 +43,6 @@ void Encode::on_runButton_clicked()
     }
     this->hide();
     emit toggleUi();
-    if(saveFileName.isEmpty())
-    {
-        QFileInfo file(fileStr);
-        saveFileName=file.absolutePath()+"/";
-    }
     ffmpeg=new QProcess(this);
     program ="ffmpeg.exe";      //program must be placed into same directory as VideoCodecs.exe
     connect(ffmpeg, SIGNAL(started()),this, SLOT(processStarted()));
@@ -119,31 +114,44 @@ QStringList Encode::getArguments(int pass){
 
     {
         dimensions= ui->widthEdit->text()+ "x" + ui->heightEdit->text();
-
-        QFileInfo file(fileStr);
-        saveFileName.append(file.fileName());
         int value=ui->comboBox_Codec->currentIndex();
         switch (value) {
         case 0:
             codec="libx264";
-            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k" + "_encoded.h264");
             break;
         case 1:
             codec="libx265";
-            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded.h265");
             break;
         case 2:
             codec="libvpx";
-            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded_vp8.webm");
             break;
         case 3:
             codec="libvpx-vp9";
-            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded_vp9.webm");
             break;
         default:
             codec="libx264";
-            saveFileName.append("_"+QString::number(ui->cbrEdit->value())+"k"+"_encoded.h264");
             break;
+        }
+        if(saveFileName.isEmpty())
+        {
+            QFileInfo file(fileStr);
+            saveFileName=file.absoluteFilePath();
+            switch(value)
+            {
+            case 0:
+                saveFileName.append("_encoded.h264");
+                break;
+            case 1:
+                saveFileName.append("_encoded.h265");
+                break;
+            case 2:
+                saveFileName.append("_encoded_vp8.webm");
+                break;
+            case 3:
+                saveFileName.append("_encoded_vp9.webm");
+                break;
+            }
+
         }
 
         if(ui->radioButton_CBR->isChecked())
@@ -213,6 +221,24 @@ QStringList Encode::getArguments(int pass){
 void Encode::on_saveButton_clicked()
 {
     QString folder;
+    QString filter;
+
+    switch (ui->comboBox_Codec->currentIndex())
+    {
+    case 0:
+        filter="H.264 video(*.h264)";
+        break;
+    case 1:
+        filter="H.265 video(*.h265)";
+        break;
+    case 2:
+        filter="WEBM video(*.webm)";
+        break;
+    case 3:
+        filter="WEBM video(*.webm)";
+        break;
+    }
+
     if(saveFileName.isEmpty())
     {
         if(!fileStr.isEmpty())
@@ -242,10 +268,11 @@ void Encode::on_saveButton_clicked()
     {
         folder=saveFileName;
     }
-    saveFileName= QFileDialog::getSaveFileName(this,tr("Save To"),folder);
+    saveFileName = QFileDialog::getSaveFileName(this,tr("Save To"),folder,filter);
     if(!saveFileName.isEmpty())
     {
-        saveFileName.append("/");
+        QFileInfo file(saveFileName);
+        ui->saveFileLabel->setText(file.fileName());
     }
 
 }
@@ -257,18 +284,22 @@ void Encode::on_comboBox_Codec_currentIndexChanged(int index)
     case 0:
         ui->saveFileLabel->setText("*_encoded.h264");
         ui->presetBox->setEnabled(true);
+        saveFileName.clear();
         break;
     case 1:
         ui->saveFileLabel->setText("*_encoded.h265");
         ui->presetBox->setEnabled(true);
+        saveFileName.clear();
         break;
     case 2:
         ui->saveFileLabel->setText("*_encoded_vp8.webm");
         ui->presetBox->setEnabled(false);
+        saveFileName.clear();
         break;
     case 3:
         ui->saveFileLabel->setText("*_encoded_vp9.webm");
         ui->presetBox->setEnabled(false);
+        saveFileName.clear();
         break;
 
     }

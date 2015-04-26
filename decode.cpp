@@ -94,22 +94,6 @@ void Decode::on_browseButton_clicked()
     }
 }
 
-QStringList Decode::getArguments(){
-    QStringList arguments;
-    QFileInfo file(fileStr);
-    QString fileName;
-    if(!saveAsStr.isEmpty())
-    {
-        fileName=saveAsStr;
-    }
-    else
-    {
-        fileName=file.absoluteFilePath() + "_decoded.yuv";
-    }
-    arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<fileName;
-    return arguments;
-}
-
 void Decode::on_saveButton_clicked()
 {   QString folder;
     if(saveAsStr.isEmpty())
@@ -128,3 +112,20 @@ void Decode::on_saveButton_clicked()
         ui->label_2->setText(file.fileName());
     }
 }
+
+QStringList Decode::getArguments(){
+    QStringList arguments;
+    QFileInfo file(fileStr);
+    QString fileName;
+    if(!saveAsStr.isEmpty())
+    {
+        fileName=saveAsStr;
+    }
+    else
+    {
+        fileName=file.absoluteFilePath() + "_decoded.yuv";
+    }
+    arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<fileName;
+    return arguments;
+}
+

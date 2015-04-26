@@ -108,6 +108,12 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>toolButton</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>toolButton_2</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
