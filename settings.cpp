@@ -21,7 +21,7 @@ void Settings::on_toolButton_clicked()
     QString file=QFileDialog::getExistingDirectory(this,tr("Select folder"),"C:/",QFileDialog::ShowDirsOnly);
     if(!file.isEmpty())
     {
-        folderName=file;
+        folderName=file+"/";
         ui->lineEdit->setText(folderName);
     }
 }
@@ -31,7 +31,7 @@ void Settings::on_toolButton_2_clicked()
     QString file=QFileDialog::getExistingDirectory(this,tr("Select folder"),"C:/",QFileDialog::ShowDirsOnly);
     if(!file.isEmpty())
     {
-    testFolderName=file;
+    testFolderName=file+"/";
     ui->lineEdit_2->setText(testFolderName);
     }
 }

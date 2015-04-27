@@ -50,15 +50,15 @@ void Encode::on_runButton_clicked()
     connect(ffmpeg,SIGNAL(readyReadStandardError()),this,SLOT(readyReadStandardError()));
 
 
-    if(!ui->methodBox->isChecked())
-    {
-        connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(encodingFinished()));
-        ffmpeg->start(program,getArguments(0));
-    }
-    else
+    if(ui->methodBox->isChecked()&&ui->methodBox->isEnabled())
     {
         connect(ffmpeg,SIGNAL(finished(int)),this,SLOT(firstPassFinished()));
         ffmpeg->start(program,getArguments(1));
+    }
+    else
+    {
+        connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(encodingFinished()));
+        ffmpeg->start(program,getArguments(0));
     }
 
 
@@ -132,6 +132,9 @@ QStringList Encode::getArguments(int pass){
             codec="libx264";
             break;
         }
+
+        framerate=QString::number(ui->fpsBox->value());
+
         if(saveFileName.isEmpty())
         {
             QFileInfo file(fileStr);
@@ -139,10 +142,10 @@ QStringList Encode::getArguments(int pass){
             switch(value)
             {
             case 0:
-                saveFileName.append("_encoded.h264");
+                saveFileName.append("_encoded_h264.mp4");
                 break;
             case 1:
-                saveFileName.append("_encoded.h265");
+                saveFileName.append("_encoded_h265.mp4");
                 break;
             case 2:
                 saveFileName.append("_encoded_vp8.webm");
@@ -187,11 +190,27 @@ QStringList Encode::getArguments(int pass){
             quality.append(QString::number(ui->crfEdit->value()));
         }
 
-        framerate=QString::number(ui->fpsBox->value());
+        if(ui->speedBox->isEnabled())
+        {
+            quality.append("-speed");
+            quality.append(QString::number(ui->speedBox->currentIndex()));
+        }
+
+        if(ui->profileBox->isEnabled() && (ui->profileBox->currentIndex()!=0))
+        {
+            presets.append("-profile:v");
+            presets.append(ui->profileBox->currentText().toLower());
+            if(ui->levelBox->isEnabled())
+            {
+                presets.append("-level");
+                presets.append(ui->levelBox->currentText());
+            }
+        }
 
         if(ui->presetBox->isEnabled())
         {
-            ui->presetBox->currentIndex()==3 ? preset="medium" : preset=ui->presetBox->currentText();
+            presets.append("-preset");
+            ui->presetBox->currentIndex()==3 ? presets.append("medium") : presets.append(ui->presetBox->currentText());
 
         }
     }
@@ -199,16 +218,16 @@ QStringList Encode::getArguments(int pass){
     switch(pass) {
 
     case 0:
-        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<"-preset"<<preset<<quality<<"-f"<<"rawvideo"<<saveFileName\
+        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<saveFileName\
                                                          : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<saveFileName;
         break;
     case 1:
-        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<"-preset"<<preset<<quality<<"-pass"<<"1"<<"-f"<<"rawvideo"<<"NUL"\
+        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<"rawvideo"<<"NUL"\
                                                          : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"1"<<saveFileName;
         break;
     case 2:
         arguments.clear();
-        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<"-preset"<<preset<<quality<<"-pass"<<"2"<<"-f"<<"rawvideo"<<saveFileName\
+        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"2"<<saveFileName\
                                                          : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"2"<<saveFileName;
         break;
 
@@ -226,10 +245,10 @@ void Encode::on_saveButton_clicked()
     switch (ui->comboBox_Codec->currentIndex())
     {
     case 0:
-        filter="H.264 video(*.h264)";
+        filter="MP4 video(*.mp4)";
         break;
     case 1:
-        filter="H.265 video(*.h265)";
+        filter="MP4 video(*.mp4)";
         break;
     case 2:
         filter="WEBM video(*.webm)";
@@ -246,10 +265,10 @@ void Encode::on_saveButton_clicked()
             switch (ui->comboBox_Codec->currentIndex())
             {
             case 0:
-                folder=fileStr + "_encoded.h264";
+                folder=fileStr + "_encoded_h264.mp4";
                 break;
             case 1:
-                folder=fileStr + "_encoded.h265";
+                folder=fileStr + "_encoded_h265.mp4";
                 break;
             case 2:
                 folder=fileStr + "_encoded_vp8.webm";
@@ -282,26 +301,53 @@ void Encode::on_comboBox_Codec_currentIndexChanged(int index)
     switch (index){
 
     case 0:
-        ui->saveFileLabel->setText("*_encoded.h264");
+        ui->saveFileLabel->setText("*_encoded_h264.mp4");
         ui->presetBox->setEnabled(true);
+        ui->profileBox->setEnabled(true);
         saveFileName.clear();
+        ui->crfEdit->setMaximum(51);
+        ui->speedBox->setEnabled(false);
         break;
     case 1:
-        ui->saveFileLabel->setText("*_encoded.h265");
+        ui->saveFileLabel->setText("*_encoded_h265.mp4");
         ui->presetBox->setEnabled(true);
+        ui->profileBox->setEnabled(false);
         saveFileName.clear();
+        ui->crfEdit->setMaximum(51);
+        ui->speedBox->setEnabled(false);
         break;
     case 2:
         ui->saveFileLabel->setText("*_encoded_vp8.webm");
         ui->presetBox->setEnabled(false);
+        ui->profileBox->setEnabled(false);
         saveFileName.clear();
+        ui->crfEdit->setMaximum(64);
+        ui->speedBox->setEnabled(false);
         break;
     case 3:
         ui->saveFileLabel->setText("*_encoded_vp9.webm");
         ui->presetBox->setEnabled(false);
+        ui->profileBox->setEnabled(false);
         saveFileName.clear();
+        ui->crfEdit->setMaximum(64);
+        ui->speedBox->setEnabled(true);
         break;
 
     }
 }
 
+
+void Encode::on_profileBox_currentIndexChanged(int index)
+{
+    if(index==0)
+    {
+        ui->levelBox->setEnabled(false);
+        ui->presetBox->setEnabled(true);
+    }
+    else
+    {
+        ui->levelBox->setEnabled(true);
+        ui->presetBox->setEnabled(false);
+    }
+
+}

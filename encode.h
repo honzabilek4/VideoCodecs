@@ -44,6 +44,8 @@ private slots:
 
     QStringList getArguments(int pass);
 
+    void on_profileBox_currentIndexChanged(int index);
+
 signals:
 
     void updateTextOutput(const QString text);
@@ -63,7 +65,7 @@ private:
     QString dimensions;
     QStringList quality;
     QString framerate;
-    QString preset;
+    QStringList presets; //holds profile and preset
 
 
 };
