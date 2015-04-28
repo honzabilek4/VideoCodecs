@@ -43,6 +43,8 @@ private slots:
 
     void toggleUi();
 
+    void on_actionShow_Graph_triggered();
+
 private:
     Ui::MainWindow *ui;
 

@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = VideoCodecs
 TEMPLATE = app
@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     encode.cpp \
     decode.cpp \
     test.cpp \
-    settings.cpp
+    settings.cpp \
+    qcustomplot.cpp \
+    graph.cpp
 
 HEADERS  += mainwindow.h \
     PsnrClass.h \
@@ -46,13 +48,16 @@ HEADERS  += mainwindow.h \
     encode.h \
     decode.h \
     test.h \
-    settings.h
+    settings.h \
+    qcustomplot.h \
+    graph.h
 
 FORMS    += mainwindow.ui \
     encode.ui \
     decode.ui \
     test.ui \
-    settings.ui
+    settings.ui \
+    graph.ui
 
 RESOURCES += \
     images.qrc

@@ -12,6 +12,7 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QSettings>
+#include <graph.h>
 
 
 
@@ -221,4 +222,11 @@ void MainWindow::toggleUi()
 {
    ui->menuBar->setEnabled(!ui->menuBar->isEnabled());
    ui->mainToolBar->setEnabled(!ui->mainToolBar->isEnabled());
+}
+
+void MainWindow::on_actionShow_Graph_triggered()
+{
+  Graph* g  = new Graph(this);
+
+  g->show();
 }
