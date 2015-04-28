@@ -11,10 +11,22 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>445</width>
+    <height>479</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>445</width>
+    <height>479</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Encode</string>
@@ -176,6 +188,11 @@
       <item>
        <property name="text">
         <string>VP9</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Dirac 2.2</string>
        </property>
       </item>
      </widget>
@@ -565,7 +582,7 @@
     <item row="1" column="1">
      <widget class="QRadioButton" name="radioButton_AVG">
       <property name="text">
-       <string>ABR:</string>
+       <string>Avg:</string>
       </property>
      </widget>
     </item>

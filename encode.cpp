@@ -24,6 +24,8 @@ void Encode::loadSettings()
 {
     QSettings settings;
     homeFolder=settings.value("workFolder","C:/").toString();
+    ui->widthEdit->setText(settings.value("encode/width","").toString());
+    ui->heightEdit->setText(settings.value("encode/height","").toString());
 }
 
 void Encode::on_cancelButton_clicked()
@@ -61,6 +63,9 @@ void Encode::on_runButton_clicked()
         ffmpeg->start(program,getArguments(0));
     }
 
+    QSettings settings;
+    settings.setValue("encode/width",ui->widthEdit->text());
+    settings.setValue("encode/height",ui->heightEdit->text());
 
 }
 
@@ -100,9 +105,11 @@ void Encode::firstPassFinished(){
 
 void Encode::on_browseButton_clicked()
 {
-    fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv)"));
-    QFileInfo file(fileStr);
-    if(!fileStr.isEmpty()){
+    QString tempFile = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv)"));
+    if(!tempFile.isEmpty())
+    {
+        fileStr=tempFile;
+        QFileInfo file(fileStr);
         ui->fileLabel->setText(file.fileName());
     }
 
@@ -128,8 +135,8 @@ QStringList Encode::getArguments(int pass){
         case 3:
             codec="libvpx-vp9";
             break;
-        default:
-            codec="libx264";
+        case 4:
+            codec="libschroedinger";
             break;
         }
 
@@ -152,6 +159,9 @@ QStringList Encode::getArguments(int pass){
                 break;
             case 3:
                 saveFileName.append("_encoded_vp9.webm");
+                break;
+            case 4:
+                saveFileName.append("_encoded_dirac.mkv");
                 break;
             }
 
@@ -219,7 +229,7 @@ QStringList Encode::getArguments(int pass){
 
     case 0:
         (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<saveFileName\
-                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<saveFileName;
+                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-t"<<"3"<<saveFileName;
         break;
     case 1:
         (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<"rawvideo"<<"NUL"\
@@ -256,6 +266,9 @@ void Encode::on_saveButton_clicked()
     case 3:
         filter="WEBM video(*.webm)";
         break;
+    case 4:
+        filter="MATROSKA video(*.mkv)";
+        break;
     }
 
     if(saveFileName.isEmpty())
@@ -276,6 +289,9 @@ void Encode::on_saveButton_clicked()
             case 3:
                 folder=fileStr + "_encoded_vp9.webm";
                 break;
+            case 4:
+                folder=fileStr + "_encoded_dirac.mkv";
+                break;
             }
         }
         else
@@ -287,9 +303,10 @@ void Encode::on_saveButton_clicked()
     {
         folder=saveFileName;
     }
-    saveFileName = QFileDialog::getSaveFileName(this,tr("Save To"),folder,filter);
-    if(!saveFileName.isEmpty())
+    QString tempFileName = QFileDialog::getSaveFileName(this,tr("Save To"),folder,filter);
+    if(!tempFileName.isEmpty())
     {
+        saveFileName=tempFileName;
         QFileInfo file(saveFileName);
         ui->saveFileLabel->setText(file.fileName());
     }
@@ -305,6 +322,7 @@ void Encode::on_comboBox_Codec_currentIndexChanged(int index)
         ui->presetBox->setEnabled(true);
         ui->profileBox->setEnabled(true);
         saveFileName.clear();
+        ui->radioButton_CRF->setEnabled(true);
         ui->crfEdit->setMaximum(51);
         ui->speedBox->setEnabled(false);
         break;
@@ -313,6 +331,7 @@ void Encode::on_comboBox_Codec_currentIndexChanged(int index)
         ui->presetBox->setEnabled(true);
         ui->profileBox->setEnabled(false);
         saveFileName.clear();
+        ui->radioButton_CRF->setEnabled(true);
         ui->crfEdit->setMaximum(51);
         ui->speedBox->setEnabled(false);
         break;
@@ -321,6 +340,7 @@ void Encode::on_comboBox_Codec_currentIndexChanged(int index)
         ui->presetBox->setEnabled(false);
         ui->profileBox->setEnabled(false);
         saveFileName.clear();
+        ui->radioButton_CRF->setEnabled(true);
         ui->crfEdit->setMaximum(64);
         ui->speedBox->setEnabled(false);
         break;
@@ -329,9 +349,21 @@ void Encode::on_comboBox_Codec_currentIndexChanged(int index)
         ui->presetBox->setEnabled(false);
         ui->profileBox->setEnabled(false);
         saveFileName.clear();
+        ui->radioButton_CRF->setEnabled(true);
         ui->crfEdit->setMaximum(64);
         ui->speedBox->setEnabled(true);
         break;
+    case 4:
+        ui->saveFileLabel->setText("*_encoded_dirac.mkv");
+        ui->presetBox->setEnabled(false);
+        ui->profileBox->setEnabled(false);
+        saveFileName.clear();
+        ui->radioButton_CRF->setEnabled(false);
+        ui->speedBox->setEnabled(false);
+        if(ui->radioButton_CRF->isChecked())
+        {
+            ui->radioButton_CBR->setChecked(true);
+        }
 
     }
 }

@@ -32,6 +32,9 @@ void Test::loadSettings()
 {
     QSettings settings;
     homeFolder=settings.value("testFolder","C:/").toString();
+    ui->widthBox->setValue(settings.value("test/width").toInt());
+    ui->heightBox->setValue(settings.value("test/height").toInt());
+    ui->frameBox->setValue(settings.value("test/frames",100).toInt());
 }
 
 void Test::on_openButton_clicked()
@@ -86,7 +89,7 @@ void Test::on_runButton_clicked()
         return;
     }
 
-    int maxFrame=ui->spinBox->value();
+    int maxFrame=ui->frameBox->value();
 
     if(ui->psnrBox->isChecked())
     {
@@ -130,6 +133,11 @@ void Test::on_runButton_clicked()
         ui->runButton->setEnabled(true);
     }
 
+    QSettings settings;
+    settings.setValue("test/width",QString::number(ui->widthBox->value()));
+    settings.setValue("test/height",QString::number(ui->heightBox->value()));
+    settings.setValue("test/frames",QString::number(ui->frameBox->value()));
+
 
 }
 
@@ -152,7 +160,6 @@ void Test::on_cancelButton_clicked()
     {
         this->close();
     }
-
 
 }
 
@@ -184,7 +191,7 @@ void Test::psnrResultReady()
         else
         {
             QList<double> psnrList;
-            for(int i=0;i<(ui->spinBox->value());i++)
+            for(int i=0;i<(ui->frameBox->value());i++)
             {
                 psnrList.append(array[i][0]);
             }
@@ -226,7 +233,7 @@ void Test::ssimResultReady()
     else
     {
         QList<double> ssimList;
-    for(int i=0;i<(ui->spinBox->value());i++)
+    for(int i=0;i<(ui->frameBox->value());i++)
     {
         ssimList.append(array[i]);
     }
@@ -268,7 +275,7 @@ void Test::msvdResultReady()
     else
     {
         QList<double> msvdList;
-        for(int i=0;i<(ui->spinBox->value());i++)
+        for(int i=0;i<(ui->frameBox->value());i++)
         {
             msvdList.append(array[i]);
         }

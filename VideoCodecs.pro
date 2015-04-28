@@ -55,7 +55,7 @@ FORMS    += mainwindow.ui \
     settings.ui
 
 RESOURCES += \
-    resources.qrc
+    images.qrc
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lopencv_core2410
@@ -63,3 +63,5 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lopencv_core2410d
 
 INCLUDEPATH += $$PWD/include
 DEPENDPATH += $$PWD/include
+
+DISTFILES +=

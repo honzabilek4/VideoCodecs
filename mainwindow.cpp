@@ -11,6 +11,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QSettings>
 
 
 
