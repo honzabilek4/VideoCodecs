@@ -5,7 +5,6 @@
 #include <QDebug>
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
-#include <QThread>
 #include <QMessageBox>
 #include <QSettings>
 
@@ -190,14 +189,14 @@ void Test::psnrResultReady()
         }
         else
         {
-            QList<double> psnrList;
+            QVector<double> psnrVector;
             for(int i=0;i<(ui->frameBox->value());i++)
             {
-                psnrList.append(array[i][0]);
+                psnrVector.append(array[i][0]);
             }
 
-            if(!psnrList.isEmpty())
-                emit psnrReady(psnrList);
+            if(!psnrVector.isEmpty())
+                emit psnrReady(psnrVector);
         }
 
         if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
@@ -232,14 +231,14 @@ void Test::ssimResultReady()
     }
     else
     {
-        QList<double> ssimList;
+        QVector<double> ssimVector;
     for(int i=0;i<(ui->frameBox->value());i++)
     {
-        ssimList.append(array[i]);
+        ssimVector.append(array[i]);
     }
 
-    if(!ssimList.isEmpty())
-        emit ssimReady(ssimList);
+    if(!ssimVector.isEmpty())
+        emit ssimReady(ssimVector);
     }
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {
@@ -274,14 +273,14 @@ void Test::msvdResultReady()
     }
     else
     {
-        QList<double> msvdList;
+        QVector<double> msvdVector;
         for(int i=0;i<(ui->frameBox->value());i++)
         {
-            msvdList.append(array[i]);
+            msvdVector.append(array[i]);
         }
 
-        if(!msvdList.isEmpty())
-            emit msvdReady(msvdList);
+        if(!msvdVector.isEmpty())
+            emit msvdReady(msvdVector);
     }
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {

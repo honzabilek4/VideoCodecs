@@ -6,7 +6,7 @@
 #include "SsimClass.h"
 #include "MsvdClass.h"
 #include <QFutureWatcher>
-#include <QList>
+#include <QVector>
 
 namespace Ui {
 class Test;
@@ -41,9 +41,9 @@ private slots:
 
 
 signals:
-    void psnrReady(QList<double>);
-    void ssimReady(QList<double>);
-    void msvdReady(QList<double>);
+    void psnrReady(QVector<double>);
+    void ssimReady(QVector<double>);
+    void msvdReady(QVector<double>);
     void updateOutput(QString);
 
 private:
@@ -53,7 +53,6 @@ private:
     PsnrClass* psnr;
     SsimClass* ssim;
     MsvdClass* msvd;
-    QThread* psnrThread;
     QFutureWatcher<double**>watcher;
     QFutureWatcher<double*>watcher_2;
     QFutureWatcher<double*>watcher_3;

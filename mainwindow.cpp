@@ -55,9 +55,9 @@ void MainWindow::on_actionTest_triggered()
 {
     Test* t = new Test(this);
 
-    connect(t,SIGNAL(psnrReady(QList<double>)),this,SLOT(setPsnr(QList<double>)));
-    connect(t,SIGNAL(ssimReady(QList<double>)),this,SLOT(setSsim(QList<double>)));
-    connect(t,SIGNAL(msvdReady(QList<double>)),this,SLOT(setMsvd(QList<double>)));
+    connect(t,SIGNAL(psnrReady(QVector<double>)),this,SLOT(setPsnr(QVector<double>)));
+    connect(t,SIGNAL(ssimReady(QVector<double>)),this,SLOT(setSsim(QVector<double>)));
+    connect(t,SIGNAL(msvdReady(QVector<double>)),this,SLOT(setMsvd(QVector<double>)));
     connect(t,SIGNAL(updateOutput(const QString)),this,SLOT(setOutputText(const QString)));
 
     psnrRes.clear();
@@ -90,74 +90,74 @@ void MainWindow::setStandardOutputText(const QString text)
 {
     ui->textOutput->setText(text);
     ui->textOutput->verticalScrollBar()->setSliderPosition(
-               ui->textOutput->verticalScrollBar()->maximum());
+                ui->textOutput->verticalScrollBar()->maximum());
 }
 
-void MainWindow::setPsnr(QList<double> psnrList)
+void MainWindow::setPsnr(QVector<double> psnrVector)
 {
-    avgPsnr=getAverage(psnrList);
+    avgPsnr=getAverage(psnrVector);
     ui->label_7->setText(QString::number(avgPsnr));
-    double maxPsnr=getMax(psnrList);
+    double maxPsnr=getMax(psnrVector);
     ui->label_10->setText(QString::number(maxPsnr));
-    double minPsnr=getMin(psnrList);
+    double minPsnr=getMin(psnrVector);
     ui->label_13->setText(QString::number(minPsnr));
 
-    psnrRes=psnrList;
+    psnrRes=psnrVector;
     psnrRes.prepend(avgPsnr);
     ui->textOutput->append("PSNR finished");
 
 
 }
-void MainWindow::setSsim(QList<double> ssimList)
+void MainWindow::setSsim(QVector<double> ssimVector)
 {
-    avgSsim=getAverage(ssimList);
+    avgSsim=getAverage(ssimVector);
     ui->label_8->setText(QString::number(avgSsim));
-    double maxSsim=getMax(ssimList);
+    double maxSsim=getMax(ssimVector);
     ui->label_11->setText(QString::number(maxSsim));
-    double minSsim=getMin(ssimList);
+    double minSsim=getMin(ssimVector);
     ui->label_14->setText(QString::number(minSsim));
 
-    ssimRes=ssimList;
+    ssimRes=ssimVector;
     ssimRes.prepend(avgSsim);
 
     ui->textOutput->append("SSIM finished");
 }
 
-void MainWindow::setMsvd(QList<double> msvdList)
+void MainWindow::setMsvd(QVector<double> msvdVector)
 {
-    avgMsvd=getAverage(msvdList);
+    avgMsvd=getAverage(msvdVector);
     ui->label_9->setText(QString::number(avgMsvd));
-    double maxMsvd=getMax(msvdList);
+    double maxMsvd=getMax(msvdVector);
     ui->label_15->setText(QString::number(maxMsvd));
-    double minMsvd=getMin(msvdList);
+    double minMsvd=getMin(msvdVector);
     ui->label_12->setText(QString::number(minMsvd));
 
-    msvdRes=msvdList;
+    msvdRes=msvdVector;
     msvdRes.prepend(avgMsvd);
 
     ui->textOutput->append("MSVD finished");
 }
 
-double MainWindow::getAverage(QList<double> list)
+double MainWindow::getAverage(QVector<double> vector)
 {
     double avg=0;
-    foreach (double d, list)
+    foreach (double d, vector)
     {
         avg+=d;
     }
-    avg=avg/list.length();
+    avg=avg/vector.length();
     return avg;
 }
 
-double MainWindow::getMax(QList<double> list)
+double MainWindow::getMax(QVector<double> vector)
 {
 
-    double max = *std::max_element(list.begin(), list.end());
+    double max = *std::max_element(vector.begin(), vector.end());
     return max;
 }
-double MainWindow::getMin(QList<double> list)
+double MainWindow::getMin(QVector<double> vector)
 {
-    double min = *std::min_element(list.begin(), list.end());
+    double min = *std::min_element(vector.begin(), vector.end());
     return min;
 }
 
@@ -220,13 +220,15 @@ void MainWindow::on_actionGeneral_settings_triggered()
 
 void MainWindow::toggleUi()
 {
-   ui->menuBar->setEnabled(!ui->menuBar->isEnabled());
-   ui->mainToolBar->setEnabled(!ui->mainToolBar->isEnabled());
+    ui->menuBar->setEnabled(!ui->menuBar->isEnabled());
+    ui->mainToolBar->setEnabled(!ui->mainToolBar->isEnabled());
 }
 
 void MainWindow::on_actionShow_Graph_triggered()
 {
-  Graph* g  = new Graph(this);
+    Graph* g_psnr  = new Graph(this);
+    connect(this,SIGNAL(sendResults(QVector<double>,QString)),g_psnr,SLOT(showGraph(QVector<double>,QString)));
+    emit sendResults(psnrRes,"psnr");
+    g_psnr->show();
 
-  g->show();
 }

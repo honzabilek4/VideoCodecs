@@ -6,8 +6,7 @@ Graph::Graph(QWidget *parent) :
     ui(new Ui::Graph)
 {
     ui->setupUi(this);
-    setPlot(ui->customPlot);
-
+    //setPlot(ui->customPlot);
 
 }
 
@@ -36,3 +35,37 @@ void Graph::setPlot(QCustomPlot* customPlot)
     customPlot->yAxis->setRange(0, 1);
     customPlot->replot();
 }
+
+void Graph::showGraph(QVector<double> vector,QString method)
+{
+    QVector<double> x(vector.length());
+    for(int i=1;i<vector.length();i++)
+    {
+        x[i]=i;
+    }
+    ui->customPlot->addGraph();
+    ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,6));
+    ui->customPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+    ui->customPlot->graph(0)->setData(x,vector);
+
+    if(method=="psnr")
+    {
+        ui->customPlot->xAxis->setLabel("x");
+        ui->customPlot->yAxis->setLabel("y");
+        ui->customPlot->xAxis->setRange(1,x.length());
+        ui->customPlot->yAxis->setRange(30,50);
+    }
+    else if (method=="ssim")
+    {
+
+    }
+    else if (method=="msvd")
+    {
+
+    }
+
+
+    ui->customPlot->replot();
+
+}
+

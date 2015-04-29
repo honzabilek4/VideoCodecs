@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QList>
+#include <QVector>
 #include <QMainWindow>
 
 
@@ -23,11 +23,11 @@ private slots:
 
     void setStandardOutputText(const QString);
 
-    void setPsnr(QList<double>);
+    void setPsnr(QVector<double>);
 
-    void setSsim(QList<double>);
+    void setSsim(QVector<double>);
 
-    void setMsvd(QList<double>);
+    void setMsvd(QVector<double>);
 
     void on_actionEncode_triggered();
 
@@ -45,16 +45,19 @@ private slots:
 
     void on_actionShow_Graph_triggered();
 
+signals:
+    void sendResults(QVector<double>,QString);
+
 private:
     Ui::MainWindow *ui;
 
-    double getAverage(QList<double>);
-    double getMax(QList<double>);
-    double getMin(QList<double>);
+    double getAverage(QVector<double>);
+    double getMax(QVector<double>);
+    double getMin(QVector<double>);
 
-    QList<double> psnrRes;
-    QList<double> ssimRes;
-    QList<double> msvdRes;
+    QVector<double> psnrRes;
+    QVector<double> ssimRes;
+    QVector<double> msvdRes;
 
     double avgPsnr;
     double avgSsim;
