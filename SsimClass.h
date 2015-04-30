@@ -21,7 +21,7 @@ private:
 	double sigma12;
 	const double k1 = 0.01;
 	const double k2 = 0.03;
-	double ssimWindow = 0;
+    double ssimWindow;
 	int L;
 	double c1;
 	double c2;

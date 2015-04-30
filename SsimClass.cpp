@@ -1,29 +1,18 @@
 #include "SsimClass.h"
 
-double* ssimArray = NULL;
-double ssimWindow;
-
-int windowSize;
-int stepSize;
-int meanLuma1;
-int meanLuma2;
-double sigma1;
-double sigma2;
-double sigma12;
-const double k1 = 0.01;
-const double k2 = 0.03;
-int L;   //dynamic range of pixel values
-double c1;
-double c2;
-
-
 SsimClass::SsimClass()
 {
-	L = 255;
+    L = 255;
+
+
 	c1 = pow(L*k1, 2.0);
 	c2 = pow(L*k2, 2.0);
     windowSize=16;
     stepSize=8;
+
+    ssimArray=NULL;
+    ssimWindow=0;
+
 }
 
 SsimClass::SsimClass(int window,int step)
@@ -34,6 +23,9 @@ SsimClass::SsimClass(int window,int step)
 
     windowSize=window;
     stepSize=step;
+
+    ssimArray=NULL;
+    ssimWindow=0;
 }
 
 
@@ -177,8 +169,8 @@ double* SsimClass::computeSsim(const char* filename1, const char* filename2, int
         return ssimArray;
     }
 
-	int countX = ((width - windowSize) / stepSize) + 1;   //number of steps on axis
-	int countY = ((height - windowSize) / stepSize) + 1;
+    int countX = ((width - windowSize) / stepSize)+1;   //number of steps on axis
+    int countY = ((height - windowSize)/ stepSize)+1;
 
 	int frameNumber=0;
 
@@ -195,12 +187,12 @@ double* SsimClass::computeSsim(const char* filename1, const char* filename2, int
 		unsigned char *p2;
 		ssimWindow = 0;
 
-		for (int i = 0; i < (height - windowSize); i += stepSize)
+        for (int i = 0; i <= (height - windowSize); i += stepSize)
 		{
 			p1 = frame1 + i*width;
 			p2 = frame2 + i*width;
 
-			for (int j = 0; j < (width - windowSize); j += stepSize)
+            for (int j = 0; j <= (width - windowSize); j += stepSize)
 			{
 
 				ssimWindow += ssim(p1, p2, windowSize);

@@ -18,7 +18,15 @@ public:
     ~Graph();
 
 private slots:
-    void showGraph(QVector<double>,QString method);
+    void showPsnrGraph(QVector<double>);
+
+    void showSsimGraph(QVector<double>);
+
+    void showMsvdGraph(QVector<double>);
+
+    double getMin(QVector<double>);
+
+    double getMax(QVector<double>);
 
 
 private:

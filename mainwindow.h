@@ -45,8 +45,14 @@ private slots:
 
     void on_actionShow_Graph_triggered();
 
+    void resetResults();
+
 signals:
-    void sendResults(QVector<double>,QString);
+    void sendPsnrResults(QVector<double>);
+
+    void sendSsimResults(QVector<double>);
+
+    void sendMsvdResults(QVector<double>);
 
 private:
     Ui::MainWindow *ui;

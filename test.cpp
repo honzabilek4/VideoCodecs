@@ -132,6 +132,8 @@ void Test::on_runButton_clicked()
         ui->runButton->setEnabled(true);
     }
 
+    emit resetResults();
+
     QSettings settings;
     settings.setValue("test/width",QString::number(ui->widthBox->value()));
     settings.setValue("test/height",QString::number(ui->heightBox->value()));

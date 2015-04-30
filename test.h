@@ -45,6 +45,7 @@ signals:
     void ssimReady(QVector<double>);
     void msvdReady(QVector<double>);
     void updateOutput(QString);
+    void resetResults();
 
 private:
     Ui::Test *ui;

@@ -59,10 +59,8 @@ void MainWindow::on_actionTest_triggered()
     connect(t,SIGNAL(ssimReady(QVector<double>)),this,SLOT(setSsim(QVector<double>)));
     connect(t,SIGNAL(msvdReady(QVector<double>)),this,SLOT(setMsvd(QVector<double>)));
     connect(t,SIGNAL(updateOutput(const QString)),this,SLOT(setOutputText(const QString)));
+    connect(t,SIGNAL(resetResults()),this,SLOT(resetResults()));
 
-    psnrRes.clear();
-    ssimRes.clear();
-    msvdRes.clear();
 
     avgPsnr=NULL;
     avgSsim=NULL;
@@ -81,6 +79,13 @@ void MainWindow::on_actionTest_triggered()
     t->exec();
 }
 
+void MainWindow::resetResults()
+{
+    psnrRes.clear();
+    ssimRes.clear();
+    msvdRes.clear();
+}
+
 void MainWindow::setOutputText(const QString text)
 {
     ui->textOutput->append(text);
@@ -97,10 +102,10 @@ void MainWindow::setPsnr(QVector<double> psnrVector)
 {
     avgPsnr=getAverage(psnrVector);
     ui->label_7->setText(QString::number(avgPsnr));
-    double maxPsnr=getMax(psnrVector);
-    ui->label_10->setText(QString::number(maxPsnr));
     double minPsnr=getMin(psnrVector);
-    ui->label_13->setText(QString::number(minPsnr));
+    ui->label_10->setText(QString::number(minPsnr));
+    double maxPsnr=getMax(psnrVector);
+    ui->label_13->setText(QString::number(maxPsnr));
 
     psnrRes=psnrVector;
     psnrRes.prepend(avgPsnr);
@@ -112,10 +117,10 @@ void MainWindow::setSsim(QVector<double> ssimVector)
 {
     avgSsim=getAverage(ssimVector);
     ui->label_8->setText(QString::number(avgSsim));
-    double maxSsim=getMax(ssimVector);
-    ui->label_11->setText(QString::number(maxSsim));
     double minSsim=getMin(ssimVector);
-    ui->label_14->setText(QString::number(minSsim));
+    ui->label_11->setText(QString::number(minSsim));
+    double maxSsim=getMax(ssimVector);
+    ui->label_14->setText(QString::number(maxSsim));
 
     ssimRes=ssimVector;
     ssimRes.prepend(avgSsim);
@@ -166,7 +171,7 @@ void MainWindow::on_actionExport_CSV_triggered()
     if(psnrRes.isEmpty()&&ssimRes.isEmpty()&&msvdRes.isEmpty())
     {
         QMessageBox msgBox;
-        msgBox.setText("No results.");
+        msgBox.setText("There are no results.");
         msgBox.setIcon(QMessageBox::Information);
         msgBox.exec();
     }
@@ -226,9 +231,36 @@ void MainWindow::toggleUi()
 
 void MainWindow::on_actionShow_Graph_triggered()
 {
-    Graph* g_psnr  = new Graph(this);
-    connect(this,SIGNAL(sendResults(QVector<double>,QString)),g_psnr,SLOT(showGraph(QVector<double>,QString)));
-    emit sendResults(psnrRes,"psnr");
-    g_psnr->show();
+
+    if(psnrRes.isEmpty()&&ssimRes.isEmpty()&&msvdRes.isEmpty())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("There are no results.");
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.exec();
+    }
+
+    if(!psnrRes.isEmpty())
+    {
+        Graph* g_psnr  = new Graph(this);
+        connect(this,SIGNAL(sendPsnrResults(QVector<double>)),g_psnr,SLOT(showPsnrGraph(QVector<double>)));
+        emit sendPsnrResults(psnrRes);
+        g_psnr->show();
+    }
+    if(!ssimRes.isEmpty())
+    {
+        Graph* g_ssim  = new Graph(this);
+        connect(this,SIGNAL(sendSsimResults(QVector<double>)),g_ssim,SLOT(showSsimGraph(QVector<double>)));
+        emit sendSsimResults(ssimRes);
+        g_ssim->show();
+    }
+    if(!msvdRes.isEmpty())
+    {
+        Graph* g_msvd  = new Graph(this);
+        connect(this,SIGNAL(sendMsvdResults(QVector<double>)),g_msvd,SLOT(showMsvdGraph(QVector<double>)));
+        emit sendMsvdResults(msvdRes);
+        g_msvd->show();
+    }
 
 }
+
