@@ -100,6 +100,8 @@ double** PsnrClass::computePSNR(const char* filename1, const char* filename2, in
         {
             fclose(file1);
             fclose(file2);
+			free(frame1);
+			free(frame2);
             return psnrArray;
         }
         unsigned char *p1 = frame1;				//pointer to a specific frame
@@ -142,8 +144,11 @@ double** PsnrClass::computePSNR(const char* filename1, const char* filename2, in
         numberOfFrame++;	//move to next frame
     }
 
-    fclose(file1);
-    fclose(file2);
+
+	fclose(file1);
+	fclose(file2);
+	free(frame1);
+	free(frame2);
 
     return psnrArray;
 

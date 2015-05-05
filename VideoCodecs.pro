@@ -12,6 +12,7 @@ TARGET = VideoCodecs
 TEMPLATE = app
 
 
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     PsnrClass.cpp \

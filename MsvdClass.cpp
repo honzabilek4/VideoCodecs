@@ -86,7 +86,7 @@ double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int
         error= "Cannot allocate memory";
         return msvdArray;
     }
-	if ((msvdArray = (double*)calloc(maxFrame, sizeof(float))) == NULL)
+	if ((msvdArray = (double*)calloc(maxFrame, sizeof(double))) == NULL)
     {
         error= "Cannot allocate memory";
         return msvdArray;
@@ -108,8 +108,6 @@ double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int
 	int stepY = height / window;		//number of steps on axis
 
 	DkArray = new double[stepX*stepY];		//allocate Dk array
-	msvdArray = new double[maxFrame];		//allocate msvdAray
-	
 	
 	int frameNumber = 0;	
 
@@ -117,8 +115,13 @@ double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int
     {
         if(_abort)
         {
-            fclose(file1);
-            fclose(file2);
+			free(frame1);
+			free(frame2);
+			fclose(file1);
+			fclose(file2);
+			delete a;
+			delete b;
+			delete[] DkArray;
             return msvdArray;
         }
 
@@ -181,5 +184,13 @@ double* MsvdClass::computeMsvd(const char* filename1, const char* filename2, int
         std::cout <<frameNumber<<": " <<msvd/size << std::endl;
 
 	}
+
+	free (frame1);
+	free (frame2);
+	fclose(file1);
+	fclose(file2);
+	delete a;
+	delete b;
+	delete [] DkArray;
 	return msvdArray;
 }

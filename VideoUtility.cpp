@@ -1,12 +1,6 @@
 #include "VideoUtility.h"
 
 
-int frameSize;
-int width, height;
-FILE *file1;
-FILE *file2;
-unsigned char *frame1;
-unsigned char *frame2;
 VideoUtility::VideoUtility()
 {
 }

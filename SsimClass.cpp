@@ -180,6 +180,8 @@ double* SsimClass::computeSsim(const char* filename1, const char* filename2, int
         {
             fclose(file1);
             fclose(file2);
+			free(frame1);
+			free(frame2);
             return ssimArray;
         }
 
@@ -208,6 +210,10 @@ double* SsimClass::computeSsim(const char* filename1, const char* filename2, int
 		frameNumber++;
         std::cout << frameNumber<<": " << (ssimWindow / (countX * countY)) << std::endl;
 	}
+	fclose(file1);
+	fclose(file2);
+	free(frame1);
+	free(frame2);
 	return ssimArray;
 
 }

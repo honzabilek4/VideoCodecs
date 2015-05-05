@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.4.0, 2015-04-30T14:58:47. -->
+<!-- Written by QtCreator 3.4.0, 2015-05-05T13:00:36. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -58,9 +58,9 @@
  <data>
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.4.1 MSVC2013 OpenGL 32bit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.4.1 MSVC2013 OpenGL 32bit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.54.win32_msvc2013_opengl_kit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.4.1 MSVC2013 32bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 5.4.1 MSVC2013 32bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.54.win32_msvc2013_kit</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>

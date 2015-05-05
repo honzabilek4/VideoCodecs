@@ -43,6 +43,14 @@ void Encode::on_runButton_clicked()
         msgBox.exec();
         return;
     }
+    if(ui->radioButton_AVG->isEnabled()&& ((ui->avgBox->value() < ui->minBox->value())||(ui->avgBox->value()>ui->maxBox->value())))
+    {
+        QMessageBox msgBox;
+        msgBox.setText(QString::fromStdString("Wrong bitrate values."));
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+        return;
+    }
     this->hide();
     emit toggleUi();
     ffmpeg=new QProcess(this);
@@ -138,6 +146,12 @@ QStringList Encode::getArguments(int pass){
         case 4:
             codec="libschroedinger";
             break;
+        case 5:
+            codec="flv";
+            break;
+        case 6:
+            codec="wmv2";
+            break;
         }
 
         framerate=QString::number(ui->fpsBox->value());
@@ -163,6 +177,13 @@ QStringList Encode::getArguments(int pass){
             case 4:
                 saveFileName.append("_encoded_dirac.mkv");
                 break;
+            case 5:
+                saveFileName.append("_encoded_flash.flv");
+                break;
+            case 6:
+                saveFileName.append("_encoded_wmv8.wmv");
+                break;
+
             }
 
         }
@@ -229,7 +250,7 @@ QStringList Encode::getArguments(int pass){
 
     case 0:
         (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<saveFileName\
-                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-t"<<"3"<<saveFileName;
+                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<saveFileName;
         break;
     case 1:
         (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<"rawvideo"<<"NUL"\
@@ -269,6 +290,12 @@ void Encode::on_saveButton_clicked()
     case 4:
         filter="MATROSKA video(*.mkv)";
         break;
+    case 5:
+        filter="Flash Video(*.flv)";
+        break;
+    case 6:
+        filter="Windows Media Video(*.wmv)";
+        break;
     }
 
     if(saveFileName.isEmpty())
@@ -291,6 +318,12 @@ void Encode::on_saveButton_clicked()
                 break;
             case 4:
                 folder=fileStr + "_encoded_dirac.mkv";
+                break;
+            case 5:
+                folder=fileStr + "_encoded_flash.flv";
+                break;
+            case 6:
+                folder=fileStr + "_encoded_wmv8.wmv";
                 break;
             }
         }
@@ -364,6 +397,32 @@ void Encode::on_comboBox_Codec_currentIndexChanged(int index)
         {
             ui->radioButton_CBR->setChecked(true);
         }
+        break;
+
+    case 5:
+        ui->saveFileLabel->setText("*_encoded_flash.flv");
+        ui->presetBox->setEnabled(false);
+        ui->profileBox->setEnabled(false);
+        saveFileName.clear();
+        ui->radioButton_CRF->setEnabled(false);
+        ui->speedBox->setEnabled(false);
+        if(ui->radioButton_CRF->isChecked())
+        {
+            ui->radioButton_CBR->setChecked(true);
+        }
+        break;
+    case 6:
+        ui->saveFileLabel->setText("*_encoded_wmv8.wmv");
+        ui->presetBox->setEnabled(false);
+        ui->profileBox->setEnabled(false);
+        saveFileName.clear();
+        ui->radioButton_CRF->setEnabled(false);
+        ui->speedBox->setEnabled(false);
+        if(ui->radioButton_CRF->isChecked())
+        {
+            ui->radioButton_CBR->setChecked(true);
+        }
+        break;
 
     }
 }

@@ -13,6 +13,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <graph.h>
+//#include <vld.h> //Visual Studio only
 
 
 
@@ -245,6 +246,7 @@ void MainWindow::on_actionShow_Graph_triggered()
         Graph* g_psnr  = new Graph(this);
         connect(this,SIGNAL(sendPsnrResults(QVector<double>)),g_psnr,SLOT(showPsnrGraph(QVector<double>)));
         emit sendPsnrResults(psnrRes);
+        g_psnr->move(50,100);
         g_psnr->show();
     }
     if(!ssimRes.isEmpty())
@@ -252,6 +254,7 @@ void MainWindow::on_actionShow_Graph_triggered()
         Graph* g_ssim  = new Graph(this);
         connect(this,SIGNAL(sendSsimResults(QVector<double>)),g_ssim,SLOT(showSsimGraph(QVector<double>)));
         emit sendSsimResults(ssimRes);
+        g_ssim->move(75,125);
         g_ssim->show();
     }
     if(!msvdRes.isEmpty())
@@ -259,6 +262,7 @@ void MainWindow::on_actionShow_Graph_triggered()
         Graph* g_msvd  = new Graph(this);
         connect(this,SIGNAL(sendMsvdResults(QVector<double>)),g_msvd,SLOT(showMsvdGraph(QVector<double>)));
         emit sendMsvdResults(msvdRes);
+        g_msvd->move(100,150);
         g_msvd->show();
     }
 

@@ -19,11 +19,15 @@ Test::Test(QWidget *parent) :
     msvd=NULL;
     ssim=NULL;
     msgBoxErr=false;
+
 }
 
 Test::~Test()
 {
     delete ui;
+	delete ssim;
+	delete psnr;
+	delete msvd;
 }
 
 
@@ -146,16 +150,23 @@ void Test::on_cancelButton_clicked()
 {
     if(watcher.isRunning()|| watcher_2.isRunning()|| watcher_3.isRunning())
     {
-        if(psnr!=NULL)
-            psnr->_abort=true;
-        emit updateOutput("PSNR canceled");
-        if(ssim!=NULL)
-            ssim->_abort=true;
-        emit updateOutput("SSIM canceled");
-        if(msvd!=NULL)
-            msvd->_abort=true;
+		if (psnr != NULL)
+		{
+			psnr->_abort = true;
+			emit updateOutput("PSNR canceled");
+		}
+		if (ssim != NULL)
+		{
+			ssim->_abort = true;
+			emit updateOutput("SSIM canceled");
+		}
+		if (msvd != NULL)
+		{
+			msvd->_abort = true;
+			emit updateOutput("MSVD canceled");
+		}
         ui->runButton->setEnabled(true);
-        emit updateOutput("MSVD canceled");
+        
     }
     else
     {
@@ -187,7 +198,13 @@ void Test::psnrResultReady()
         double** array=watcher.future().result();
         if((!psnr->error.empty())||psnr->_abort)
         {
-            return;
+			for (int i = 0; i < (ui->frameBox->value()); i++)
+			{
+				delete[] array[i];
+			}
+			delete[] array;
+            
+			return;
         }
         else
         {
@@ -195,11 +212,14 @@ void Test::psnrResultReady()
             for(int i=0;i<(ui->frameBox->value());i++)
             {
                 psnrVector.append(array[i][0]);
+				delete[] array[i];
             }
 
             if(!psnrVector.isEmpty())
                 emit psnrReady(psnrVector);
         }
+
+        delete[] array;
 
         if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
         {
@@ -229,6 +249,7 @@ void Test::ssimResultReady()
     double* array=watcher_2.future().result();
     if((!ssim->error.empty())||ssim->_abort)
     {
+		free(array);
         return;
     }
     else
@@ -242,6 +263,8 @@ void Test::ssimResultReady()
     if(!ssimVector.isEmpty())
         emit ssimReady(ssimVector);
     }
+    free(array);
+
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {
         this->close();
@@ -271,6 +294,7 @@ void Test::msvdResultReady()
     double* array=watcher_3.future().result();
     if((!msvd->error.empty())||msvd->_abort)
     {
+		free(array);
         return;
     }
     else
@@ -284,6 +308,9 @@ void Test::msvdResultReady()
         if(!msvdVector.isEmpty())
             emit msvdReady(msvdVector);
     }
+
+    free(array);
+
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {
         this->close();

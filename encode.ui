@@ -195,6 +195,16 @@
         <string>Dirac 2.2</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>Flash Video</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>WMV8</string>
+       </property>
+      </item>
      </widget>
     </item>
     <item row="1" column="0">

@@ -1,0 +1,36 @@
+﻿Build started 5. 5. 2015 12:51:48.
+     1>Project "C:\Users\Jan\Documents\VideoCodecs\VideoCodecs.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I. /Iinclude /I..\..\..\..\Qt\5.4\msvc2013\include /I..\..\..\..\Qt\5.4\msvc2013\include\QtPrintSupport /I..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets /I..\..\..\..\Qt\5.4\msvc2013\include\QtGui /I..\..\..\..\Qt\5.4\msvc2013\include\QtANGLE /I..\..\..\..\Qt\5.4\msvc2013\include\QtCore /Idebug /I. /I"..\..\..\..\Qt\5.4\msvc2013\mkspecs\win32-msvc2012" /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W3 /WX- /Od /Oy- /D _WINDOWS /D UNICODE /D WIN32 /D QT_PRINTSUPPORT_LIB /D QT_WIDGETS_LIB /D QT_GUI_LIB /D QT_CORE_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"debug\\" /Fd"debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt -Zm200 -w34100 -w34189 MsvdClass.cpp PsnrClass.cpp SsimClass.cpp test.cpp
+         MsvdClass.cpp
+         PsnrClass.cpp
+         SsimClass.cpp
+         test.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"debug\\VideoCodecs.exe" /NOLOGO /LIBPATH:C:\Qt\5.4\msvc2013\lib /LIBPATH:C:\Users\Jan\Documents\VideoCodecs\lib\ /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win32" C:\Qt\5.4\msvc2013\lib\qtmaind.lib shell32.lib C:\Users\Jan\Documents\VideoCodecs\lib\\opencv_core2410d.lib C:\Qt\5.4\msvc2013\lib\Qt5PrintSupportd.lib C:\Qt\5.4\msvc2013\lib\Qt5Widgetsd.lib C:\Qt\5.4\msvc2013\lib\Qt5Guid.lib C:\Qt\5.4\msvc2013\lib\Qt5Cored.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"debug\VideoCodecs.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /SAFESEH "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" debug\MsvdClass.obj
+         debug\PsnrClass.obj
+         debug\SsimClass.obj
+         debug\VideoUtility.obj
+         debug\decode.obj
+         debug\encode.obj
+         debug\graph.obj
+         debug\main.obj
+         debug\mainwindow.obj
+         debug\qcustomplot.obj
+         debug\settings.obj
+         debug\test.obj
+         debug\moc_decode.obj
+         debug\moc_encode.obj
+         debug\moc_graph.obj
+         debug\moc_mainwindow.obj
+         debug\moc_qcustomplot.obj
+         debug\moc_settings.obj
+         debug\moc_test.obj
+         debug\qrc_images.obj
+         VideoCodecs.vcxproj -> C:\Users\Jan\Documents\VideoCodecs\debug\VideoCodecs.exe
+     1>Done Building Project "C:\Users\Jan\Documents\VideoCodecs\VideoCodecs.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:09.54
