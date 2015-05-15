@@ -47,6 +47,9 @@ private slots:
 
     void resetResults();
 
+
+    void on_actionChannel_triggered();
+
 signals:
     void sendPsnrResults(QVector<double>);
 

@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     test.cpp \
     settings.cpp \
     qcustomplot.cpp \
-    graph.cpp
+    graph.cpp \
+    BerClass.cpp \
+    channel.cpp
 
 HEADERS  += mainwindow.h \
     PsnrClass.h \
@@ -51,14 +53,17 @@ HEADERS  += mainwindow.h \
     test.h \
     settings.h \
     qcustomplot.h \
-    graph.h
+    graph.h \
+    BerClass.h \
+    channel.h
 
 FORMS    += mainwindow.ui \
     encode.ui \
     decode.ui \
     test.ui \
     settings.ui \
-    graph.ui
+    graph.ui \
+    channel.ui
 
 RESOURCES += \
     images.qrc

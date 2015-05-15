@@ -273,6 +273,7 @@
     <addaction name="actionDecode"/>
     <addaction name="actionEncode"/>
     <addaction name="actionTest"/>
+    <addaction name="actionChannel"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -321,6 +322,7 @@
    <addaction name="actionEncode"/>
    <addaction name="actionDecode"/>
    <addaction name="actionTest"/>
+   <addaction name="actionChannel"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
@@ -359,6 +361,11 @@
   <action name="actionShow_Graph">
    <property name="text">
     <string>Show Graph</string>
+   </property>
+  </action>
+  <action name="actionChannel">
+   <property name="text">
+    <string>Channel</string>
    </property>
   </action>
  </widget>

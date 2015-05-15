@@ -37,6 +37,7 @@ public:
     QAction *actionExport_CSV;
     QAction *actionGeneral_settings;
     QAction *actionShow_Graph;
+    QAction *actionChannel;
     QWidget *centralWidget;
     QTextBrowser *textOutput;
     QLabel *label_16;
@@ -95,6 +96,8 @@ public:
         actionGeneral_settings->setObjectName(QStringLiteral("actionGeneral_settings"));
         actionShow_Graph = new QAction(MainWindow);
         actionShow_Graph->setObjectName(QStringLiteral("actionShow_Graph"));
+        actionChannel = new QAction(MainWindow);
+        actionChannel->setObjectName(QStringLiteral("actionChannel"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         textOutput = new QTextBrowser(centralWidget);
@@ -250,6 +253,7 @@ public:
         menuFile->addAction(actionDecode);
         menuFile->addAction(actionEncode);
         menuFile->addAction(actionTest);
+        menuFile->addAction(actionChannel);
         menuFile->addSeparator();
         menuFile->addAction(actionExit);
         menuResults->addAction(actionExport_CSV);
@@ -258,6 +262,7 @@ public:
         mainToolBar->addAction(actionEncode);
         mainToolBar->addAction(actionDecode);
         mainToolBar->addAction(actionTest);
+        mainToolBar->addAction(actionChannel);
 
         retranslateUi(MainWindow);
 
@@ -277,6 +282,7 @@ public:
         actionExport_CSV->setText(QApplication::translate("MainWindow", "Export CSV", 0));
         actionGeneral_settings->setText(QApplication::translate("MainWindow", "General...", 0));
         actionShow_Graph->setText(QApplication::translate("MainWindow", "Show Graph", 0));
+        actionChannel->setText(QApplication::translate("MainWindow", "Channel", 0));
         label_16->setText(QString());
         label->setText(QApplication::translate("MainWindow", "PSNR:", 0));
         label_7->setText(QApplication::translate("MainWindow", "-", 0));

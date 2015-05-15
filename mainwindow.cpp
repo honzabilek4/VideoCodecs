@@ -4,6 +4,7 @@
 #include "decode.h"
 #include "test.h"
 #include "settings.h"
+#include "channel.h"
 #include <QLabel>
 #include <QApplication>
 #include <QScrollBar>
@@ -13,6 +14,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <graph.h>
+
 //#include <vld.h> //Visual Studio only
 
 
@@ -268,3 +270,11 @@ void MainWindow::on_actionShow_Graph_triggered()
 
 }
 
+
+
+
+void MainWindow::on_actionChannel_triggered()
+{
+    Channel* ch=new Channel();
+    ch->exec();
+}

@@ -17,7 +17,7 @@ int VideoUtility::getFileSize(const char* filename)
 	stat(filename, &st);
 	int fileSize = st.st_size;
 	if (fileSize <= 0)
-		throw "Wrong file size or filename.";
+        throw "Wrong file size or filename.";
 	return fileSize;
 }
 
