@@ -275,6 +275,6 @@ void MainWindow::on_actionShow_Graph_triggered()
 
 void MainWindow::on_actionChannel_triggered()
 {
-    Channel* ch=new Channel();
+    Channel* ch = new Channel(this);
     ch->exec();
 }

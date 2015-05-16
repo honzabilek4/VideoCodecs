@@ -33,7 +33,7 @@ public:
     QFrame *line;
     QSpinBox *spinBox;
     QLabel *label_4;
-    QPushButton *okButton;
+    QPushButton *runButton;
     QPushButton *cancelButton;
     QLabel *label_5;
 
@@ -71,9 +71,9 @@ public:
         label_4 = new QLabel(Channel);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setGeometry(QRect(180, 130, 41, 16));
-        okButton = new QPushButton(Channel);
-        okButton->setObjectName(QStringLiteral("okButton"));
-        okButton->setGeometry(QRect(110, 190, 75, 23));
+        runButton = new QPushButton(Channel);
+        runButton->setObjectName(QStringLiteral("runButton"));
+        runButton->setGeometry(QRect(110, 190, 75, 23));
         cancelButton = new QPushButton(Channel);
         cancelButton->setObjectName(QStringLiteral("cancelButton"));
         cancelButton->setGeometry(QRect(210, 190, 75, 23));
@@ -95,7 +95,7 @@ public:
         saveLabel->setText(QApplication::translate("Channel", "Select filename", 0));
         label_3->setText(QApplication::translate("Channel", "Bit Error Rate:", 0));
         label_4->setText(QApplication::translate("Channel", "1 x 10^", 0));
-        okButton->setText(QApplication::translate("Channel", "OK", 0));
+        runButton->setText(QApplication::translate("Channel", "Run", 0));
         cancelButton->setText(QApplication::translate("Channel", "Cancel", 0));
         label_5->setText(QApplication::translate("Channel", "[-]", 0));
     } // retranslateUi

@@ -35,6 +35,8 @@ void Graph::showPsnrGraph(QVector<double> vector)
     ui->customPlot->yAxis->setLabel("PSNR[dB]");
     ui->customPlot->replot();
 
+    disconnect(parentWidget(),SIGNAL(sendPsnrResults(QVector<double>)),this,SLOT(showPsnrGraph(QVector<double>)));
+
 }
 
 void Graph::showSsimGraph(QVector<double> vector)
@@ -55,6 +57,8 @@ void Graph::showSsimGraph(QVector<double> vector)
     ui->customPlot->yAxis->setRangeUpper(1);
     ui->customPlot->yAxis->setLabel("SSIM[-]");
     ui->customPlot->replot();
+
+    disconnect(parentWidget(),SIGNAL(sendSsimResults(QVector<double>)),this,SLOT(showSsimGraph(QVector<double>)));
 }
 void Graph::showMsvdGraph(QVector<double> vector)
 {
@@ -74,6 +78,8 @@ void Graph::showMsvdGraph(QVector<double> vector)
     ui->customPlot->xAxis->setRange(1,x.length());
     ui->customPlot->yAxis->setLabel("MSVD[-]");
     ui->customPlot->replot();
+
+    disconnect(parentWidget(),SIGNAL(sendMsvdResults(QVector<double>)),this,SLOT(showMsvdGraph(QVector<double>)));
 }
 
 

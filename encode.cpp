@@ -336,7 +336,7 @@ void Encode::on_saveButton_clicked()
     {
         folder=saveFileName;
     }
-    QString tempFileName = QFileDialog::getSaveFileName(this,tr("Save To"),folder,filter);
+    QString tempFileName = QFileDialog::getSaveFileName(this,tr("Save As"),folder,filter);
     if(!tempFileName.isEmpty())
     {
         saveFileName=tempFileName;
