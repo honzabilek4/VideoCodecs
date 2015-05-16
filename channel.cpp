@@ -4,6 +4,7 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QMessageBox>
+#include "berclass.h"
 
 Channel::Channel(QWidget *parent) :
     QDialog(parent),
@@ -80,25 +81,34 @@ void Channel::on_runButton_clicked()
     {
         QFileInfo file(fileStr);
         QString suffix="." + file.suffix();
-        saveFileStr=file.baseName() + "_noised" + suffix;
+        saveFileStr=file.absolutePath()+"/"+file.baseName() + "_noised" + suffix;
     }
 
-    ffmpeg = new QProcess(this);
-    QString program ="ffmpeg.exe";
-    connect(ffmpeg,SIGNAL(started()),this,SLOT(processStarted()));
-    connect(ffmpeg,SIGNAL(readyReadStandardError()),this,SLOT(readyReadStandardError()));
-    connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(processFinished()));
-    ffmpeg->start(program,getArguments());
-    this->hide();
+    if(ui->radioButton_SER->isChecked())
+    {
+        ffmpeg = new QProcess(this);
+        QString program ="ffmpeg.exe";
+        connect(ffmpeg,SIGNAL(started()),this,SLOT(processStarted()));
+        connect(ffmpeg,SIGNAL(readyReadStandardError()),this,SLOT(readyReadStandardError()));
+        connect(ffmpeg,SIGNAL(readyReadStandardOutput()),this,SLOT(readyReadStandardOutput()));
+        connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(processFinished()));
+        ffmpeg->start(program,getArguments());
+        this->hide();
+    }
+    else
+    {
+        BerClass bc;
+        double ber= (ui->doubleSpinBox_2->value())*(pow(10,ui->spinBox_2->value()));
+        bc.simulateBer(fileStr.toStdString().c_str(),ber);
+        this->close();
+    }
 }
 
 QStringList Channel::getArguments()
 {
     QStringList arguments;
-    double ber=1*pow(10,ui->spinBox->value()*(-1));
-    QString berStr;
-    berStr=QString::number(ber,'g',99);
-    QString noise="noise=" + berStr;
+    double ber=(ui->doubleSpinBox->value())*pow(10,ui->spinBox->value()*(-1));
+    QString noise="noise=" + QString::number(ber,'g',99);
     arguments <<"-y"<<"-i"<<fileStr<<"-c:v"<<"copy"<<"-bsf"<<noise<<saveFileStr;
 
     return arguments;
@@ -109,9 +119,16 @@ void Channel::processStarted()
 
 }
 
+void Channel::readyReadStandardOutput()
+{
+    ffmpegOutput.append(ffmpeg->readAllStandardOutput());
+    emit updateTextOutput(ffmpegOutput);
+}
+
 void Channel::readyReadStandardError()
 {
-
+    ffmpegOutput.append(ffmpeg->readAllStandardError());
+    emit updateTextOutput(ffmpegOutput);
 }
 
 void Channel::processFinished()

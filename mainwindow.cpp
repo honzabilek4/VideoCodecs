@@ -276,5 +276,6 @@ void MainWindow::on_actionShow_Graph_triggered()
 void MainWindow::on_actionChannel_triggered()
 {
     Channel* ch = new Channel(this);
+    connect(ch,SIGNAL(updateTextOutput(const QString)),this,SLOT(setStandardOutputText(const QString)));
     ch->exec();
 }

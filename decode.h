@@ -51,6 +51,7 @@ private:
     QString fileStr;
     QString saveAsStr;
     QString homeFolder;
+
 };
 
 #endif // DECODE_H

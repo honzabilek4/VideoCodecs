@@ -33,7 +33,12 @@ private slots:
 
     void readyReadStandardError();
 
+    void readyReadStandardOutput();
+
     void processFinished();
+
+signals:
+    void updateTextOutput(const QString text);
 
 private:
     Ui::Channel *ui;
@@ -41,6 +46,8 @@ private:
     QString fileStr;
     QString saveFileStr;
     QProcess* ffmpeg;
+    QString ffmpegOutput;
+
     void loadSettings();
     QStringList getArguments();
 

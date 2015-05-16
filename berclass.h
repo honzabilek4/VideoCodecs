@@ -1,7 +1,6 @@
 #ifndef BERCLASS_H
 #define BERCLASS_H
 #include <iostream>
-#include <sys/stat.h>
 
 class BerClass
 {
