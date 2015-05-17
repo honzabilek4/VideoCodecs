@@ -14,6 +14,7 @@ public:
 private:
 
     FILE *file;
+    FILE *saveFile;
     int filesize;
     int getFileSize(const char* filename);
 };

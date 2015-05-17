@@ -44,7 +44,16 @@ int BerClass::simulateBer(const char* filename,const char* saveFilename, double 
 
     if(file==NULL)
     {
-        error="Cannot open file.";
+        error="Cannot open file for reading.";
+        return -1;
+    }
+
+    fopen_s(&saveFile,saveFilename,"wb");
+
+    if(saveFile==NULL)
+    {
+        error="Cannot open file for writting.";
+        fclose(file);
         return -1;
     }
 
@@ -76,29 +85,15 @@ int BerClass::simulateBer(const char* filename,const char* saveFilename, double 
                 }
                 else
                 {
-                    b = b<<1;
+                    b = b << 1;
                 }
             }
 
             *p^=b;      //modify bits
 
-            if(b!=0)
-            {
-                std::cout<<(int)b<<std::endl;
-            }
-
             p++;
             b=0;
 
-        }
-
-        FILE *saveFile;
-        fopen_s(&saveFile,saveFilename,"wb");
-
-        if(saveFile==NULL)
-        {
-            error="Cannot open file.";
-            return -1;
         }
 
         fwrite(buffer,sizeof(uint8_t),filesize,saveFile);

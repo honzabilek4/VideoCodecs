@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     settings.remove("test/width");
     settings.remove("test/height");
     settings.remove("test/frames");
+
     return a.exec();
 
 

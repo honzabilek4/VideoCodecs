@@ -62,7 +62,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Select filename</string>
+    <string>*_noised.*</string>
    </property>
   </widget>
   <widget class="Line" name="line">

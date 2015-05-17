@@ -5,6 +5,8 @@
 #include <QString>
 #include <QProcess>
 #include <QStringList>
+#include <QFutureWatcher>
+#include "berclass.h"
 
 namespace Ui {
 class Channel;
@@ -37,16 +39,22 @@ private slots:
 
     void processFinished();
 
+    void berFinished();
+
 signals:
     void updateTextOutput(const QString text);
 
+    void updateText(const QString text);
+
 private:
     Ui::Channel *ui;
+    BerClass* bc;
     QString homeFolder;
     QString fileStr;
     QString saveFileStr;
     QProcess* ffmpeg;
     QString ffmpegOutput;
+    QFutureWatcher<int> watcher;
 
     void loadSettings();
     QStringList getArguments();

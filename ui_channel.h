@@ -134,7 +134,7 @@ public:
         browseButton->setText(QApplication::translate("Channel", "Browse", 0));
         openLabel->setText(QApplication::translate("Channel", "Select File", 0));
         saveButton->setText(QApplication::translate("Channel", "Save As", 0));
-        saveLabel->setText(QApplication::translate("Channel", "Select filename", 0));
+        saveLabel->setText(QApplication::translate("Channel", "*_noised.*", 0));
         label_4->setText(QApplication::translate("Channel", "x 10^", 0));
         runButton->setText(QApplication::translate("Channel", "Run", 0));
         cancelButton->setText(QApplication::translate("Channel", "Cancel", 0));

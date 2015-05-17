@@ -9,6 +9,7 @@
 #include <QApplication>
 #include <QScrollBar>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
@@ -24,6 +25,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QFileInfo ffmpegFile("ffmpeg.exe");
+    if(!ffmpegFile.exists())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Cannot start program because ffmpeg.exe is missing.");
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+        exit(-1);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -277,5 +287,6 @@ void MainWindow::on_actionChannel_triggered()
 {
     Channel* ch = new Channel(this);
     connect(ch,SIGNAL(updateTextOutput(const QString)),this,SLOT(setStandardOutputText(const QString)));
+    connect(ch,SIGNAL(updateText(const QString)),this,SLOT(setOutputText(const QString)));
     ch->exec();
 }
