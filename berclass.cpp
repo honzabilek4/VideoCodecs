@@ -1,6 +1,7 @@
 #include "BerClass.h"
 #include <bitset>
 #include <random>
+#include <time.h>
 #include <sys/stat.h>
 #include <stdint.h>
 
@@ -23,7 +24,7 @@ int BerClass::getFileSize(const char* filename)
     return fileSize;
 }
 
-int BerClass::simulateBer(const char* filename, double ber)
+int BerClass::simulateBer(const char* filename,const char* saveFilename, double ber)
 {
     if (ber>1 || ber<0)
     {
@@ -47,11 +48,15 @@ int BerClass::simulateBer(const char* filename, double ber)
         return -1;
     }
 
-
-   // std::bitset<8> b;
-  //  b.reset();
     uint8_t b = 0;
     uint8_t *buffer = new uint8_t[filesize];
+
+    double min = 1;
+    double max = pow(10,30);
+    std::uniform_real_distribution<double> unif(min,max);
+    std::default_random_engine re;
+    re.seed((unsigned)time(NULL));
+
     if(fread_s(buffer,filesize,1,filesize,file)==filesize)
     {
 
@@ -62,34 +67,48 @@ int BerClass::simulateBer(const char* filename, double ber)
 
             for(int i=0;i<8;i++)
             {
-                double val = (double)rand()/RAND_MAX;
+
+                double val = unif(re);
+                val=val/max;
                 if(val<ber)
                 {
-                   // b.set(i,true);
-                    b = (b+1) << 1;
+                    b = (b << 1) + 1;
                 }
                 else
                 {
-                    b=b<<1;
+                    b = b<<1;
                 }
             }
 
-          buffer[u]^=b;
-          p++;
+            *p^=b;      //modify bits
+
+            if(b!=0)
+            {
+                std::cout<<(int)b<<std::endl;
+            }
+
+            p++;
+            b=0;
+
         }
 
         FILE *saveFile;
-        fopen_s(&saveFile,"test.webm","wb");
+        fopen_s(&saveFile,saveFilename,"wb");
+
         if(saveFile==NULL)
         {
             error="Cannot open file.";
             return -1;
         }
+
         fwrite(buffer,sizeof(uint8_t),filesize,saveFile);
         fclose(saveFile);
 
 
     }
+    fclose(file);
+    delete buffer;
+
     return 0;
 
 }

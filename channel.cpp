@@ -99,7 +99,7 @@ void Channel::on_runButton_clicked()
     {
         BerClass bc;
         double ber= (ui->doubleSpinBox_2->value())*(pow(10,ui->spinBox_2->value()));
-        bc.simulateBer(fileStr.toStdString().c_str(),ber);
+        bc.simulateBer(fileStr.toStdString().c_str(),saveFileStr.toStdString().c_str(),ber);
         this->close();
     }
 }

@@ -9,7 +9,7 @@ public:
     ~BerClass();
 
     std::string error;
-    int simulateBer(const char* filename, double ber);
+    int simulateBer(const char* filename, const char* saveFilename, double ber);
 
 private:
 
