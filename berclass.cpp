@@ -47,33 +47,49 @@ int BerClass::simulateBer(const char* filename, double ber)
         return -1;
     }
 
-    double p = ber;
-    std::bitset<8> b;
 
-    for(int i=0;i<100;i++)
+   // std::bitset<8> b;
+  //  b.reset();
+    uint8_t b = 0;
+    uint8_t *buffer = new uint8_t[filesize];
+    if(fread_s(buffer,filesize,1,filesize,file)==filesize)
     {
 
+        unsigned char *p = buffer;
 
-    for(int i=0;i<8;i++)
-    {
-        double val = (double)rand()/RAND_MAX;
-        if(val<p)
+        for(int u=0;u<filesize;u++)
         {
-            b.set(i,true);
+
+            for(int i=0;i<8;i++)
+            {
+                double val = (double)rand()/RAND_MAX;
+                if(val<ber)
+                {
+                   // b.set(i,true);
+                    b = (b+1) << 1;
+                }
+                else
+                {
+                    b=b<<1;
+                }
+            }
+
+          buffer[u]^=b;
+          p++;
         }
 
+        FILE *saveFile;
+        fopen_s(&saveFile,"test.webm","wb");
+        if(saveFile==NULL)
+        {
+            error="Cannot open file.";
+            return -1;
+        }
+        fwrite(buffer,sizeof(uint8_t),filesize,saveFile);
+        fclose(saveFile);
+
 
     }
-
-    std::cout<<"bset:"<<b<<std::endl;
-    b.reset();
-    }
-
-    uint8_t *buffer = new uint8_t[filesize];
-    fread_s(buffer,filesize,1,filesize,file);
-
-    std::cout<<buffer[0]<<std::endl;
-
     return 0;
 
 }
