@@ -74,19 +74,6 @@ void MainWindow::on_actionTest_triggered()
     connect(t,SIGNAL(updateOutput(const QString)),this,SLOT(setOutputText(const QString)));
     connect(t,SIGNAL(resetResults()),this,SLOT(resetResults()));
 
-
-
-
-    ui->label_7->setText("-");
-    ui->label_8->setText("-");
-    ui->label_9->setText("-");
-    ui->label_10->setText("-");
-    ui->label_11->setText("-");
-    ui->label_12->setText("-");
-    ui->label_13->setText("-");
-    ui->label_14->setText("-");
-    ui->label_15->setText("-");
-
     t->exec();
 }
 
@@ -98,6 +85,15 @@ void MainWindow::resetResults()
     avgPsnr=NULL;
     avgSsim=NULL;
     avgMsvd=NULL;
+    ui->label_7->setText("-");
+    ui->label_8->setText("-");
+    ui->label_9->setText("-");
+    ui->label_10->setText("-");
+    ui->label_11->setText("-");
+    ui->label_12->setText("-");
+    ui->label_13->setText("-");
+    ui->label_14->setText("-");
+    ui->label_15->setText("-");
 }
 
 void MainWindow::setOutputText(const QString text)
