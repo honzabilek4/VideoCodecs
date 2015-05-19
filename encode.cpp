@@ -154,7 +154,8 @@ QStringList Encode::getArguments(int pass){
             break;
         }
 
-        framerate=QString::number(ui->fpsBox->value());
+        framerate=(QString::number(ui->fpsBox->value()));
+
 
         if(saveFileName.isEmpty())
         {
@@ -192,11 +193,13 @@ QStringList Encode::getArguments(int pass){
         {
             QString value=QString::number(ui->cbrEdit->value())+"k";
             QString value2=QString::number(ui->cbrEdit->value()*2)+"k";
-            quality.append("-b:v");
-            quality.append(value);
+
+
             quality.append("-minrate");
             quality.append(value);
             quality.append("-maxrate");
+            quality.append(value);
+            quality.append("-b:v");
             quality.append(value);
             quality.append("-bufsize");
             quality.append(value2);
@@ -217,14 +220,43 @@ QStringList Encode::getArguments(int pass){
             quality.append(value);
         }
         else{
+            if(codec=="libvpx"||codec=="libvpx-vp9")
+            {
+                quality.append("-b:v");
+                quality.append("0");
+            }
             quality.append("-crf");
             quality.append(QString::number(ui->crfEdit->value()));
         }
 
         if(ui->speedBox->isEnabled())
         {
+            quality.append("-threads");
+            quality.append("4");
             quality.append("-speed");
             quality.append(QString::number(ui->speedBox->currentIndex()));
+
+        }
+
+
+        if(codec=="flv"||codec=="wmv2")
+        {
+            quality.append("-qmax");
+            quality.append("255");
+        }
+
+        if(ui->testBox->isChecked())
+        {
+            quality.append("-frames");
+            quality.append(QString::number(ui->testFramesBox->value()));
+        }
+        if(codec=="libvpx-vp9")
+        {
+            outfiletype.append("webm");
+        }
+        else
+        {
+            outfiletype.append("rawvideo");
         }
 
         if(ui->profileBox->isEnabled() && (ui->profileBox->currentIndex()!=0))
@@ -244,6 +276,7 @@ QStringList Encode::getArguments(int pass){
             ui->presetBox->currentIndex()==3 ? presets.append("medium") : presets.append(ui->presetBox->currentText());
 
         }
+
     }
 
     switch(pass) {
@@ -253,8 +286,8 @@ QStringList Encode::getArguments(int pass){
                                                          : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<saveFileName;
         break;
     case 1:
-        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<"rawvideo"<<"NUL"\
-                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"1"<<saveFileName;
+        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL"\
+                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL";
         break;
     case 2:
         arguments.clear();
@@ -264,6 +297,7 @@ QStringList Encode::getArguments(int pass){
 
 
     }
+    qDebug()<<arguments;
     return arguments;
 }
 

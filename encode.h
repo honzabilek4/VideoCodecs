@@ -66,6 +66,7 @@ private:
     QStringList quality;
     QString framerate;
     QStringList presets; //holds profile and preset
+    QStringList outfiletype;
 
 
 };

@@ -15,14 +15,14 @@ public:
 	VideoUtility();
 	~VideoUtility();
 
-	int frameSize;
+    int frameSize;
 	int width, height;
 	FILE *file1;
 	FILE *file2;
 
 	unsigned char *frame1;
 	unsigned char *frame2;
-	int getFileSize(const char* filename);
+    long getFileSize(const char* filename);
 	int computeFrameSize(int width, int height);
 
     std::string error;

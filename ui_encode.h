@@ -82,22 +82,25 @@ public:
     QCheckBox *methodBox;
     QFrame *line;
     QFrame *line_2;
+    QCheckBox *testBox;
+    QSpinBox *testFramesBox;
+    QLabel *label_18;
 
     void setupUi(QDialog *Encode)
     {
         if (Encode->objectName().isEmpty())
             Encode->setObjectName(QStringLiteral("Encode"));
-        Encode->resize(445, 479);
+        Encode->resize(445, 499);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(Encode->sizePolicy().hasHeightForWidth());
         Encode->setSizePolicy(sizePolicy);
-        Encode->setMinimumSize(QSize(445, 479));
-        Encode->setMaximumSize(QSize(445, 479));
+        Encode->setMinimumSize(QSize(445, 499));
+        Encode->setMaximumSize(QSize(445, 499));
         layoutWidget = new QWidget(Encode);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(110, 430, 221, 41));
+        layoutWidget->setGeometry(QRect(110, 450, 221, 41));
         horizontalLayout = new QHBoxLayout(layoutWidget);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
@@ -173,10 +176,10 @@ public:
 
         saveButton = new QPushButton(Encode);
         saveButton->setObjectName(QStringLiteral("saveButton"));
-        saveButton->setGeometry(QRect(350, 390, 75, 23));
+        saveButton->setGeometry(QRect(350, 420, 75, 23));
         saveFileLabel = new QLabel(Encode);
         saveFileLabel->setObjectName(QStringLiteral("saveFileLabel"));
-        saveFileLabel->setGeometry(QRect(20, 390, 221, 16));
+        saveFileLabel->setGeometry(QRect(20, 420, 221, 16));
         layoutWidget2 = new QWidget(Encode);
         layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
         layoutWidget2->setGeometry(QRect(240, 80, 171, 111));
@@ -254,6 +257,7 @@ public:
         cbrEdit->setMinimumSize(QSize(55, 0));
         cbrEdit->setMinimum(10);
         cbrEdit->setMaximum(999999);
+        cbrEdit->setSingleStep(100);
         cbrEdit->setValue(1000);
 
         gridLayout->addWidget(cbrEdit, 0, 2, 1, 1);
@@ -269,6 +273,7 @@ public:
         avgBox->setEnabled(false);
         avgBox->setMinimum(1);
         avgBox->setMaximum(99999);
+        avgBox->setSingleStep(100);
         avgBox->setValue(1000);
 
         gridLayout->addWidget(avgBox, 1, 2, 1, 1);
@@ -300,6 +305,7 @@ public:
         minBox->setMinimumSize(QSize(50, 0));
         minBox->setMinimum(1);
         minBox->setMaximum(99999);
+        minBox->setSingleStep(100);
         minBox->setValue(500);
 
         gridLayout->addWidget(minBox, 2, 2, 1, 1);
@@ -321,6 +327,7 @@ public:
         maxBox->setMinimumSize(QSize(50, 0));
         maxBox->setMinimum(1);
         maxBox->setMaximum(99999);
+        maxBox->setSingleStep(100);
         maxBox->setValue(1500);
 
         gridLayout->addWidget(maxBox, 3, 2, 1, 1);
@@ -367,9 +374,22 @@ public:
         line->setFrameShadow(QFrame::Sunken);
         line_2 = new QFrame(Encode);
         line_2->setObjectName(QStringLiteral("line_2"));
-        line_2->setGeometry(QRect(20, 370, 401, 20));
+        line_2->setGeometry(QRect(20, 400, 401, 20));
         line_2->setFrameShape(QFrame::HLine);
         line_2->setFrameShadow(QFrame::Sunken);
+        testBox = new QCheckBox(Encode);
+        testBox->setObjectName(QStringLiteral("testBox"));
+        testBox->setGeometry(QRect(20, 380, 151, 17));
+        testFramesBox = new QSpinBox(Encode);
+        testFramesBox->setObjectName(QStringLiteral("testFramesBox"));
+        testFramesBox->setEnabled(false);
+        testFramesBox->setGeometry(QRect(130, 380, 61, 22));
+        testFramesBox->setMinimum(1);
+        testFramesBox->setMaximum(500);
+        testFramesBox->setValue(100);
+        label_18 = new QLabel(Encode);
+        label_18->setObjectName(QStringLiteral("label_18"));
+        label_18->setGeometry(QRect(200, 380, 47, 21));
         layoutWidget->raise();
         layoutWidget->raise();
         layoutWidget->raise();
@@ -380,6 +400,9 @@ public:
         saveFileLabel->raise();
         line->raise();
         line_2->raise();
+        testBox->raise();
+        testFramesBox->raise();
+        label_18->raise();
         QWidget::setTabOrder(browseButton, widthEdit);
         QWidget::setTabOrder(widthEdit, heightEdit);
         QWidget::setTabOrder(heightEdit, comboBox_Codec);
@@ -407,6 +430,7 @@ public:
         QObject::connect(radioButton_AVG, SIGNAL(toggled(bool)), crfEdit, SLOT(setDisabled(bool)));
         QObject::connect(radioButton_AVG, SIGNAL(toggled(bool)), cbrEdit, SLOT(setDisabled(bool)));
         QObject::connect(radioButton_CRF, SIGNAL(toggled(bool)), methodBox, SLOT(setDisabled(bool)));
+        QObject::connect(testBox, SIGNAL(toggled(bool)), testFramesBox, SLOT(setEnabled(bool)));
 
         presetBox->setCurrentIndex(3);
         speedBox->setCurrentIndex(1);
@@ -504,6 +528,8 @@ public:
         label_8->setText(QApplication::translate("Encode", "Method:", 0));
         radioButton_CRF->setText(QApplication::translate("Encode", "CRF:", 0));
         methodBox->setText(QApplication::translate("Encode", "Two-pass", 0));
+        testBox->setText(QApplication::translate("Encode", "Test Sequence: ", 0));
+        label_18->setText(QApplication::translate("Encode", "frames", 0));
     } // retranslateUi
 
 };

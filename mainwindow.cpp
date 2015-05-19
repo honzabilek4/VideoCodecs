@@ -75,9 +75,7 @@ void MainWindow::on_actionTest_triggered()
     connect(t,SIGNAL(resetResults()),this,SLOT(resetResults()));
 
 
-    avgPsnr=NULL;
-    avgSsim=NULL;
-    avgMsvd=NULL;
+
 
     ui->label_7->setText("-");
     ui->label_8->setText("-");
@@ -97,6 +95,9 @@ void MainWindow::resetResults()
     psnrRes.clear();
     ssimRes.clear();
     msvdRes.clear();
+    avgPsnr=NULL;
+    avgSsim=NULL;
+    avgMsvd=NULL;
 }
 
 void MainWindow::setOutputText(const QString text)

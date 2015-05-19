@@ -127,7 +127,7 @@ void Test::on_runButton_clicked()
 
         emit updateOutput("MSVD started");
     }
-    if(!(watcher.isRunning()|| watcher_2.isRunning()|| watcher_3.isRunning()))
+    if(!(ui->ssimBox->isChecked()|| ui->psnrBox->isChecked()|| ui->msvdBox->isChecked()))
     {
         QMessageBox message;
         message.setText(QString::fromStdString("Please select method."));
@@ -198,11 +198,6 @@ void Test::psnrResultReady()
         double** array=watcher.future().result();
         if((!psnr->error.empty())||psnr->_abort)
         {
-			for (int i = 0; i < (ui->frameBox->value()); i++)
-			{
-				delete[] array[i];
-			}
-			delete[] array;
             
 			return;
         }
@@ -249,7 +244,6 @@ void Test::ssimResultReady()
     double* array=watcher_2.future().result();
     if((!ssim->error.empty())||ssim->_abort)
     {
-		free(array);
         return;
     }
     else
@@ -294,7 +288,7 @@ void Test::msvdResultReady()
     double* array=watcher_3.future().result();
     if((!msvd->error.empty())||msvd->_abort)
     {
-		free(array);
+
         return;
     }
     else

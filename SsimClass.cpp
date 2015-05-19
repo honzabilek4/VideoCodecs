@@ -108,12 +108,21 @@ double* SsimClass::computeSsim(const char* filename1, const char* filename2, int
     error.clear();
 
 	frameSize = computeFrameSize(width, height);			//Yuv files are binary files and have no header, you have to set width, height and compute frame size.
-	SsimClass::width = width;
+    if(frameSize<=0)
+    {
+        error= "Wrong video dimensions.";
+        return ssimArray;
+    }
+    SsimClass::width = width;
 	SsimClass::height = height;
 
-	int size1 = getFileSize(filename1);
-	int size2 = getFileSize(filename2);
-
+    long size1 = getFileSize(filename1);
+    long size2 = getFileSize(filename2);
+    if(size1<=0||size2<=0)
+    {
+         error= "Wrong file size or filename.";
+         return ssimArray;
+    }
 	if ((size1 != size2) || (size1 % frameSize))
     {
         error=  "File must have same size and must cotain only whole frames.";
