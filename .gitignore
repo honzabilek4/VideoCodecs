@@ -19,6 +19,8 @@ $RECYCLE.BIN/
 
 #debug database folder
 srv/
+debug/
+release/
 
 # =========================
 # Operating System Files
