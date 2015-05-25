@@ -1,5 +1,6 @@
 #include "encode.h"
 #include "ui_encode.h"
+#include "y4mparser.h"
 #include <QDebug>
 #include <QFileInfo>
 #include <QFileDialog>
@@ -113,12 +114,20 @@ void Encode::firstPassFinished(){
 
 void Encode::on_browseButton_clicked()
 {
-    QString tempFile = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv)"));
+    QString tempFile = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv;*.y4m)"));
     if(!tempFile.isEmpty())
     {
         fileStr=tempFile;
         QFileInfo file(fileStr);
         ui->fileLabel->setText(file.fileName());
+        if(file.suffix()=="y4m")
+        {
+            Y4mParser parser;
+            ui->widthEdit->setText(QString::number(parser.getWidth(fileStr)));
+            ui->heightEdit->setText(QString::number(parser.getHeight(fileStr)));
+            ui->fpsBox->setValue(parser.getFrameRate(fileStr));
+        }
+
     }
 
 }
@@ -279,24 +288,51 @@ QStringList Encode::getArguments(int pass){
 
     }
 
-    switch(pass) {
+    QFileInfo file(fileStr);
 
-    case 0:
-        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<saveFileName\
-                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<saveFileName;
-        break;
-    case 1:
-        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL"\
-                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL";
-        break;
-    case 2:
-        arguments.clear();
-        (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"2"<<saveFileName\
-                                                         : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"2"<<saveFileName;
-        break;
+    if(file.suffix()=="y4m")
+    {
+        switch(pass) {
+
+        case 0:
+            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<saveFileName\
+                                                             : arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<saveFileName;
+            break;
+        case 1:
+            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-s:v"<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL"\
+                                                             : arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL";
+            break;
+        case 2:
+            arguments.clear();
+            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-s:v"<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"2"<<saveFileName\
+                                                             : arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"2"<<saveFileName;
+            break;
 
 
+        }
     }
+
+    else{
+
+        switch(pass) {
+
+        case 0:
+            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<saveFileName\
+                                                             : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<saveFileName;
+            break;
+        case 1:
+            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL"\
+                                                             : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL";
+            break;
+        case 2:
+            arguments.clear();
+            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"2"<<saveFileName\
+                                                             : arguments<<"-y"<<"-f"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<"-s:v"<<dimensions<<"-r"<<framerate<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"2"<<saveFileName;
+            break;
+
+        }
+    }
+
     qDebug()<<arguments;
     return arguments;
 }

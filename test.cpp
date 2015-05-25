@@ -7,7 +7,7 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QMessageBox>
 #include <QSettings>
-
+#include "y4mparser.h"
 
 Test::Test(QWidget *parent) :
     QDialog(parent),
@@ -25,9 +25,9 @@ Test::Test(QWidget *parent) :
 Test::~Test()
 {
     delete ui;
-	delete ssim;
-	delete psnr;
-	delete msvd;
+    delete ssim;
+    delete psnr;
+    delete msvd;
 }
 
 
@@ -42,19 +42,25 @@ void Test::loadSettings()
 
 void Test::on_openButton_clicked()
 {
-    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv)"));
+    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv;*.y4m)"));
     QFileInfo file(fileStr);
     if(!fileStr.isEmpty())
     {
         ui->originalLabel->setText(file.fileName());
         file1=fileStr.toStdString();
+        if(file.suffix()=="y4m")
+        {
+            Y4mParser parser;
+            ui->widthBox->setValue(parser.getWidth(fileStr));
+            ui->heightBox->setValue(parser.getHeight(fileStr));
 
+        }
     }
 }
 
 void Test::on_openButton_2_clicked()
 {
-    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv)"));
+    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv;*.y4m)"));
     QFileInfo file(fileStr);
     if(!fileStr.isEmpty())
     {
@@ -150,21 +156,21 @@ void Test::on_cancelButton_clicked()
 {
     if(watcher.isRunning()|| watcher_2.isRunning()|| watcher_3.isRunning())
     {
-		if (psnr != NULL)
-		{
-			psnr->_abort = true;
-			emit updateOutput("PSNR canceled");
-		}
-		if (ssim != NULL)
-		{
-			ssim->_abort = true;
-			emit updateOutput("SSIM canceled");
-		}
-		if (msvd != NULL)
-		{
-			msvd->_abort = true;
-			emit updateOutput("MSVD canceled");
-		}
+        if (psnr != NULL)
+        {
+            psnr->_abort = true;
+            emit updateOutput("PSNR canceled");
+        }
+        if (ssim != NULL)
+        {
+            ssim->_abort = true;
+            emit updateOutput("SSIM canceled");
+        }
+        if (msvd != NULL)
+        {
+            msvd->_abort = true;
+            emit updateOutput("MSVD canceled");
+        }
         ui->runButton->setEnabled(true);
         
     }
@@ -195,31 +201,31 @@ void Test::psnrResultReady()
     }
 
 
-        double** array=watcher.future().result();
-        if((!psnr->error.empty())||psnr->_abort)
-        {
-            
-			return;
-        }
-        else
-        {
-            QVector<double> psnrVector;
-            for(int i=0;i<(ui->frameBox->value());i++)
-            {
-                psnrVector.append(array[i][0]);
-				delete[] array[i];
-            }
+    double** array=watcher.future().result();
+    if((!psnr->error.empty())||psnr->_abort)
+    {
 
-            if(!psnrVector.isEmpty())
-                emit psnrReady(psnrVector);
+        return;
+    }
+    else
+    {
+        QVector<double> psnrVector;
+        for(int i=0;i<(ui->frameBox->value());i++)
+        {
+            psnrVector.append(array[i][0]);
+            delete[] array[i];
         }
 
-        delete[] array;
+        if(!psnrVector.isEmpty())
+            emit psnrReady(psnrVector);
+    }
 
-        if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
-        {
-            this->close();
-        }
+    delete[] array;
+
+    if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
+    {
+        this->close();
+    }
 
 }
 void Test::ssimResultReady()
@@ -249,13 +255,13 @@ void Test::ssimResultReady()
     else
     {
         QVector<double> ssimVector;
-    for(int i=0;i<(ui->frameBox->value());i++)
-    {
-        ssimVector.append(array[i]);
-    }
+        for(int i=0;i<(ui->frameBox->value());i++)
+        {
+            ssimVector.append(array[i]);
+        }
 
-    if(!ssimVector.isEmpty())
-        emit ssimReady(ssimVector);
+        if(!ssimVector.isEmpty())
+            emit ssimReady(ssimVector);
     }
     free(array);
 

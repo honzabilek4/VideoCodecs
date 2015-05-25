@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     qcustomplot.cpp \
     graph.cpp \
     BerClass.cpp \
-    channel.cpp
+    channel.cpp \
+    y4mparser.cpp
 
 HEADERS  += mainwindow.h \
     PsnrClass.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     qcustomplot.h \
     graph.h \
     BerClass.h \
-    channel.h
+    channel.h \
+    y4mparser.h
 
 FORMS    += mainwindow.ui \
     encode.ui \
