@@ -270,8 +270,8 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionDecode"/>
     <addaction name="actionEncode"/>
+    <addaction name="actionDecode"/>
     <addaction name="actionTest"/>
     <addaction name="actionChannel"/>
     <addaction name="separator"/>

@@ -130,7 +130,7 @@ public:
 
     void retranslateUi(QDialog *Channel)
     {
-        Channel->setWindowTitle(QApplication::translate("Channel", "Dialog", 0));
+        Channel->setWindowTitle(QApplication::translate("Channel", "Channel", 0));
         browseButton->setText(QApplication::translate("Channel", "Browse", 0));
         openLabel->setText(QApplication::translate("Channel", "Select File", 0));
         saveButton->setText(QApplication::translate("Channel", "Save As", 0));

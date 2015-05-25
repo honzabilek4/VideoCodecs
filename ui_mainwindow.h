@@ -250,8 +250,8 @@ public:
         menuBar->addAction(menuResults->menuAction());
         menuBar->addAction(menuSettings->menuAction());
         menuBar->addAction(menuAbout->menuAction());
-        menuFile->addAction(actionDecode);
         menuFile->addAction(actionEncode);
+        menuFile->addAction(actionDecode);
         menuFile->addAction(actionTest);
         menuFile->addAction(actionChannel);
         menuFile->addSeparator();

@@ -202,14 +202,14 @@ void MainWindow::on_actionExport_CSV_triggered()
 
             stream<<"frame;PSNR;SSIM;MSVD"<<endl;
             line="avg;";
-            line.append( avgPsnr==NULL?"-":(QString::number(avgPsnr))+";");
-            line.append(avgSsim==NULL?"-":(QString::number(avgSsim))+";");
-            line.append(avgMsvd==NULL?"-":(QString::number(avgMsvd))+";");
+            line.append( avgPsnr==NULL?"-;":(QString::number(avgPsnr))+";");
+            line.append(avgSsim==NULL?"-;":(QString::number(avgSsim))+";");
+            line.append(avgMsvd==NULL?"-;":(QString::number(avgMsvd))+";");
             stream<<line<<endl;
 
             for(int i=1;i<length;i++)
             {
-                line=QString::number(i)+": ";
+                line=QString::number(i)+";";
                 psnrRes.isEmpty()?line.append("-"):line.append(QString::number(psnrRes.value(i)));
                 line.append(";");
                 ssimRes.isEmpty()?line.append("-"):line.append(QString::number(ssimRes.value(i)));

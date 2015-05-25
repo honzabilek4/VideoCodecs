@@ -584,7 +584,7 @@
        </size>
       </property>
       <property name="text">
-       <string>kB/s</string>
+       <string>kb/s</string>
       </property>
      </widget>
     </item>
@@ -605,7 +605,7 @@
     <item row="0" column="3">
      <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>kB/s</string>
+       <string>kb/s</string>
       </property>
      </widget>
     </item>
@@ -643,7 +643,7 @@
        </size>
       </property>
       <property name="text">
-       <string>kB/s</string>
+       <string>kb/s</string>
       </property>
      </widget>
     </item>
@@ -688,7 +688,7 @@
        </size>
       </property>
       <property name="text">
-       <string>kB/s</string>
+       <string>kb/s</string>
       </property>
      </widget>
     </item>

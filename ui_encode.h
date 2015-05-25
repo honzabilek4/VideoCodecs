@@ -517,13 +517,13 @@ public:
         label_9->setText(QApplication::translate("Encode", "fps:", 0));
         radioButton_CBR->setText(QApplication::translate("Encode", "CBR", 0));
         label_11->setText(QApplication::translate("Encode", "Bit Rate:", 0));
-        label_10->setText(QApplication::translate("Encode", "kB/s", 0));
+        label_10->setText(QApplication::translate("Encode", "kb/s", 0));
         label_12->setText(QApplication::translate("Encode", "      Min:", 0));
         radioButton_AVG->setText(QApplication::translate("Encode", "Avg:", 0));
-        label_6->setText(QApplication::translate("Encode", "kB/s", 0));
-        label_14->setText(QApplication::translate("Encode", "kB/s", 0));
+        label_6->setText(QApplication::translate("Encode", "kb/s", 0));
+        label_14->setText(QApplication::translate("Encode", "kb/s", 0));
         label_13->setText(QApplication::translate("Encode", "      Max:", 0));
-        label_15->setText(QApplication::translate("Encode", "kB/s", 0));
+        label_15->setText(QApplication::translate("Encode", "kb/s", 0));
         label_5->setText(QApplication::translate("Encode", "Quality:", 0));
         label_8->setText(QApplication::translate("Encode", "Method:", 0));
         radioButton_CRF->setText(QApplication::translate("Encode", "CRF:", 0));
