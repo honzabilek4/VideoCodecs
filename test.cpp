@@ -99,7 +99,23 @@ void Test::on_runButton_clicked()
     }
 
     int maxFrame=ui->frameBox->value();
+    QFileInfo file(QString::fromStdString(file1));
+    if(file.suffix()=="y4m")
+    {
+        ffmpeg = new QProcess(this);
+        QString program ="ffmpeg.exe";
+        ffmpeg->start(program,getArguments(1));
+        ffmpeg->waitForFinished();
+    }
+    file.setFile(QString::fromStdString(file2));
 
+    if(file.suffix()=="y4m")
+    {
+        ffmpeg = new QProcess(this);
+        QString program ="ffmpeg.exe";
+        ffmpeg->start(program,getArguments(2));
+        ffmpeg->waitForFinished();
+    }
     if(ui->psnrBox->isChecked())
     {
         psnr=new PsnrClass();
@@ -150,6 +166,28 @@ void Test::on_runButton_clicked()
     settings.setValue("test/frames",QString::number(ui->frameBox->value()));
 
 
+}
+
+QStringList Test::getArguments(int fileNo)
+{
+    QStringList arguments;
+    QFileInfo file;
+    std::string* s;
+    if(fileNo==1)
+    {
+        file.setFile(QString::fromStdString(file1));
+        s=&file1;
+    }
+    else
+    {
+        file.setFile(QString::fromStdString(file2));
+        s=&file2;
+    }
+    QString outfile=file.absoluteFilePath() + "."+ "yuv";
+
+    arguments<<"-y"<<"-i"<<QString::fromStdString(*s)<<"-pix_fmt"<<"yuv420p"<<outfile;
+    *s=outfile.toStdString();
+    return arguments;
 }
 
 void Test::on_cancelButton_clicked()

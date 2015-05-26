@@ -46,3 +46,7 @@ debug/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.obj
+*.obj
+debug/VideoCodecs.pdb
+*.ilk

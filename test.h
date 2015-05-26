@@ -7,6 +7,8 @@
 #include "MsvdClass.h"
 #include <QFutureWatcher>
 #include <QVector>
+#include <QStringList>
+#include <QProcess>
 
 namespace Ui {
 class Test;
@@ -59,7 +61,8 @@ private:
     QFutureWatcher<double*>watcher_3;
     bool msgBoxErr;
     QString homeFolder;
-
+    QStringList getArguments(int);
+    QProcess* ffmpeg;
 
 };
 

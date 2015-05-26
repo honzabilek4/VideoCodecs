@@ -124,8 +124,11 @@ void Encode::on_browseButton_clicked()
         {
             Y4mParser parser;
             ui->widthEdit->setText(QString::number(parser.getWidth(fileStr)));
+            ui->widthEdit->setReadOnly(true);
             ui->heightEdit->setText(QString::number(parser.getHeight(fileStr)));
+            ui->heightEdit->setReadOnly(true);
             ui->fpsBox->setValue(parser.getFrameRate(fileStr));
+            ui->fpsBox->setReadOnly(true);
         }
 
     }

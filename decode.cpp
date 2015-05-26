@@ -85,7 +85,7 @@ void Decode::decodingFinished(){
 
 void Decode::on_browseButton_clicked()
 {
-     QString tempFileName=QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder);
+    QString tempFileName=QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder);
 
     if(!tempFileName.isEmpty()){
         fileStr=tempFileName;
@@ -98,13 +98,14 @@ void Decode::on_saveButton_clicked()
 {   QString folder;
     if(saveAsStr.isEmpty())
     {
-        fileStr.isEmpty() ? folder=homeFolder :folder=homeFolder+"/"+fileStr+"_decoded.yuv";
+        fileStr.isEmpty() ? folder=homeFolder : folder=homeFolder+"/"+fileStr+"_decoded.yuv";
     }
     else
     {
         folder=saveAsStr;
+
     }
-    QString tempFileName = QFileDialog::getSaveFileName(this,tr("Save As"),folder,tr("rawvideo(*.yuv)"));
+    QString tempFileName = QFileDialog::getSaveFileName(this,tr("Save As"),folder,tr("rawvideo(*.yuv);;rawvideo(*.y4m)"));
 
     if(!tempFileName.isEmpty())
     {
@@ -126,7 +127,14 @@ QStringList Decode::getArguments(){
     {
         fileName=file.absoluteFilePath() + "_decoded.yuv";
     }
-    arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<fileName;
-    return arguments;
+    if (file.suffix()=="y4m") {
+        arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"y4m"<<fileName;
+        return arguments;
+
+    } else {
+        arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<fileName;
+        return arguments;
+    }
+
 }
 
