@@ -19,8 +19,9 @@ $RECYCLE.BIN/
 
 #debug database folder
 srv/
-release/
 debug/
+release/
+
 
 # =========================
 # Operating System Files
@@ -47,6 +48,3 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.obj
-*.obj
-debug/VideoCodecs.pdb
-*.ilk
