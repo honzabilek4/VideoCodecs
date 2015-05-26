@@ -47,6 +47,7 @@ private slots:
 
     void resetResults();
 
+    void exportCSV(QString);
 
     void on_actionChannel_triggered();
 

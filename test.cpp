@@ -60,11 +60,16 @@ void Test::on_openButton_clicked()
 
 void Test::on_openButton_2_clicked()
 {
-    QString fileStr = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv;*.y4m)"));
-    QFileInfo file(fileStr);
-    if(!fileStr.isEmpty())
-    {
-        ui->decodedLabel->setText(file.fileName());
+    QStringList tempList = QFileDialog::getOpenFileNames(this,tr("Open files"),homeFolder,tr("rawvideo(*.yuv;*.y4m)"));
+
+    if(!tempList.isEmpty())
+     {
+        fileList=tempList;
+        QString fileStr=fileList.first();
+        fileIndex=0;
+        QFileInfo file(fileStr);
+        QString label="("+ QString::number(fileList.length())+") " + file.fileName();
+        ui->decodedLabel->setText(label);
         file2=fileStr.toStdString();
 
     }
@@ -98,7 +103,7 @@ void Test::on_runButton_clicked()
         return;
     }
 
-    int maxFrame=ui->frameBox->value();
+    maxFrame=ui->frameBox->value();
     QFileInfo file(QString::fromStdString(file1));
     if(file.suffix()=="y4m")
     {
@@ -168,6 +173,67 @@ void Test::on_runButton_clicked()
 
 }
 
+void Test::runTest()
+{
+    QFileInfo file(QString::fromStdString(file1));
+    if(file.suffix()=="y4m")
+    {
+        ffmpeg = new QProcess(this);
+        QString program ="ffmpeg.exe";
+        ffmpeg->start(program,getArguments(1));
+        ffmpeg->waitForFinished();
+    }
+    file.setFile(QString::fromStdString(file2));
+
+    if(file.suffix()=="y4m")
+    {
+        ffmpeg = new QProcess(this);
+        QString program ="ffmpeg.exe";
+        ffmpeg->start(program,getArguments(2));
+        ffmpeg->waitForFinished();
+    }
+    if(ui->psnrBox->isChecked())
+    {
+//        psnr=new PsnrClass();
+//        connect(&watcher,SIGNAL(finished()),SLOT(psnrResultReady()));
+        QFuture<double**> future=QtConcurrent::run(psnr,&PsnrClass::computePSNR,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
+        watcher.setFuture(future);
+
+        emit updateOutput("PSNR started");
+
+    }
+    if(ui->ssimBox->isChecked())
+    {
+
+//        ssim=new SsimClass(ui->windowSizeBox->value(),ui->stepSizeBox->value());
+//        connect (&watcher_2,SIGNAL(finished()),SLOT(ssimResultReady()));
+        QFuture<double*> future = QtConcurrent::run(ssim,&SsimClass::computeSsim,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
+
+        watcher_2.setFuture(future);
+
+        emit updateOutput("SSIM started");
+
+    }
+    if(ui->msvdBox->isChecked())
+    {
+
+//        msvd = new MsvdClass();
+//        connect (&watcher_3,SIGNAL(finished()),SLOT(msvdResultReady()));
+        QFuture<double*> future = QtConcurrent::run(msvd,&MsvdClass::computeMsvd,file1.c_str(),file2.c_str(),ui->widthBox->text().toInt(),ui->heightBox->text().toInt(),maxFrame);
+        watcher_3.setFuture(future);
+
+        emit updateOutput("MSVD started");
+    }
+    if(!(ui->ssimBox->isChecked()|| ui->psnrBox->isChecked()|| ui->msvdBox->isChecked()))
+    {
+        QMessageBox message;
+        message.setText(QString::fromStdString("Please select method."));
+        message.setIcon(QMessageBox::Critical);
+        message.exec();
+        ui->runButton->setEnabled(true);
+    }
+}
+
 QStringList Test::getArguments(int fileNo)
 {
     QStringList arguments;
@@ -186,7 +252,7 @@ QStringList Test::getArguments(int fileNo)
     QString outfile=file.absoluteFilePath() + "."+ "yuv";
 
     arguments<<"-y"<<"-i"<<QString::fromStdString(*s)<<"-pix_fmt"<<"yuv420p"<<outfile;
-    *s=outfile.toStdString();
+    *s=outfile.toStdString();  /*set file path to yuv file*/
     return arguments;
 }
 
@@ -251,18 +317,27 @@ void Test::psnrResultReady()
         for(int i=0;i<(ui->frameBox->value());i++)
         {
             psnrVector.append(array[i][0]);
-            delete[] array[i];
+           // delete[] array[i];
         }
 
         if(!psnrVector.isEmpty())
             emit psnrReady(psnrVector);
     }
 
-    delete[] array;
+    //delete[] array;
 
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {
-        this->close();
+        QString exportFileName=QString::fromStdString(file2)+".csv";
+        emit exportResults(exportFileName);
+        if (fileIndex<fileList.length()-1) {
+            ++fileIndex;
+            file2=fileList.at(fileIndex).toStdString();
+            runTest();
+        } else {
+            this->close();
+        }
+
     }
 
 }
@@ -301,11 +376,21 @@ void Test::ssimResultReady()
         if(!ssimVector.isEmpty())
             emit ssimReady(ssimVector);
     }
-    free(array);
+
+   // free(array);
 
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {
-        this->close();
+        QString exportFileName=QString::fromStdString(file2)+".csv";
+        emit exportResults(exportFileName);
+        if (fileIndex<fileList.length()-1) {
+            ++fileIndex;
+            file2=fileList.at(fileIndex).toStdString();
+            runTest();
+
+        } else {
+            this->close();
+        }
     }
 
 }
@@ -347,11 +432,19 @@ void Test::msvdResultReady()
             emit msvdReady(msvdVector);
     }
 
-    free(array);
+    //free(array);
 
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {
-        this->close();
+        QString exportFileName=QString::fromStdString(file2)+".csv";
+        emit exportResults(exportFileName);
+        if (fileIndex<fileList.length()-1) {
+            ++fileIndex;
+            file2=fileList.at(fileIndex).toStdString();
+            runTest();
+        } else {
+            this->close();
+        }
     }
 
 }

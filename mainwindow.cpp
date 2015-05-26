@@ -73,6 +73,7 @@ void MainWindow::on_actionTest_triggered()
     connect(t,SIGNAL(msvdReady(QVector<double>)),this,SLOT(setMsvd(QVector<double>)));
     connect(t,SIGNAL(updateOutput(const QString)),this,SLOT(setOutputText(const QString)));
     connect(t,SIGNAL(resetResults()),this,SLOT(resetResults()));
+    connect(t,SIGNAL(exportResults(QString)),this,SLOT(exportCSV(QString)));
 
     t->exec();
 }
@@ -188,43 +189,49 @@ void MainWindow::on_actionExport_CSV_triggered()
     else
     {
         QString exportFileName=QFileDialog::getSaveFileName(this,tr("Export CSV"),"C:/",tr("Comma Separated Value(*.csv)"));
-        QFile file(exportFileName);
 
-        int length=psnrRes.length();
-        if(psnrRes.isEmpty())
-            length=ssimRes.length();
-        if(ssimRes.isEmpty())
-            length=msvdRes.length();
-        if(file.open(QIODevice::WriteOnly|QIODevice::Text))
+        exportCSV(exportFileName);
+
+    }
+}
+
+void MainWindow::exportCSV(QString exportFileName)
+{
+    QFile file(exportFileName);
+    int length=psnrRes.length();
+    if(psnrRes.isEmpty())
+        length=ssimRes.length();
+    if(ssimRes.isEmpty())
+        length=msvdRes.length();
+    if(file.open(QIODevice::WriteOnly|QIODevice::Text))
+    {
+        QTextStream stream(&file);
+        QString line;
+
+        stream<<"frame;PSNR;SSIM;MSVD"<<endl;
+        line="avg;";
+        line.append( avgPsnr==NULL?"-;":(QString::number(avgPsnr))+";");
+        line.append(avgSsim==NULL?"-;":(QString::number(avgSsim))+";");
+        line.append(avgMsvd==NULL?"-;":(QString::number(avgMsvd))+";");
+        stream<<line<<endl;
+
+        for(int i=1;i<length;i++)
         {
-            QTextStream stream(&file);
-            QString line;
-
-            stream<<"frame;PSNR;SSIM;MSVD"<<endl;
-            line="avg;";
-            line.append( avgPsnr==NULL?"-;":(QString::number(avgPsnr))+";");
-            line.append(avgSsim==NULL?"-;":(QString::number(avgSsim))+";");
-            line.append(avgMsvd==NULL?"-;":(QString::number(avgMsvd))+";");
+            line=QString::number(i)+";";
+            psnrRes.isEmpty()?line.append("-"):line.append(QString::number(psnrRes.value(i)));
+            line.append(";");
+            ssimRes.isEmpty()?line.append("-"):line.append(QString::number(ssimRes.value(i)));
+            line.append(";");
+            msvdRes.isEmpty()?line.append("-"):line.append(QString::number(msvdRes.value(i)));
+            line.append(";");
             stream<<line<<endl;
-
-            for(int i=1;i<length;i++)
-            {
-                line=QString::number(i)+";";
-                psnrRes.isEmpty()?line.append("-"):line.append(QString::number(psnrRes.value(i)));
-                line.append(";");
-                ssimRes.isEmpty()?line.append("-"):line.append(QString::number(ssimRes.value(i)));
-                line.append(";");
-                msvdRes.isEmpty()?line.append("-"):line.append(QString::number(msvdRes.value(i)));
-                line.append(";");
-                stream<<line<<endl;
-                line.clear();
-
-            }
+            line.clear();
 
         }
-        file.close();
-        ui->textOutput->append("File "+ exportFileName +" was created");
+
     }
+    file.close();
+    ui->textOutput->append("File "+ exportFileName +" was created");
 }
 
 void MainWindow::on_actionGeneral_settings_triggered()

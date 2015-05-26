@@ -41,6 +41,8 @@ private slots:
 
     void loadSettings();
 
+    void runTest();
+
 
 signals:
     void psnrReady(QVector<double>);
@@ -48,6 +50,7 @@ signals:
     void msvdReady(QVector<double>);
     void updateOutput(QString);
     void resetResults();
+    void exportResults(QString);
 
 private:
     Ui::Test *ui;
@@ -63,6 +66,9 @@ private:
     QString homeFolder;
     QStringList getArguments(int);
     QProcess* ffmpeg;
+    QStringList fileList;
+    int fileIndex;
+    int maxFrame;
 
 };
 
