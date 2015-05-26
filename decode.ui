@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>390</width>
-    <height>139</height>
+    <height>160</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,13 +19,13 @@
   <property name="minimumSize">
    <size>
     <width>390</width>
-    <height>139</height>
+    <height>160</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>390</width>
-    <height>16777215</height>
+    <height>160</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -61,7 +61,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>100</y>
+     <y>120</y>
      <width>201</width>
      <height>25</height>
     </rect>
@@ -109,11 +109,60 @@
     <string>*_decoded.yuv</string>
    </property>
   </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>80</y>
+     <width>341</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Output format:</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <widget class="QRadioButton" name="radioYUV">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>10</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>YUV</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioY4M">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>10</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Y4M</string>
+    </property>
+   </widget>
+  </widget>
   <zorder>layoutWidget</zorder>
   <zorder>browseButton</zorder>
   <zorder>label</zorder>
   <zorder>saveButton</zorder>
   <zorder>label_2</zorder>
+  <zorder>groupBox</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -12,6 +12,7 @@ Decode::Decode(QWidget *parent) :
 {
     ui->setupUi(this);
     loadSettings();
+    ui->groupBox->setVisible(false);
 }
 
 Decode::~Decode()
@@ -42,6 +43,15 @@ void Decode::on_runButton_clicked()
         msgBox.exec();
         return;
     }
+    this->hide();
+    emit toggleUi();
+
+    startFfmpeg();
+
+}
+void Decode::startFfmpeg()
+{
+
     ffmpeg = new QProcess(this);
     QString program ="ffmpeg.exe";
     connect(ffmpeg,SIGNAL(started()),this,SLOT(processStarted()));
@@ -49,8 +59,6 @@ void Decode::on_runButton_clicked()
     connect(ffmpeg,SIGNAL(readyReadStandardError()),this,SLOT(readyReadStandardError()));
     connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(decodingFinished()));
     ffmpeg->start(program,getArguments());
-    this->hide();
-    emit toggleUi();
 }
 void Decode::processStarted(){
 
@@ -72,25 +80,48 @@ void Decode::readyReadStandardError(){
 
 void Decode::decodingFinished(){
 
-    qDebug()<<"ffmpeg process finished()";
-    QMessageBox msgBox;
-    msgBox.setText("Decoding has finished.");
-    msgBox.setIcon(QMessageBox::Information);
-    msgBox.exec();
-    this->close();
-
-    emit toggleUi();
+    if(currentItem<(fileList.length()-1))
+    {   ++currentItem;
+        fileStr=fileList.at(currentItem);
+        startFfmpeg();
+    }
+    else
+    {
+        qDebug()<<"ffmpeg process finished()";
+        QMessageBox msgBox;
+        msgBox.setText("Decoding has finished.");
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.exec();
+        this->close();
+        emit toggleUi();
+    }
 }
 
 
 void Decode::on_browseButton_clicked()
 {
-    QString tempFileName=QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder);
+    QStringList tempFileName=QFileDialog::getOpenFileNames(this,tr("Open files"),homeFolder);
 
-    if(!tempFileName.isEmpty()){
-        fileStr=tempFileName;
+    if(!tempFileName.isEmpty())
+    {
+        fileList=tempFileName;
+        fileStr=tempFileName.first();
+        currentItem=0;
         QFileInfo file(fileStr);
-        ui->label->setText(file.fileName());
+        QString text="(" + QString::number(fileList.length())+") " + file.fileName();
+        ui->label->setText(text);
+        if(fileList.length()>1)
+        {
+            ui->groupBox->setVisible(true);
+            ui->saveButton->setText("Save To");
+        }
+        else
+        {
+            ui->groupBox->setVisible(false);
+            ui->saveButton->setText("Save As");
+            saveAsStr.clear();
+            ui->label_2->setText("*_decoded.yuv");
+        }
     }
 }
 
@@ -105,13 +136,27 @@ void Decode::on_saveButton_clicked()
         folder=saveAsStr;
 
     }
-    QString tempFileName = QFileDialog::getSaveFileName(this,tr("Save As"),folder,tr("rawvideo(*.yuv);;rawvideo(*.y4m)"));
-
-    if(!tempFileName.isEmpty())
+    if(fileList.length()>1)
     {
-        saveAsStr=tempFileName;
-        QFileInfo file(saveAsStr);
-        ui->label_2->setText(file.fileName());
+        QString tempDirectory=QFileDialog::getExistingDirectory(this,tr("Save To"),folder);
+        if(!tempDirectory.isEmpty())
+        {
+            saveAsStr=tempDirectory+"/";
+            QString label=saveAsStr;
+            ui->label_2->setText(label);
+
+        }
+    }
+    else
+    {
+        QString tempFileName = QFileDialog::getSaveFileName(this,tr("Save As"),folder,tr("rawvideo(*.yuv);;rawvideo(*.y4m)"));
+
+        if(!tempFileName.isEmpty())
+        {
+            saveAsStr=tempFileName;
+            QFileInfo file(saveAsStr);
+            ui->label_2->setText(file.fileName());
+        }
     }
 }
 
@@ -121,18 +166,30 @@ QStringList Decode::getArguments(){
     QString fileName;
     if(!saveAsStr.isEmpty())
     {
-        fileName=saveAsStr;
+        if(fileList.length()>1)
+        {
+           fileName=saveAsStr + file.fileName();
+           ui->radioYUV->isChecked()? fileName.append("_decoded.yuv") : fileName.append("_decoded.y4m");
+        }
+        else
+        {
+            fileName=saveAsStr;
+        }
+
     }
     else
     {
-        fileName=file.absoluteFilePath() + "_decoded.yuv";
+        fileName=file.absoluteFilePath();
+         ui->radioYUV->isChecked()? fileName.append("_decoded.yuv") : fileName.append("_decoded.y4m");
     }
+
     if (file.suffix()=="y4m") {
         arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"y4m"<<fileName;
         return arguments;
 
     } else {
         arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<"rawvideo"<<"-pix_fmt"<<"yuv420p"<<fileName;
+        qDebug() << arguments;
         return arguments;
     }
 

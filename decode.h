@@ -37,6 +37,8 @@ private slots:
 
     void loadSettings();
 
+    void startFfmpeg();
+
 
 signals:
 
@@ -51,6 +53,8 @@ private:
     QString fileStr;
     QString saveAsStr;
     QString homeFolder;
+    QStringList fileList;
+    int currentItem;
 
 };
 
