@@ -46,6 +46,8 @@ private slots:
 
     void on_profileBox_currentIndexChanged(int index);
 
+    void startFfmpeg();
+
 signals:
 
     void updateTextOutput(const QString text);
@@ -56,7 +58,6 @@ private:
     QProcess* ffmpeg;
     QString ffmpegOutput;
     QString fileStr;
-    QString saveDir;
     QString saveFileName;
     QString homeFolder;
     QString program;
@@ -66,7 +67,10 @@ private:
     QStringList quality;
     QString framerate;
     QStringList presets; //holds profile and preset
-    QStringList outfiletype;
+    QString outfiletype;
+    QStringList fileList;
+    int fileIndex;
+    QString saveFolder; //only used when encoding multiple files
 
 
 };

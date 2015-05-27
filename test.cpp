@@ -249,7 +249,7 @@ QStringList Test::getArguments(int fileNo)
         file.setFile(QString::fromStdString(file2));
         s=&file2;
     }
-    QString outfile=file.absoluteFilePath() + "."+ "yuv";
+    QString outfile=file.absolutePath()+"/"+ file.completeBaseName() + ".yuv";
 
     arguments<<"-y"<<"-i"<<QString::fromStdString(*s)<<"-pix_fmt"<<"yuv420p"<<outfile;
     *s=outfile.toStdString();  /*set file path to yuv file*/
@@ -328,7 +328,7 @@ void Test::psnrResultReady()
 
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {
-        QString exportFileName=QString::fromStdString(file2)+".csv";
+        QString exportFileName=getExportFileName();
         emit exportResults(exportFileName);
         if (fileIndex<fileList.length()-1) {
             ++fileIndex;
@@ -381,7 +381,7 @@ void Test::ssimResultReady()
 
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {
-        QString exportFileName=QString::fromStdString(file2)+".csv";
+        QString exportFileName=getExportFileName();
         emit exportResults(exportFileName);
         if (fileIndex<fileList.length()-1) {
             ++fileIndex;
@@ -436,7 +436,7 @@ void Test::msvdResultReady()
 
     if((!watcher.isRunning()) && (!watcher_2.isRunning())&& (!watcher_3.isRunning()))
     {
-        QString exportFileName=QString::fromStdString(file2)+".csv";
+        QString exportFileName=getExportFileName();
         emit exportResults(exportFileName);
         if (fileIndex<fileList.length()-1) {
             ++fileIndex;
@@ -449,4 +449,17 @@ void Test::msvdResultReady()
 
 }
 
+QString Test::getExportFileName()
+{
+    QString expFileName;
 
+    QFileInfo file(QString::fromStdString(file2));
+    QSettings settings;
+    expFileName=settings.value("csvFolder",file.absolutePath()+"/").toString();
+    expFileName.append(file.completeBaseName());
+    expFileName.append(".csv");
+
+    return expFileName;
+
+
+}

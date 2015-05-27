@@ -54,6 +54,15 @@ void Encode::on_runButton_clicked()
     }
     this->hide();
     emit toggleUi();
+    startFfmpeg(); /*!!*/
+    QSettings settings;
+    settings.setValue("encode/width",ui->widthEdit->text());
+    settings.setValue("encode/height",ui->heightEdit->text());
+
+}
+
+void Encode::startFfmpeg()
+{
     ffmpeg=new QProcess(this);
     program ="ffmpeg.exe";      //program must be placed into same directory as VideoCodecs.exe
     connect(ffmpeg, SIGNAL(started()),this, SLOT(processStarted()));
@@ -71,11 +80,6 @@ void Encode::on_runButton_clicked()
         connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(encodingFinished()));
         ffmpeg->start(program,getArguments(0));
     }
-
-    QSettings settings;
-    settings.setValue("encode/width",ui->widthEdit->text());
-    settings.setValue("encode/height",ui->heightEdit->text());
-
 }
 
 void Encode::processStarted(){
@@ -96,13 +100,25 @@ void Encode::readyReadStandardError(){
     emit updateTextOutput(ffmpegOutput);
 }
 void Encode::encodingFinished(){
+
     qDebug()<<"ffmpeg process finished()";
-    QMessageBox msgBox;
-    msgBox.setText("Encoding has finished.");
-    msgBox.setIcon(QMessageBox::Information);
-    msgBox.exec();
-    emit toggleUi();
-    this->close();
+    if(fileIndex<fileList.length()-1)
+    {
+        ++fileIndex;
+        fileStr=fileList.at(fileIndex);
+        startFfmpeg();
+
+    }
+    else
+    {
+
+        QMessageBox msgBox;
+        msgBox.setText("Encoding has finished.");
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.exec();
+        emit toggleUi();
+        this->close();
+    }
 }
 
 void Encode::firstPassFinished(){
@@ -114,12 +130,15 @@ void Encode::firstPassFinished(){
 
 void Encode::on_browseButton_clicked()
 {
-    QString tempFile = QFileDialog::getOpenFileName(this,tr("Open file"),homeFolder,tr("rawvideo(*.yuv;*.y4m)"));
-    if(!tempFile.isEmpty())
+    QStringList tempFileList = QFileDialog::getOpenFileNames(this,tr("Open files"),homeFolder,tr("rawvideo(*.yuv;*.y4m)"));
+    if(!tempFileList.isEmpty())
     {
-        fileStr=tempFile;
+        fileList=tempFileList;
+        fileStr=tempFileList.first();
+        fileIndex=0;
         QFileInfo file(fileStr);
-        ui->fileLabel->setText(file.fileName());
+        QString label="("+QString::number(tempFileList.length())+") "+file.fileName();
+        ui->fileLabel->setText(label);
         if(file.suffix()=="y4m")
         {
             Y4mParser parser;
@@ -131,15 +150,29 @@ void Encode::on_browseButton_clicked()
             ui->fpsBox->setReadOnly(true);
         }
 
+        if(fileList.length()>1)
+        {
+            ui->saveButton->setText("Save To");
+
+        }
+        else
+        {
+            ui->saveButton->setText("Save As");
+        }
     }
 
 }
 
 QStringList Encode::getArguments(int pass){
 
+
+
     if(pass<2)
 
     {
+        arguments.clear();
+
+
         dimensions= ui->widthEdit->text()+ "x" + ui->heightEdit->text();
         int value=ui->comboBox_Codec->currentIndex();
         switch (value) {
@@ -169,10 +202,19 @@ QStringList Encode::getArguments(int pass){
         framerate=(QString::number(ui->fpsBox->value()));
 
 
-        if(saveFileName.isEmpty())
+        if(saveFileName.isEmpty()||fileList.length()>1)
         {
             QFileInfo file(fileStr);
-            saveFileName=file.absoluteFilePath();
+            if(fileList.length()>1)
+            {
+               saveFileName=saveFolder;
+               saveFileName.append(file.fileName());
+            }
+            else
+            {
+               saveFileName=file.absoluteFilePath();
+            }
+
             switch(value)
             {
             case 0:
@@ -200,6 +242,8 @@ QStringList Encode::getArguments(int pass){
             }
 
         }
+
+        quality.clear();
 
         if(ui->radioButton_CBR->isChecked())
         {
@@ -262,14 +306,20 @@ QStringList Encode::getArguments(int pass){
             quality.append("-frames");
             quality.append(QString::number(ui->testFramesBox->value()));
         }
+
+        outfiletype.clear();
+
         if(codec=="libvpx-vp9")
         {
             outfiletype.append("webm");
+            pass=0; /*Testing purposes, until vp9 two pass will be resolved;*/
         }
         else
         {
             outfiletype.append("rawvideo");
         }
+
+        presets.clear();
 
         if(ui->profileBox->isEnabled() && (ui->profileBox->currentIndex()!=0))
         {
@@ -292,9 +342,9 @@ QStringList Encode::getArguments(int pass){
     }
 
     QFileInfo file(fileStr);
-
     if(file.suffix()=="y4m")
     {
+
         switch(pass) {
 
         case 0:
@@ -302,12 +352,12 @@ QStringList Encode::getArguments(int pass){
                                                              : arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<saveFileName;
             break;
         case 1:
-            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-s:v"<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL"\
+            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL"\
                                                              : arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"1"<<"-f"<<outfiletype<<"NUL";
             break;
         case 2:
             arguments.clear();
-            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-s:v"<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"2"<<saveFileName\
+            (codec=="libx264"||codec=="libx265")? arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<codec<<presets<<quality<<"-pass"<<"2"<<saveFileName\
                                                              : arguments<<"-y"<<"-i"<<fileStr<<"-c:v"<<codec<<quality<<"-pass"<<"2"<<saveFileName;
             break;
 
@@ -343,80 +393,91 @@ QStringList Encode::getArguments(int pass){
 
 void Encode::on_saveButton_clicked()
 {
-    QString folder;
-    QString filter;
-
-    switch (ui->comboBox_Codec->currentIndex())
+    if(fileList.length()>1)
     {
-    case 0:
-        filter="MP4 video(*.mp4)";
-        break;
-    case 1:
-        filter="MP4 video(*.mp4)";
-        break;
-    case 2:
-        filter="WEBM video(*.webm)";
-        break;
-    case 3:
-        filter="WEBM video(*.webm)";
-        break;
-    case 4:
-        filter="MATROSKA video(*.mkv)";
-        break;
-    case 5:
-        filter="Flash Video(*.flv)";
-        break;
-    case 6:
-        filter="Windows Media Video(*.wmv)";
-        break;
-    }
-
-    if(saveFileName.isEmpty())
-    {
-        if(!fileStr.isEmpty())
+        QString tempFolder=QFileDialog::getExistingDirectory(this,tr("Save To"),homeFolder);
+        if(!tempFolder.isEmpty())
         {
-            switch (ui->comboBox_Codec->currentIndex())
-            {
-            case 0:
-                folder=fileStr + "_encoded_h264.mp4";
-                break;
-            case 1:
-                folder=fileStr + "_encoded_h265.mp4";
-                break;
-            case 2:
-                folder=fileStr + "_encoded_vp8.webm";
-                break;
-            case 3:
-                folder=fileStr + "_encoded_vp9.webm";
-                break;
-            case 4:
-                folder=fileStr + "_encoded_dirac.mkv";
-                break;
-            case 5:
-                folder=fileStr + "_encoded_flash.flv";
-                break;
-            case 6:
-                folder=fileStr + "_encoded_wmv8.wmv";
-                break;
-            }
-        }
-        else
-        {
-            folder=homeFolder;
+            saveFolder=tempFolder+"/";
+            ui->saveFileLabel->setText(saveFolder);
         }
     }
     else
     {
-        folder=saveFileName;
-    }
-    QString tempFileName = QFileDialog::getSaveFileName(this,tr("Save As"),folder,filter);
-    if(!tempFileName.isEmpty())
-    {
-        saveFileName=tempFileName;
-        QFileInfo file(saveFileName);
-        ui->saveFileLabel->setText(file.fileName());
-    }
+        QString folder;
+        QString filter;
 
+        switch (ui->comboBox_Codec->currentIndex())
+        {
+        case 0:
+            filter="MP4 video(*.mp4)";
+            break;
+        case 1:
+            filter="MP4 video(*.mp4)";
+            break;
+        case 2:
+            filter="WEBM video(*.webm)";
+            break;
+        case 3:
+            filter="WEBM video(*.webm)";
+            break;
+        case 4:
+            filter="MATROSKA video(*.mkv)";
+            break;
+        case 5:
+            filter="Flash Video(*.flv)";
+            break;
+        case 6:
+            filter="Windows Media Video(*.wmv)";
+            break;
+        }
+
+        if(saveFileName.isEmpty())
+        {
+            if(!fileStr.isEmpty())
+            {
+                switch (ui->comboBox_Codec->currentIndex())
+                {
+                case 0:
+                    folder=fileStr + "_encoded_h264.mp4";
+                    break;
+                case 1:
+                    folder=fileStr + "_encoded_h265.mp4";
+                    break;
+                case 2:
+                    folder=fileStr + "_encoded_vp8.webm";
+                    break;
+                case 3:
+                    folder=fileStr + "_encoded_vp9.webm";
+                    break;
+                case 4:
+                    folder=fileStr + "_encoded_dirac.mkv";
+                    break;
+                case 5:
+                    folder=fileStr + "_encoded_flash.flv";
+                    break;
+                case 6:
+                    folder=fileStr + "_encoded_wmv8.wmv";
+                    break;
+                }
+            }
+            else
+            {
+                folder=homeFolder;
+            }
+        }
+        else
+        {
+            folder=saveFileName;
+        }
+        QString tempFileName = QFileDialog::getSaveFileName(this,tr("Save As"),folder,filter);
+        if(!tempFileName.isEmpty())
+        {
+            saveFileName=tempFileName;
+            QFileInfo file(saveFileName);
+            ui->saveFileLabel->setText(file.fileName());
+        }
+    }
 }
 
 void Encode::on_comboBox_Codec_currentIndexChanged(int index)

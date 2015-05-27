@@ -13,6 +13,7 @@ Decode::Decode(QWidget *parent) :
     ui->setupUi(this);
     loadSettings();
     ui->groupBox->setVisible(false);
+    label_2_changeable=true;
 }
 
 Decode::~Decode()
@@ -144,7 +145,7 @@ void Decode::on_saveButton_clicked()
             saveAsStr=tempDirectory+"/";
             QString label=saveAsStr;
             ui->label_2->setText(label);
-
+            label_2_changeable=false;
         }
     }
     else
@@ -156,6 +157,7 @@ void Decode::on_saveButton_clicked()
             saveAsStr=tempFileName;
             QFileInfo file(saveAsStr);
             ui->label_2->setText(file.fileName());
+
         }
     }
 }
@@ -168,8 +170,8 @@ QStringList Decode::getArguments(){
     {
         if(fileList.length()>1)
         {
-           fileName=saveAsStr + file.fileName();
-           ui->radioYUV->isChecked()? fileName.append("_decoded.yuv") : fileName.append("_decoded.y4m");
+            fileName=saveAsStr + file.fileName();
+            ui->radioYUV->isChecked()? fileName.append("_decoded.yuv") : fileName.append("_decoded.y4m");
         }
         else
         {
@@ -180,7 +182,7 @@ QStringList Decode::getArguments(){
     else
     {
         fileName=file.absoluteFilePath();
-         ui->radioYUV->isChecked()? fileName.append("_decoded.yuv") : fileName.append("_decoded.y4m");
+        ui->radioYUV->isChecked()? fileName.append("_decoded.yuv") : fileName.append("_decoded.y4m");
     }
 
     if (file.suffix()=="y4m") {
@@ -195,3 +197,15 @@ QStringList Decode::getArguments(){
 
 }
 
+
+void Decode::on_radioYUV_toggled(bool checked)
+{
+    if(checked && label_2_changeable)
+    {
+        ui->label_2->setText("*_decoded.yuv");
+    }
+    else if(label_2_changeable)
+    {
+        ui->label_2->setText("*_decoded.y4m");
+    }
+}

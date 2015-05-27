@@ -11,7 +11,7 @@ MAKEFILE      = Makefile.Debug
 
 CC            = cl
 CXX           = cl
-DEFINES       = -DUNICODE -DWIN32 -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DUNICODE -DWIN32 -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -nologo -Zm200 -Zc:wchar_t -FS -Zi -MDd -W3 /Fddebug\VideoCodecs.pdb $(DEFINES)
 CXXFLAGS      = -nologo -Zm200 -Zc:wchar_t -FS -Zi -MDd -GR -W3 -w34100 -w34189 -EHsc /Fddebug\VideoCodecs.pdb $(DEFINES)
 INCPATH       = -I"." -I"include" -I"..\..\..\..\Qt\5.4\msvc2013\include" -I"..\..\..\..\Qt\5.4\msvc2013\include\QtPrintSupport" -I"..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets" -I"..\..\..\..\Qt\5.4\msvc2013\include\QtGui" -I"..\..\..\..\Qt\5.4\msvc2013\include\QtANGLE" -I"..\..\..\..\Qt\5.4\msvc2013\include\QtCore" -I"debug" -I"." -I"..\..\..\..\Qt\5.4\msvc2013\mkspecs\win32-msvc2013" 
@@ -194,12 +194,12 @@ $(OBJECTS) $(LIBS)
 <<
 
 qmake: FORCE
-	@$(QMAKE) -spec win32-msvc2013 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile.Debug VideoCodecs.pro
+	@$(QMAKE) -spec win32-msvc2013 -o Makefile.Debug VideoCodecs.pro
 
 qmake_all: FORCE
 
 dist:
-	$(ZIP) VideoCodecs.zip $(SOURCES) $(DIST) VideoCodecs.pro ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\spec_pre.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\common\shell-win32.conf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\qconfig.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axbase.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axbase_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axcontainer.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axserver.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axserver_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_bluetooth.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_clucene_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_core.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_core_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_dbus.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_dbus_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_declarative.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_declarative_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_designer.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_enginio.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_enginio_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_gui.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_help.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_help_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_location.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_location_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_multimedia.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_network.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_network_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_nfc.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_nfc_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_opengl.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_openglextensions.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_platformsupport_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_positioning.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_positioning_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qml.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quick.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_script.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_script_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_scripttools.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_sensors.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_sensors_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_serialport.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_serialport_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_sql.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_svg.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_testlib.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_uitools.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webchannel.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webengine.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webengine_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webenginecore.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webenginecore_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webenginewidgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webenginewidgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webkit.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webkit_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webkitwidgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webkitwidgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_websockets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_websockets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webview.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webview_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_widgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_winextras.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_winextras_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_xml.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\qt_functions.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\qt_config.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\qt_config.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\win32-msvc2013\qmake.conf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\spec_post.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\exclusive_builds.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\default_pre.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\default_pre.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\resolve_config.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\exclusive_builds_post.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\default_post.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\build_pass.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\qml_debug.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\declarative_debug.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\rtti.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\precompile_header.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\warn_on.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\qt.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\resources.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\moc.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\opengl.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\uic.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\windows.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\testcase_targets.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\exceptions.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\yacc.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\lex.prf VideoCodecs.pro images.qrc C:/Qt/5.4/msvc2013/lib/qtmaind.prl C:/Qt/5.4/msvc2013/lib/Qt5Cored.prl C:/Qt/5.4/msvc2013/lib/Qt5PrintSupportd.prl C:/Qt/5.4/msvc2013/lib/Qt5Widgetsd.prl C:/Qt/5.4/msvc2013/lib/Qt5Guid.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
+	$(ZIP) VideoCodecs.zip $(SOURCES) $(DIST) VideoCodecs.pro ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\spec_pre.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\common\shell-win32.conf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\qconfig.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axbase.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axbase_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axcontainer.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axserver.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_axserver_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_bluetooth.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_clucene_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_core.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_core_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_dbus.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_dbus_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_declarative.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_declarative_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_designer.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_enginio.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_enginio_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_gui.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_help.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_help_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_location.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_location_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_multimedia.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_network.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_network_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_nfc.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_nfc_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_opengl.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_openglextensions.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_platformsupport_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_positioning.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_positioning_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qml.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quick.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_script.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_script_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_scripttools.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_sensors.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_sensors_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_serialport.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_serialport_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_sql.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_svg.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_testlib.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_uitools.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webchannel.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webengine.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webengine_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webenginecore.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webenginecore_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webenginewidgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webenginewidgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webkit.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webkit_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webkitwidgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webkitwidgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_websockets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_websockets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webview.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_webview_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_widgets.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_winextras.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_winextras_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_xml.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\qt_functions.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\qt_config.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\qt_config.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\win32-msvc2013\qmake.conf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\spec_post.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\exclusive_builds.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\default_pre.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\default_pre.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\resolve_config.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\exclusive_builds_post.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\default_post.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\build_pass.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\rtti.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\precompile_header.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\warn_on.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\qt.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\resources.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\moc.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\opengl.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\uic.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\win32\windows.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\testcase_targets.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\exceptions.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\yacc.prf ..\..\..\..\Qt\5.4\msvc2013\mkspecs\features\lex.prf VideoCodecs.pro images.qrc C:/Qt/5.4/msvc2013/lib/qtmaind.prl C:/Qt/5.4/msvc2013/lib/Qt5Cored.prl C:/Qt/5.4/msvc2013/lib/Qt5PrintSupportd.prl C:/Qt/5.4/msvc2013/lib/Qt5Widgetsd.prl C:/Qt/5.4/msvc2013/lib/Qt5Guid.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
 	-$(DEL_FILE) debug\main.obj debug\mainwindow.obj debug\PsnrClass.obj debug\VideoUtility.obj debug\SsimClass.obj debug\MsvdClass.obj debug\encode.obj debug\decode.obj debug\test.obj debug\settings.obj debug\qcustomplot.obj debug\graph.obj debug\BerClass.obj debug\channel.obj debug\y4mparser.obj debug\qrc_images.obj debug\moc_mainwindow.obj debug\moc_encode.obj debug\moc_decode.obj debug\moc_test.obj debug\moc_settings.obj debug\moc_qcustomplot.obj debug\moc_graph.obj debug\moc_channel.obj
@@ -2625,6 +2625,61 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qicon.h \
 		ui_mainwindow.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QGridLayout \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHBoxLayout \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QMenu \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qmenu.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QMenuBar \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qmenubar.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QStatusBar \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstatusbar.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QTextBrowser \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtextbrowser.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtextedit.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextdocument.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextcursor.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextformat.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qpen.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QToolBar \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtoolbar.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
 		encode.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qdialog.h \
@@ -2653,19 +2708,8 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QString \
 		channel.h \
 		berclass.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QScrollBar \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qscrollbar.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QFileDialog \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qfiledialog.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qdir.h \
@@ -2682,11 +2726,8 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QObject \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QPointer \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qpointer.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\QPainter \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qpainter.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qpen.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\QPaintEvent \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\QMouseEvent \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\QPixmap \
@@ -2739,10 +2780,8 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtemporarydir.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QScopedPointer \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtemporaryfile.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractproxymodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qidentityproxymodel.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qsortfilterproxymodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qstringlistmodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qjsonarray.h \
@@ -2796,7 +2835,6 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qlinkedlist.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qmessageauthenticationcode.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qqueue.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qscopedvaluerollback.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtextboundaryfinder.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtimeline.h \
@@ -2878,12 +2916,9 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qpdfwriter.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qabstracttextdocumentlayout.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextlayout.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextformat.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qglyphrun.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qrawfont.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qfontdatabase.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextcursor.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextdocument.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qstatictext.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qsyntaxhighlighter.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextobject.h \
@@ -2892,23 +2927,12 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextlist.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtexttable.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qdesktopservices.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtguiversion.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QtWidgets \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QtWidgetsDepends \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\complexwidgets.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaccessiblewidget.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\itemviews.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaccessiblemenu.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaccessiblewidgets.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QPair \
@@ -2953,12 +2977,6 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtreeview.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtreewidget.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtreewidgetitemiterator.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayout.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qformlayout.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLayout \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qgesture.h \
@@ -2985,13 +3003,11 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QScrollerProperties \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qscrollerproperties.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QMetaType \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QVariant \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qsystemtrayicon.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qundogroup.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qundostack.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qundoview.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qcalendarwidget.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qcheckbox.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qcombobox.h \
@@ -3008,10 +3024,7 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlcdnumber.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qmdiarea.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qmdisubwindow.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qmenu.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qmenubar.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qplaintextedit.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtextedit.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qprogressbar.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qradiobutton.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qsizegrip.h \
@@ -3019,9 +3032,6 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qsplashscreen.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qsplitter.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstackedwidget.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstatusbar.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtextbrowser.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtoolbar.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtoolbox.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtoolbutton.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtwidgetsversion.h \
@@ -3156,6 +3166,65 @@ debug\encode.obj: encode.cpp encode.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QProcess \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qprocess.h \
 		ui_encode.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QCheckBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qcheckbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QComboBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qcombobox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QFrame \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QGridLayout \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHBoxLayout \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLineEdit \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlineedit.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextcursor.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextformat.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qpen.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QRadioButton \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qradiobutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QSpinBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qspinbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
 		y4mparser.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QString \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QDebug \
@@ -3276,6 +3345,53 @@ debug\decode.obj: decode.cpp decode.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QProcess \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qprocess.h \
 		ui_decode.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QGridLayout \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QGroupBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qgroupbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QRadioButton \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qradiobutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QDebug \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QFileInfo \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qfileinfo.h \
@@ -3412,6 +3528,57 @@ debug\test.obj: test.cpp test.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QProcess \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qprocess.h \
 		ui_test.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QCheckBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qcheckbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QFrame \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QGroupBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qgroupbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHBoxLayout \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QSpacerItem \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QSpinBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qspinbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QFileInfo \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qfileinfo.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QFileDialog \
@@ -3450,10 +3617,8 @@ debug\test.obj: test.cpp test.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtemporarydir.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QScopedPointer \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtemporaryfile.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractproxymodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qidentityproxymodel.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qsortfilterproxymodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qstringlistmodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qjsonarray.h \
@@ -3461,10 +3626,8 @@ debug\test.obj: test.cpp test.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qjsondocument.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qjsonobject.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstracteventdispatcher.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractnativeeventfilter.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qbasictimer.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qmath.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qmetaobject.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qmimedata.h \
@@ -3512,7 +3675,6 @@ debug\test.obj: test.cpp test.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qlinkedlist.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qmessageauthenticationcode.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qqueue.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qscopedvaluerollback.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qstack.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtextboundaryfinder.h \
@@ -3648,6 +3810,53 @@ debug\settings.obj: settings.cpp settings.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtouchdevice.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QString \
 		ui_settings.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QDialogButtonBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qdialogbuttonbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QGroupBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qgroupbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLineEdit \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlineedit.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextcursor.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextformat.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qpen.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QToolButton \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtoolbutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QFileDialog \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qfiledialog.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qdir.h \
@@ -4626,7 +4835,11 @@ debug\graph.obj: graph.cpp graph.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtPrintSupport\qprinterinfo.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtPrintSupport\qprintpreviewwidget.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtPrintSupport\qtprintsupportversion.h \
-		ui_graph.h
+		ui_graph.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView
 
 debug\BerClass.obj: BerClass.cpp BerClass.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QFileInfo \
@@ -4804,6 +5017,49 @@ debug\channel.obj: channel.cpp channel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qresultstore.h \
 		berclass.h \
 		ui_channel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QDoubleSpinBox \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qspinbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QFrame \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QRadioButton \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\qradiobutton.h \
+		..\..\..\..\Qt\5.4\msvc2013\include\QtWidgets\QSpinBox \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QSettings \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qsettings.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QFileInfo \
@@ -4844,10 +5100,8 @@ debug\channel.obj: channel.cpp channel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtemporarydir.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\QScopedPointer \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtemporaryfile.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractproxymodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qidentityproxymodel.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qsortfilterproxymodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qstringlistmodel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qjsonarray.h \
@@ -4855,10 +5109,8 @@ debug\channel.obj: channel.cpp channel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qjsondocument.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qjsonobject.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstracteventdispatcher.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qabstractnativeeventfilter.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qbasictimer.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qmath.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qmetaobject.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qmimedata.h \
@@ -4906,7 +5158,6 @@ debug\channel.obj: channel.cpp channel.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qlinkedlist.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qmessageauthenticationcode.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qqueue.h \
-		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qscopedvaluerollback.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qstack.h \
 		..\..\..\..\Qt\5.4\msvc2013\include\QtCore\qtextboundaryfinder.h \

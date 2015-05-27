@@ -43,6 +43,8 @@ private slots:
 
     void runTest();
 
+    QString getExportFileName();
+
 
 signals:
     void psnrReady(QVector<double>);

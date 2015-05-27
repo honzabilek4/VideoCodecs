@@ -29,6 +29,8 @@ private slots:
 
     void loadSettings();
 
+    void on_toolButton_3_clicked();
+
 signals:
     void setFolders(const QString, const QString);
 
@@ -36,6 +38,7 @@ private:
     Ui::Settings *ui;
     QString folderName;
     QString testFolderName;
+    QString csvFolderName;
 
 };
 

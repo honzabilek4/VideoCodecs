@@ -36,12 +36,31 @@ void Settings::on_toolButton_2_clicked()
     }
 }
 
+void Settings::on_toolButton_3_clicked()
+{
+    QString file=QFileDialog::getExistingDirectory(this,tr("Select folder"),"C:/",QFileDialog::ShowDirsOnly);
+    if(!file.isEmpty())
+    {
+    csvFolderName=file+"/";
+    ui->lineEdit_3->setText(csvFolderName);
+    }
+}
 
 void Settings::on_buttonBox_accepted()
 {
     QSettings settings;
     settings.setValue("workFolder",folderName);
     settings.setValue("testFolder",testFolderName);
+    if(ui->groupBox_2->isChecked())
+    {
+        settings.setValue("csvFolder",csvFolderName);
+        settings.setValue("useCsvFolder","true");
+    }
+    else
+    {
+        settings.remove("csvFolder");
+        settings.setValue("useCsvFolder","false");
+    }
 }
 
 void Settings::loadSettings()
@@ -51,6 +70,19 @@ void Settings::loadSettings()
     ui->lineEdit->setText(folderName);
     testFolderName=settings.value("testFolder","C:/").toString();
     ui->lineEdit_2->setText(testFolderName);
+    csvFolderName=settings.value("csvFolder","C:/").toString();
+    ui->lineEdit_3->setText(csvFolderName);
+    if(settings.value("useCsvFolder","false")=="true")
+    {
+        ui->groupBox_2->setChecked(true);
+    }
+    else
+    {
+        ui->groupBox_2->setChecked(false);
+    }
+
 }
+
+
 
 

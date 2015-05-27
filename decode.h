@@ -40,6 +40,8 @@ private slots:
     void startFfmpeg();
 
 
+    void on_radioYUV_toggled(bool checked);
+
 signals:
 
     void updateTextOutput(const QString text);
@@ -55,6 +57,7 @@ private:
     QString homeFolder;
     QStringList fileList;
     int currentItem;
+    bool label_2_changeable;
 
 };
 
